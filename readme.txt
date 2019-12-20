@@ -46,6 +46,13 @@ EenvoudigFactureren is an accounting solution for Belgian entrepreneurs (Dutch-s
 
 EenvoudigFactureren account is required. You have create an account at [EenvoudigFactureren](https://eenvoudigfactureren.be/).
 
+= Options =
+
+By default new customers in WooCommerce are added as new client in EenvoudigFacturen. To link an existing customer in WooCommerce to an existing client in EenvoudigFactureren add the WooCommerce customer ID as client number in EenvoudigFactureren. In WooCommerce you need to activate the option 'Use client number to search for existing clients' in the Settings page to enable this behaviour.
+Only WooCommerce customers which have created an account can be linked to existing clients in EenvoudigFactureren.
+
+When a VAT exemption is applied for foreign business customers the VAT exemption reason code (e.g. 'ICL') can be added as 'Zero rate' tax rate for the required countries. The VAT exemption reason code should be added as tax name.
+
 = Limitations =
 
 * Coupons usage is only limited supported. When a single document has mixed tax rates creation will fail.
