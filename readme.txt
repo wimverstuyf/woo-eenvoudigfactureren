@@ -37,7 +37,7 @@ EenvoudigFactureren is an accounting solution for Belgian entrepreneurs (Dutch-s
 
 = Steps of installation =
 
-1. Upload and unzip `woo-eenvoudigfactureren.zip` to the `/wp-content/plugins/` directory
+1. Unzip `woo-eenvoudigfactureren.zip` to the `/wp-content/plugins/woo-eenvoudigfactureren/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. In the Wordpress Admin section of your online shop configure the plugin by adding your EenvoudigFactureren credentials in the EenvoudigFactureren API Settings page.
 4. That's it! By default a new invoice will be automatically created in EenvoudigFactureren on order creation.
@@ -49,7 +49,7 @@ EenvoudigFactureren account is required. You have create an account at [Eenvoudi
 = Limitations =
 
 * Coupons usage is only limited supported. When a single document has mixed tax rates creation will fail.
-* Only the EURO currency is supported.
+* Only EURO currency is supported.
 
 == Changelog ==
 

@@ -252,23 +252,33 @@ class WooEenvoudigFactureren_Generation {
         return (object)$postData;
     }
 
-    private function create_or_update_client($order, &$error) {
-
+    private function get_existing_client($customer_id) {
         $existingClient = null;
-        if ($order->get_customer_id() > 0) { // is not guest account
-            $existingClients = $this->client->get('clients?filter=external_client_id__eq__WC:'.$order->get_customer_id());
-            if ($existingClients) {
-                $existingClient = array_shift($existingClients);
+
+        if ($customer_id > 0) { // is not guest account
+            $clientIdFromMeta = (int)get_user_meta($customer_id, WC_EENVFACT_OPTION_PREFIX . 'client_id', true);
+
+            if ($clientIdFromMeta > 0) {
+                $existingClient = $this->client->get('clients/'.$clientIdFromMeta);
+                if ($existingClient && !property_exists($existingClient, 'client_id')) {
+                    $existingClient = null;
+                }
             }
 
             if (!$existingClient && $this->options->get('search_client_number')) {
-                $existingClients = $this->client->get('clients?filter=number__eq__'.$order->get_customer_id());
+                $existingClients = $this->client->get('clients?filter=number__eq__'.$customer_id);
                 if ($existingClients) {
                     $existingClient = array_shift($existingClients);
                 }
             }
         }
 
+        return $existingClient;
+    }
+
+    private function create_or_update_client($order, &$error) {
+
+        $existingClient = $this->get_existing_client($order->get_customer_id());
         $client = $this->build_client($order);
 
         $clientId = null;
@@ -302,6 +312,10 @@ class WooEenvoudigFactureren_Generation {
             } else {
                 $clientId = $result->client_id;
             }
+        }
+
+        if ($clientId > 0 && $order->get_customer_id() > 0) {
+            update_user_meta($order->get_customer_id(), WC_EENVFACT_OPTION_PREFIX . 'client_id', $clientId);
         }
 
         return $clientId;
