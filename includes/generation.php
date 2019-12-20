@@ -122,6 +122,75 @@ class WooEenvoudigFactureren_Generation {
         }
     }
 
+    private function create_or_update_client($order, &$error) {
+
+        $existing_client = $this->get_existing_client($order->get_customer_id());
+        $client = $this->build_client($order);
+
+        $client_id = null;
+        if ($existing_client) {
+            $client_id = $existing_client->client_id;
+
+            $props = array_keys(get_object_vars($client));
+            $existing_client_copy = (object)array_filter(get_object_vars($existing_client), function($key) use($props) { return in_array($key, $props); }, ARRAY_FILTER_USE_KEY);
+
+            if (json_encode($existing_client_copy) != json_encode($client)) {
+                // update client
+                $result = $this->client->post('clients/'.$client_id, $client, $error);
+                if (!$result) {
+                    if (!$error) {
+                        $error = __('Could not update client', 'woo-eenvoudigfactureren');
+                    }
+                } elseif (property_exists($result, 'error')) {
+                    $error = $result->error;
+                }
+            }
+        } else {
+            // create client
+            $result = $this->client->post('clients', $client, $error);
+
+            if (!$result) {
+                if (!$error) {
+                    $error = __('Could not create client', 'woo-eenvoudigfactureren');
+                }
+            } elseif (property_exists($result, 'error')) {
+                $error = $result->error;
+            } else {
+                $client_id = $result->client_id;
+            }
+        }
+
+        if ($client_id > 0 && $order->get_customer_id() > 0) {
+            update_user_meta($order->get_customer_id(), WC_EENVFACT_OPTION_PREFIX . 'client_id', $client_id);
+        }
+
+        return $client_id;
+    }
+
+    private function get_existing_client($customer_id) {
+        $existing_client = null;
+
+        if ($customer_id > 0) { // if is not guest account
+            $client_id_meta = (int)get_user_meta($customer_id, WC_EENVFACT_OPTION_PREFIX . 'client_id', true);
+
+            if ($client_id_meta > 0) {
+                $existing_client = $this->client->get('clients/'.$client_id_meta);
+                if ($existing_client && !property_exists($existing_client, 'client_id')) {
+                    $existing_client = null;
+                }
+            }
+
+            if (!$existing_client && $this->options->get('search_client_number')) {
+                $existing_clients = $this->client->get('clients?filter=number__eq__'.$customer_id);
+                if ($existing_clients) {
+                    $existing_client = array_shift($existing_clients);
+                }
+            }
+        }
+
+        return $existing_client;
+    }
+
     private function build_client($order) {
         $first_name = $order->get_billing_first_name();
         $last_name = $order->get_billing_last_name();
@@ -250,74 +319,5 @@ class WooEenvoudigFactureren_Generation {
         $document['items'] = $items;
 
         return (object)$document;
-    }
-
-    private function get_existing_client($customer_id) {
-        $existing_client = null;
-
-        if ($customer_id > 0) { // if is not guest account
-            $client_id_meta = (int)get_user_meta($customer_id, WC_EENVFACT_OPTION_PREFIX . 'client_id', true);
-
-            if ($client_id_meta > 0) {
-                $existing_client = $this->client->get('clients/'.$client_id_meta);
-                if ($existing_client && !property_exists($existing_client, 'client_id')) {
-                    $existing_client = null;
-                }
-            }
-
-            if (!$existing_client && $this->options->get('search_client_number')) {
-                $existing_clients = $this->client->get('clients?filter=number__eq__'.$customer_id);
-                if ($existing_clients) {
-                    $existing_client = array_shift($existing_clients);
-                }
-            }
-        }
-
-        return $existing_client;
-    }
-
-    private function create_or_update_client($order, &$error) {
-
-        $existing_client = $this->get_existing_client($order->get_customer_id());
-        $client = $this->build_client($order);
-
-        $client_id = null;
-        if ($existing_client) {
-            $client_id = $existing_client->client_id;
-
-            $props = array_keys(get_object_vars($client));
-            $existing_client_copy = (object)array_filter(get_object_vars($existing_client), function($key) use($props) { return in_array($key, $props); }, ARRAY_FILTER_USE_KEY);
-
-            if (json_encode($existing_client_copy) != json_encode($client)) {
-                // update client
-                $result = $this->client->post('clients/'.$client_id, $client, $error);
-                if (!$result) {
-                    if (!$error) {
-                        $error = __('Could not update client', 'woo-eenvoudigfactureren');
-                    }
-                } elseif (property_exists($result, 'error')) {
-                    $error = $result->error;
-                }
-            }
-        } else {
-            // create client
-            $result = $this->client->post('clients', $client, $error);
-
-            if (!$result) {
-                if (!$error) {
-                    $error = __('Could not create client', 'woo-eenvoudigfactureren');
-                }
-            } elseif (property_exists($result, 'error')) {
-                $error = $result->error;
-            } else {
-                $client_id = $result->client_id;
-            }
-        }
-
-        if ($client_id > 0 && $order->get_customer_id() > 0) {
-            update_user_meta($order->get_customer_id(), WC_EENVFACT_OPTION_PREFIX . 'client_id', $client_id);
-        }
-
-        return $client_id;
     }
 }

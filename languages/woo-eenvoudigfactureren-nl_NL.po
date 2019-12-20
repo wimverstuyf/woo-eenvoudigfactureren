@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooEenvoudigFactureren v1.0\n"
-"POT-Creation-Date: 2019-12-19 17:53+0100\n"
-"PO-Revision-Date: 2019-12-19 20:01+0100\n"
+"POT-Creation-Date: 2019-12-20 11:58+0100\n"
+"PO-Revision-Date: 2019-12-20 11:58+0100\n"
 "Last-Translator: \n"
 "Language-Team: wimverstuyf\n"
 "Language: nl_NL\n"
@@ -19,47 +19,47 @@ msgstr ""
 msgid "Security check"
 msgstr "Veiligheidscontrole"
 
-#: admin/api-settings.php:38
+#: admin/api-settings.php:39
 msgid "EenvoudigFactureren API Settings"
 msgstr "EenvoudigFactureren API Instellingen"
 
-#: admin/api-settings.php:47
+#: admin/api-settings.php:48
 msgid "Connection verified:"
 msgstr "Verbinding geverifieerd:"
 
-#: admin/api-settings.php:51
+#: admin/api-settings.php:52
 msgid "ERROR: Not connected"
 msgstr "FOUT: Niet verbonden"
 
-#: admin/api-settings.php:56
+#: admin/api-settings.php:57
 msgid "LAST ERROR:"
 msgstr "LAATSTE FOUT:"
 
-#: admin/api-settings.php:65
+#: admin/api-settings.php:66
 msgid "Website URL"
 msgstr "Website URL"
 
-#: admin/api-settings.php:68
+#: admin/api-settings.php:69
 msgid "Enter the EenvoudigFactureren Website URL"
 msgstr "Voeg de website URL van EenvoudigFactureren toe"
 
-#: admin/api-settings.php:73
+#: admin/api-settings.php:74
 msgid "Username"
 msgstr "Gebruikersnaam"
 
-#: admin/api-settings.php:76
+#: admin/api-settings.php:77
 msgid "Enter your e-mail address at EenvoudigFactureren"
 msgstr "Voeg uw e-mailadres bij EenvoudigFactureren toe"
 
-#: admin/api-settings.php:81
+#: admin/api-settings.php:82
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: admin/api-settings.php:84
+#: admin/api-settings.php:85
 msgid "Enter your password at EenvoudigFactureren"
 msgstr "Voeg uw wachtwoord bij EenvoudigFactureren toe"
 
-#: admin/api-settings.php:93
+#: admin/api-settings.php:94
 msgid "Verify and save settings"
 msgstr "Verifieer instellingen en sla op"
 
@@ -67,60 +67,60 @@ msgstr "Verifieer instellingen en sla op"
 msgid "Document"
 msgstr "Document"
 
-#: admin/general-settings.php:41 admin/general-settings.php:77
+#: admin/general-settings.php:66 admin/general-settings.php:136
 msgid "EenvoudigFactureren General Settings"
 msgstr "EenvoudigFactureren algemene instellingen"
 
-#: admin/general-settings.php:43
+#: admin/general-settings.php:72
+msgid "Trigger Document Creation"
+msgstr "Document aanmaken als"
+
+#: admin/general-settings.php:76
+msgid "On Order Created"
+msgstr "Bestelling wordt aangemaakt"
+
+#: admin/general-settings.php:77
+msgid "On Order Completed"
+msgstr "Bestelling is afgerond"
+
+#: admin/general-settings.php:83
+msgid "Document Type To Create"
+msgstr "Aan te maken document"
+
+#: admin/general-settings.php:87 includes/generation.php:106
+msgid "Order Form"
+msgstr "Bestelbon"
+
+#: admin/general-settings.php:88 includes/generation.php:106
+msgid "Invoice"
+msgstr "Factuur"
+
+#: admin/general-settings.php:96
+msgid "On creation automatically send to customer"
+msgstr "Tijdens aanmaak automatisch verzenden naar de klant"
+
+#: admin/general-settings.php:103
+msgid "Use client number to search for existing clients"
+msgstr "Gebruik klantennummer om bestaande klanten op te zoeken"
+
+#: admin/general-settings.php:108
+msgid "Layout To Use"
+msgstr "Te gebruiken layout"
+
+#: admin/general-settings.php:123
+msgid "Save Changes"
+msgstr "Wijzigingen opslaan"
+
+#: admin/general-settings.php:138
 msgid "ERROR :"
 msgstr "FOUT:"
 
-#: admin/general-settings.php:43
+#: admin/general-settings.php:138
 msgid ""
 "Add credentials and verify connection to EenvoudigFactureren to continue."
 msgstr ""
 "Voeg aanmeldgegevens toe en verifieer connectie met EenvoudigFactureren om "
 "verder te gaan."
-
-#: admin/general-settings.php:83
-msgid "Trigger Document Creation"
-msgstr "Document aanmaken als"
-
-#: admin/general-settings.php:87
-msgid "On Order Created"
-msgstr "Bestelling wordt aangemaakt"
-
-#: admin/general-settings.php:88
-msgid "On Order Completed"
-msgstr "Bestelling is afgerond"
-
-#: admin/general-settings.php:94
-msgid "Document Type To Create"
-msgstr "Aan te maken document"
-
-#: admin/general-settings.php:98 includes/generation.php:91
-msgid "Order Form"
-msgstr "Bestelbon"
-
-#: admin/general-settings.php:99 includes/generation.php:91
-msgid "Invoice"
-msgstr "Factuur"
-
-#: admin/general-settings.php:107
-msgid "On creation automatically send to customer"
-msgstr "Tijdens aanmaak automatisch verzenden naar de klant"
-
-#: admin/general-settings.php:114
-msgid "Use client number to search for existing clients"
-msgstr "Gebruik klantennummer om bestaande klanten op te zoeken"
-
-#: admin/general-settings.php:119
-msgid "Layout To Use"
-msgstr "Te gebruiken layout"
-
-#: admin/general-settings.php:134
-msgid "Save Changes"
-msgstr "Wijzigingen opslaan"
 
 #: admin/menu.php:18 admin/menu.php:19
 msgid "EenvoudigFactureren Setting"
@@ -130,41 +130,41 @@ msgstr "EenvoudigFactureren instellingen"
 msgid "General Setting"
 msgstr "Instellingen"
 
-#: includes/generation.php:48
+#: includes/generation.php:61
 msgid "Could not create or update client"
 msgstr "Kon klant niet aanmaken of bijwerken"
 
-#: includes/generation.php:58
+#: includes/generation.php:71
 msgid "Could not generate document"
 msgstr "Kon document niet opbouwen"
 
-#: includes/generation.php:78
+#: includes/generation.php:97
 msgid "Could not create document"
 msgstr "Kon document niet aanmaken"
 
-#: includes/generation.php:212
-msgid "Multiple shipping methods not supported"
-msgstr "Meerdere verzendmethodes worden niet ondersteund"
-
-#: includes/generation.php:223
-msgid "Shipping Costs:"
-msgstr "Verzendkosten:"
-
-#: includes/generation.php:236
-msgid "Discount with different tax rates not supported"
-msgstr "Korting met meerdere belastingtarieven niet ondersteund"
-
-#: includes/generation.php:240
-msgid "Discount"
-msgstr "Korting"
-
-#: includes/generation.php:283
+#: includes/generation.php:142
 msgid "Could not update client"
 msgstr "Kon klant niet bijwerken"
 
-#: includes/generation.php:295
+#: includes/generation.php:154
 msgid "Could not create client"
 msgstr "Kon klant niet aanmaken"
+
+#: includes/generation.php:284
+msgid "Multiple shipping methods not supported"
+msgstr "Meerdere verzendmethodes worden niet ondersteund"
+
+#: includes/generation.php:295
+msgid "Shipping Costs:"
+msgstr "Verzendkosten:"
+
+#: includes/generation.php:308
+msgid "Discount with different tax rates not supported"
+msgstr "Korting met meerdere belastingtarieven niet ondersteund"
+
+#: includes/generation.php:312
+msgid "Discount"
+msgstr "Korting"
 
 #: includes/logger.php:12
 msgid "Order"

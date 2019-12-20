@@ -35,17 +35,6 @@ class WooEenvoudigFactureren_GeneralSettings {
         }
     }
 
-    private function show_not_connected() {
-?>
-    <div class="wrap">
-        <h1><?php _e('EenvoudigFactureren General Settings', 'woo-eenvoudigfactureren' ); ?></h1>
-        <div class="error">
-            <p><strong><?php _e('ERROR :', 'woo-eenvoudigfactureren' );?></strong> <?php _e('Add credentials and verify connection to EenvoudigFactureren to continue.', 'woo-eenvoudigfactureren' );?></p>
-        </div>
-    </div>
-<?php
-    }
-
     public function show() {
         if($this->options->get('verified') == false) {
             $this->show_not_connected();
@@ -137,6 +126,17 @@ class WooEenvoudigFactureren_GeneralSettings {
                 </tbody>
             </table>
         </form>
+    </div>
+<?php
+    }
+
+    private function show_not_connected() {
+?>
+    <div class="wrap">
+        <h1><?php _e('EenvoudigFactureren General Settings', 'woo-eenvoudigfactureren' ); ?></h1>
+        <div class="error">
+            <p><strong><?php _e('ERROR :', 'woo-eenvoudigfactureren' );?></strong> <?php _e('Add credentials and verify connection to EenvoudigFactureren to continue.', 'woo-eenvoudigfactureren' );?></p>
+        </div>
     </div>
 <?php
     }
