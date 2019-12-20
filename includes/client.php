@@ -13,8 +13,8 @@ class WooEenvoudigFactureren_Client {
             return null;
         }
 
-        $getData = wp_remote_get( $this->get_url($resource), array('headers'=>$this->get_headers()) );
-        $data = json_decode( wp_remote_retrieve_body($getData) );
+        $get_data = wp_remote_get( $this->get_url($resource), array('headers' => $this->get_headers()) );
+        $data = json_decode( wp_remote_retrieve_body($get_data) );
 
         return $data;
     }
@@ -37,14 +37,14 @@ class WooEenvoudigFactureren_Client {
             )
         );
 
-        $dataToReturn = null;
+        $to_return = null;
         if ( is_wp_error( $result ) ) {
             $error = $result->get_error_message();
         } else {
-            $dataToReturn = json_decode(wp_remote_retrieve_body($result));
+            $to_return = json_decode( wp_remote_retrieve_body($result) );
         }
 
-        return $dataToReturn;
+        return $to_return;
     }
 
     private function verify() {
@@ -56,7 +56,7 @@ class WooEenvoudigFactureren_Client {
     }
 
     private function get_url($resource) {
-        return $this->options->get('website_url')."/api/v1/".$resource;
+        return $this->options->get('website_url').'/api/v1/'.$resource;
     }
 
     private function get_headers() {

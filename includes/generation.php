@@ -22,12 +22,13 @@ class WooEenvoudigFactureren_Generation {
     public function triggered_new_order( $order_id ) {
 
         // if is vat exempt find exempt reason in 'Zero rate' tarifs
+        // needs to be executed here because customer is only available at checkout
         if ($order_id && get_post_meta( $order_id, 'is_vat_exempt', true ) == 'yes') {
-            $exemptRates = WC_Tax::get_rates('Zero rate', WC()->customer);
-            $exemptRate = array_shift($exemptRates);
-            if ($exemptRate && $exemptRate['label']) {
+            $exempt_rates = WC_Tax::get_rates('Zero rate', WC()->customer);
+            $exempt_rate = array_shift($exempt_rates);
+            if ($exempt_rate && $exempt_rate['label']) {
                 $order = wc_get_order( $order_id );
-                $order->update_meta_data( 'vat_exempt_reason', $exemptRate['label'] );
+                $order->update_meta_data( 'vat_exempt_reason', $exempt_rate['label'] );
                 $order->save();
             }
         }
@@ -53,9 +54,9 @@ class WooEenvoudigFactureren_Generation {
             $order = wc_get_order( $order_id );
 
             $error = '';
-            $clientId = $this->create_or_update_client($order, $error);
+            $client_id = $this->create_or_update_client($order, $error);
 
-            if (!$clientId || $error) {
+            if (!$client_id || $error) {
                 if (!$error) {
                     $error = __("Could not create or update client", 'woo-eenvoudigfactureren');
                 }
@@ -63,9 +64,9 @@ class WooEenvoudigFactureren_Generation {
                 return;
             }
 
-            $postData = $this->build_document($order, $clientId, $error);
+            $document = $this->build_document($order, $client_id, $error);
 
-            if (!$postData || $error) {
+            if (!$document || $error) {
                 if (!$error) {
                     $error = __("Could not generate document", 'woo-eenvoudigfactureren');
                 }
@@ -78,33 +79,36 @@ class WooEenvoudigFactureren_Generation {
                 $domain = 'orders';
             }
 
-            $documentData = $this->client->post($domain, $postData, $error);
+            $create_result = $this->client->post($domain, $document, $error);
 
-            if ($documentData && property_exists($documentData, 'error')) {
-                $error = $documentData->error;
-                $documentData = null;
+            if ($create_result && property_exists($create_result, 'error')) {
+                $error = $create_result->error;
+            }
+            $document_id = 0;
+            if ($create_result && property_exists($create_result, 'invoice_id')) {
+                $document_id = (int)$create_result->invoice_id;
+            }
+            if ($create_result && property_exists($create_result, 'order_id')) {
+                $document_id = (int)$create_result->order_id;
             }
 
-            if (!$documentData) {
+            if ($error || !$document_id) {
                 if (!$error) {
                     $error = __("Could not create document", 'woo-eenvoudigfactureren');
                 }
                 $this->logger->error($error, $order_id);
             } else {
-                if ($domain == 'orders') {
-                    $document_id = $documentData->order_id;
-                } else {
-                    $document_id = $documentData->invoice_id;
-                }
+                $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generated', true );
 
                 $document = $this->client->get($domain . '/' . $document_id);
+                if ($document) { // should always be true
+                    $document_url = $this->options->get('website_url') . '/' . $domain . '#pg=view&doc_id=' . $document_id;
+                    $document_name = ($domain == 'invoices'?__('Invoice','woo-eenvoudigfactureren'):__('Order Form','woo-eenvoudigfactureren')) . ' ' . $document->number;
 
-                $document_url = $this->options->get('website_url') . '/' . $domain . '#pg=view&doc_id=' . $document_id;
-                $document_name = ($domain == 'invoices'?__('Invoice','woo-eenvoudigfactureren'):__('Order Form','woo-eenvoudigfactureren')) . ' ' . $document->number;
+                    $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_url', $document_url );
+                    $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_name', $document_name );
+                }
 
-                $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generated', true );
-                $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_url', $document_url );
-                $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_name', $document_name );
                 $order->save();
 
                 if ($this->options->get('mail')) {
@@ -119,22 +123,22 @@ class WooEenvoudigFactureren_Generation {
     }
 
     private function build_client($order) {
-        $firstName = $order->get_billing_first_name();
-        $lastName = $order->get_billing_last_name();
+        $first_name = $order->get_billing_first_name();
+        $last_name = $order->get_billing_last_name();
         $name = $order->get_billing_company();
         $attention = '';
         if (!$name) {
-            $name = trim($firstName . ' ' . $lastName);
+            $name = trim($first_name . ' ' . $last_name);
         } else {
-            $attention = trim($firstName . ' ' . $lastName);
+            $attention = trim($first_name . ' ' . $last_name);
         }
         if ($attention == $name) {
             $attention = '';
         }
 
-        // Try looking for a vat number
-        foreach(['_vat_number', '_billing_vat_number', 'vat_number'] as $vatNumberMeta) {
-            $vat_number = $order->get_meta( $vatNumberMeta, true );
+        // try looking for a vat number
+        foreach(['_vat_number', '_billing_vat_number', 'vat_number'] as $meta) {
+            $vat_number = $order->get_meta( $meta, true );
             if ($vat_number) {
                 break;
             }
@@ -158,10 +162,6 @@ class WooEenvoudigFactureren_Generation {
             'delivery_address' => null,
         ];
 
-        if ($order->get_customer_id() > 0) {
-            $client->external_client_id = 'WC:'.$order->get_customer_id();
-        }
-
         if ($order->has_shipping_address() && ($order->get_billing_address_1() != $order->get_shipping_address_1() || $order->get_billing_address_2() != $order->get_shipping_address_2() || $order->get_billing_postcode() != $order->get_shipping_postcode() || $order->get_billing_city() != $order->get_shipping_city() || $order->get_billing_country() != $order->get_shipping_country())) {
             $client->delivery_address = (object)[
                 'street' => $order->get_shipping_address_1(),
@@ -175,67 +175,67 @@ class WooEenvoudigFactureren_Generation {
         return $client;
     }
 
-    private function build_document($order, $clientId, &$error) {
+    private function build_document($order, $client_id, &$error) {
 
-        $postData = array();
-        $postData['client_id'] = $clientId;
+        $document = array();
+        $document['client_id'] = $client_id;
 
-        $layoutId = $this->options->get('layout_id');
-        if ($layoutId) {
-            $postData['layout_id'] = (int)$layoutId;
+        $layout_id = $this->options->get('layout_id');
+        if ($layout_id) {
+            $document['layout_id'] = (int)$layout_id;
         }
 
         $exempt = $order->get_meta('is_vat_exempt', true) == 'yes';
-        $exemptReason = $exempt?(string)$order->get_meta('vat_exempt_reason', true):'';
+        $exempt_reason = $exempt?(string)$order->get_meta('vat_exempt_reason', true):'';
 
         $items = array();
-        $usedTaxRates = [];
+        $tax_rates_in_use = [];
         foreach ( $order->get_items() as $item_id => $item ) {
             $product = $item->get_product();
 
             $amount = round($item->get_total()/$item->get_quantity(), 6);
 
-            $taxRate = 0;
+            $tax_rate = 0;
             if ($item->get_total_tax() != 0 && $item->get_total() != 0) {
-                $taxRate = round($item->get_total_tax() / $item->get_total() * 100, wc_get_price_decimals());
+                $tax_rate = round($item->get_total_tax() / $item->get_total() * 100, wc_get_price_decimals());
             }
-            $usedTaxRates[] = $taxRate;
+            $tax_rates_in_use[] = $tax_rate;
 
             $items[] = (object)[
                 'description' => $product->get_name(),
                 'amount' => $amount,
                 'quantity' => $item->get_quantity(),
-                'tax_rate' => $taxRate,
-                'tax_rate_special_status' => $exemptReason,
+                'tax_rate' => $tax_rate,
+                'tax_rate_special_status' => $exempt_reason,
             ];
         }
         if ($order->get_shipping_total() != 0) {
             $shipping_items = $order->get_items( 'shipping' );
             if (count($shipping_items) > 1) {
-                $error = __('Multiple shipping methods not supported','woo-eenvoudigfactureren');
+                $error = __('Multiple shipping methods not supported', 'woo-eenvoudigfactureren');
                 return null;
             }
 
             $shipping = array_shift( $shipping_items );
 
-            $taxRate = 0;
+            $tax_rate = 0;
             if ($order->get_shipping_tax() != 0 && $order->get_shipping_total() != 0) {
-                $taxRate = round($order->get_shipping_tax() / $order->get_shipping_total() * 100, wc_get_price_decimals());
+                $tax_rate = round($order->get_shipping_tax() / $order->get_shipping_total() * 100, wc_get_price_decimals());
             }
             $items[] = (object)[
                 'description' => __('Shipping Costs:', 'woo-eenvoudigfactureren') . ' ' . $order->get_shipping_method(),
                 'amount' => $order->get_shipping_total(),
                 'quantity' => 1,
-                'tax_rate' => $taxRate,
-                'tax_rate_special_status' => $exemptReason,
+                'tax_rate' => $tax_rate,
+                'tax_rate_special_status' => $exempt_reason,
             ];
         }
         if ($order->get_discount_total() != 0) {
-            $taxRate = 0;
+            $tax_rate = 0;
             if ($order->get_discount_tax() != 0 && $order->get_discount_total() != 0) {
-                $taxRate = round($order->get_discount_tax() / $order->get_discount_total() * 100, wc_get_price_decimals());
+                $tax_rate = round($order->get_discount_tax() / $order->get_discount_total() * 100, wc_get_price_decimals());
             }
-            if (!in_array($taxRate, $usedTaxRates)) {
+            if (!in_array($tax_rate, $tax_rates_in_use)) {
                 $error = __('Discount with different tax rates not supported', 'woo-eenvoudigfactureren');
                 return null;
             }
@@ -243,54 +243,54 @@ class WooEenvoudigFactureren_Generation {
                 'description' => __('Discount', 'woo-eenvoudigfactureren'),
                 'amount' => $order->get_discount_total()*-1,
                 'quantity' => 1,
-                'tax_rate' => $taxRate,
-                'tax_rate_special_status' => $exemptReason,
+                'tax_rate' => $tax_rate,
+                'tax_rate_special_status' => $exempt_reason,
             ];
         }
-        $postData['items'] = $items;
+        $document['items'] = $items;
 
-        return (object)$postData;
+        return (object)$document;
     }
 
     private function get_existing_client($customer_id) {
-        $existingClient = null;
+        $existing_client = null;
 
-        if ($customer_id > 0) { // is not guest account
-            $clientIdFromMeta = (int)get_user_meta($customer_id, WC_EENVFACT_OPTION_PREFIX . 'client_id', true);
+        if ($customer_id > 0) { // if is not guest account
+            $client_id_meta = (int)get_user_meta($customer_id, WC_EENVFACT_OPTION_PREFIX . 'client_id', true);
 
-            if ($clientIdFromMeta > 0) {
-                $existingClient = $this->client->get('clients/'.$clientIdFromMeta);
-                if ($existingClient && !property_exists($existingClient, 'client_id')) {
-                    $existingClient = null;
+            if ($client_id_meta > 0) {
+                $existing_client = $this->client->get('clients/'.$client_id_meta);
+                if ($existing_client && !property_exists($existing_client, 'client_id')) {
+                    $existing_client = null;
                 }
             }
 
-            if (!$existingClient && $this->options->get('search_client_number')) {
-                $existingClients = $this->client->get('clients?filter=number__eq__'.$customer_id);
-                if ($existingClients) {
-                    $existingClient = array_shift($existingClients);
+            if (!$existing_client && $this->options->get('search_client_number')) {
+                $existing_clients = $this->client->get('clients?filter=number__eq__'.$customer_id);
+                if ($existing_clients) {
+                    $existing_client = array_shift($existing_clients);
                 }
             }
         }
 
-        return $existingClient;
+        return $existing_client;
     }
 
     private function create_or_update_client($order, &$error) {
 
-        $existingClient = $this->get_existing_client($order->get_customer_id());
+        $existing_client = $this->get_existing_client($order->get_customer_id());
         $client = $this->build_client($order);
 
-        $clientId = null;
-        if ($existingClient) {
-            $clientId = $existingClient->client_id;
+        $client_id = null;
+        if ($existing_client) {
+            $client_id = $existing_client->client_id;
 
             $props = array_keys(get_object_vars($client));
-            $existingClientCopy = (object)array_filter(get_object_vars($existingClient), function($key) use($props) { return in_array($key, $props); }, ARRAY_FILTER_USE_KEY);
+            $existing_client_copy = (object)array_filter(get_object_vars($existing_client), function($key) use($props) { return in_array($key, $props); }, ARRAY_FILTER_USE_KEY);
 
-            if (json_encode($existingClientCopy) != json_encode($client)) {
+            if (json_encode($existing_client_copy) != json_encode($client)) {
                 // update client
-                $result = $this->client->post('clients/'.$clientId, $client, $error);
+                $result = $this->client->post('clients/'.$client_id, $client, $error);
                 if (!$result) {
                     if (!$error) {
                         $error = __('Could not update client', 'woo-eenvoudigfactureren');
@@ -310,14 +310,14 @@ class WooEenvoudigFactureren_Generation {
             } elseif (property_exists($result, 'error')) {
                 $error = $result->error;
             } else {
-                $clientId = $result->client_id;
+                $client_id = $result->client_id;
             }
         }
 
-        if ($clientId > 0 && $order->get_customer_id() > 0) {
-            update_user_meta($order->get_customer_id(), WC_EENVFACT_OPTION_PREFIX . 'client_id', $clientId);
+        if ($client_id > 0 && $order->get_customer_id() > 0) {
+            update_user_meta($order->get_customer_id(), WC_EENVFACT_OPTION_PREFIX . 'client_id', $client_id);
         }
 
-        return $clientId;
+        return $client_id;
     }
 }

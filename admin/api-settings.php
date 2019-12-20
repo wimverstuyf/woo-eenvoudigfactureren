@@ -22,6 +22,7 @@ class WooEenvoudigFactureren_ApiSettings {
             } else {
                 $this->options->update('website_url',sanitize_text_field($_POST['wcef_websiteurl']));
                 $this->options->update('username',sanitize_text_field($_POST['wcef_username']));
+
                 $password = sanitize_text_field($_POST['wcef_password']);
                 if ($password != str_repeat('*', strlen($password))) {
                     $this->options->update('password',$password);
@@ -106,11 +107,11 @@ class WooEenvoudigFactureren_ApiSettings {
         $this->options->update('verified',false);
         $this->options->update('account','');
 
-        $accountData = $this->client->get('accounts/current');
+        $account = $this->client->get('accounts/current');
 
-        if ($accountData && $accountData->number !== '') {
+        if ($account && $account->number !== '') {
             $this->options->update('verified',true);
-            $this->options->update('account', $accountData->name ? $accountData->name : $accountData->number);
+            $this->options->update('account', $account->name ? $account->name : $account->number);
         }
     }
 }
