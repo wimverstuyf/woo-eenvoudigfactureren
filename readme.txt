@@ -26,7 +26,7 @@ The WooCommerce EenvoudigFactureren plugin is an extension for your WooCommerce 
 
 = About EenvoudigFactureren =
 
-EenvoudigFactureren is an accounting solution for Belgian entrepreneurs (Dutch-speaking only). You can create a new account for free at [EenvoudigFactureren](https://www.eenvoudigfactureren.be/).
+EenvoudigFactureren is an accounting solution for Belgian entrepreneurs (Dutch-speaking only). You can create a new account for free at [EenvoudigFactureren](https://eenvoudigfactureren.be/).
 
 = Technical specifications =
 
@@ -44,7 +44,7 @@ EenvoudigFactureren is an accounting solution for Belgian entrepreneurs (Dutch-s
 
 = Required =
 
-EenvoudigFactureren account is required. You have create an account at [EenvoudigFactureren](https://www.eenvoudigfactureren.be/).
+EenvoudigFactureren account is required. You have create an account at [EenvoudigFactureren](https://eenvoudigfactureren.be/).
 
 = Limitations =
 
