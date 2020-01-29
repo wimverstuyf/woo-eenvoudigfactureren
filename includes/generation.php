@@ -266,7 +266,7 @@ class WooEenvoudigFactureren_Generation {
 
             $tax_rate = 0;
             if ($item->get_total_tax() != 0 && $item->get_total() != 0) {
-                $tax_rate = round($item->get_total_tax() / $item->get_total() * 100, wc_get_price_decimals());
+                $tax_rate = round($item->get_total_tax() / $item->get_total() * 100, 1);
             }
             $tax_rates_in_use[] = $tax_rate;
 
