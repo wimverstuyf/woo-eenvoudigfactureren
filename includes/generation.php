@@ -82,7 +82,7 @@ class WooEenvoudigFactureren_Generation {
             $create_result = $this->client->post($domain, $document, $error);
 
             if ($create_result && property_exists($create_result, 'error')) {
-                $error = $create_result->error;
+                $error = $create_result->error . ' ('.json_encode($document).')';
             }
             $document_id = 0;
             if ($create_result && property_exists($create_result, 'invoice_id')) {
@@ -142,7 +142,7 @@ class WooEenvoudigFactureren_Generation {
                         $error = __('Could not update client', 'woo-eenvoudigfactureren');
                     }
                 } elseif (property_exists($result, 'error')) {
-                    $error = $result->error;
+                    $error = $result->error . ' ('.json_encode($client).')';
                 }
             }
         } else {
@@ -154,7 +154,7 @@ class WooEenvoudigFactureren_Generation {
                     $error = __('Could not create client', 'woo-eenvoudigfactureren');
                 }
             } elseif (property_exists($result, 'error')) {
-                $error = $result->error;
+                $error = $result->error . ' ('.json_encode($client).')';
             } else {
                 $client_id = $result->client_id;
             }
