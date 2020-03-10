@@ -225,7 +225,7 @@ class WooEenvoudigFactureren_Generation {
             'street2' => $order->get_billing_address_2(),
             'postal_code' => $order->get_billing_postcode(),
             'city' => $order->get_billing_city(),
-            'country_code' => $order->get_shipping_country(),
+            'country_code' => $order->get_billing_country(),
             'email_address' => $order->get_billing_email(),
             'phone_number' => $order->get_billing_phone(),
             'delivery_address' => null,
