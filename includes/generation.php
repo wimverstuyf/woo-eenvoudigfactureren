@@ -289,7 +289,7 @@ class WooEenvoudigFactureren_Generation {
 
             $tax_rate = 0;
             if ($order->get_shipping_tax() != 0 && $order->get_shipping_total() != 0) {
-                $tax_rate = round($order->get_shipping_tax() / $order->get_shipping_total() * 100, wc_get_price_decimals());
+                $tax_rate = round($order->get_shipping_tax() / $order->get_shipping_total() * 100, 1);
             }
             $items[] = (object)[
                 'description' => __('Shipping Costs:', 'woo-eenvoudigfactureren') . ' ' . $order->get_shipping_method(),
@@ -302,7 +302,7 @@ class WooEenvoudigFactureren_Generation {
         if ($order->get_discount_total() != 0) {
             $tax_rate = 0;
             if ($order->get_discount_tax() != 0 && $order->get_discount_total() != 0) {
-                $tax_rate = round($order->get_discount_tax() / $order->get_discount_total() * 100, wc_get_price_decimals());
+                $tax_rate = round($order->get_discount_tax() / $order->get_discount_total() * 100, 1);
             }
             if (!in_array($tax_rate, $tax_rates_in_use)) {
                 $error = __('Discount with different tax rates not supported', 'woo-eenvoudigfactureren');
