@@ -244,6 +244,42 @@ class WooEenvoudigFactureren_Generation {
         return $client;
     }
 
+    private function tax_rates() {
+        $tax_rates = [];
+        $taxes = $this->client->get('api/v1/settings?fields=taxes');
+        if (property_exists($taxes->taxes, 'tax1') && $taxes->taxes->tax1->rate > 0) {
+            $tax_rates[] = floatval($taxes->taxes->tax1->rate);
+        }
+        if (property_exists($taxes->taxes, 'tax2') && $taxes->taxes->tax2->rate > 0) {
+            $tax_rates[] = floatval($taxes->taxes->tax2->rate);
+        }
+        if (property_exists($taxes->taxes, 'tax3') && $taxes->taxes->tax3->rate > 0) {
+            $tax_rates[] = floatval($taxes->taxes->tax3->rate);
+        }
+        return $tax_rates;
+    }
+
+    private function determine_tax_rate($available_tax_rates, $total, $tax) {
+        $tax_rate = 0;
+        if ($tax != 0 && $total != 0) {
+            $tax_rate = null;
+            foreach($available_tax_rates as $available_tax_rate) {
+                $tax_calculated = round($total * $available_tax_rate / 100, 2);
+                if ($tax_calculated == $tax) {
+                    $tax_rate = $available_tax_rate;
+                    break;
+                } elseif ($tax_calculated - 0.01 >= $tax || $tax_calculated + 0.01 >= $tax) {
+                    $tax_rate = $available_tax_rate;
+                }
+            }
+            if (is_null($tax_rate)) {
+                $tax_rate = round($tax / $total * 100, 0);
+            }
+        }
+
+        return $tax_rate;
+    }
+
     private function build_document($order, $client_id, &$error) {
 
         $document = array();
@@ -257,6 +293,8 @@ class WooEenvoudigFactureren_Generation {
         $exempt = $order->get_meta('is_vat_exempt', true) == 'yes';
         $exempt_reason = $exempt?(string)$order->get_meta('vat_exempt_reason', true):'';
 
+        $tax_rates = $this->tax_rates();
+
         $items = array();
         $tax_rates_in_use = [];
         foreach ( $order->get_items() as $item_id => $item ) {
@@ -264,10 +302,7 @@ class WooEenvoudigFactureren_Generation {
 
             $amount = round($item->get_total()/$item->get_quantity(), 6);
 
-            $tax_rate = 0;
-            if ($item->get_total_tax() != 0 && $item->get_total() != 0) {
-                $tax_rate = round($item->get_total_tax() / $item->get_total() * 100, 1);
-            }
+            $tax_rate = $this->determine_tax_rate($tax_rates, $item->get_total(), $item->get_total_tax());
             $tax_rates_in_use[] = $tax_rate;
 
             $items[] = (object)[
@@ -287,10 +322,7 @@ class WooEenvoudigFactureren_Generation {
 
             $shipping = array_shift( $shipping_items );
 
-            $tax_rate = 0;
-            if ($order->get_shipping_tax() != 0 && $order->get_shipping_total() != 0) {
-                $tax_rate = round($order->get_shipping_tax() / $order->get_shipping_total() * 100, 1);
-            }
+            $tax_rate = $this->determine_tax_rate($tax_rates, $order->get_shipping_total(), $order->get_shipping_tax());
             $items[] = (object)[
                 'description' => __('Shipping Costs:', 'woo-eenvoudigfactureren') . ' ' . $order->get_shipping_method(),
                 'amount' => $order->get_shipping_total(),
@@ -300,10 +332,7 @@ class WooEenvoudigFactureren_Generation {
             ];
         }
         if ($order->get_discount_total() != 0) {
-            $tax_rate = 0;
-            if ($order->get_discount_tax() != 0 && $order->get_discount_total() != 0) {
-                $tax_rate = round($order->get_discount_tax() / $order->get_discount_total() * 100, 1);
-            }
+            $tax_rate = $this->determine_tax_rate($tax_rates, $order->get_discount_total(), $order->get_discount_tax());
             if (!in_array($tax_rate, $tax_rates_in_use)) {
                 $error = __('Discount with different tax rates not supported', 'woo-eenvoudigfactureren');
                 return null;
