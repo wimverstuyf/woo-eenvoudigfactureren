@@ -294,13 +294,15 @@ class WooEenvoudigFactureren_Generation {
         $exempt_reason = $exempt?(string)$order->get_meta('vat_exempt_reason', true):'';
 
         $tax_rates = $this->tax_rates();
+        $document['tax_included'] = $order->get_prices_include_tax();
 
         $items = array();
         $tax_rates_in_use = [];
         foreach ( $order->get_items() as $item_id => $item ) {
             $product = $item->get_product();
 
-            $amount = round($item->get_total()/$item->get_quantity(), 6);
+            $amount = round($item->get_total()/$item->get_quantity(), 2);
+            $amount_with_tax = round(($item->get_total()+$item->get_total_tax())/$item->get_quantity(), 2);
 
             $tax_rate = $this->determine_tax_rate($tax_rates, $item->get_total(), $item->get_total_tax());
             $tax_rates_in_use[] = $tax_rate;
@@ -308,6 +310,7 @@ class WooEenvoudigFactureren_Generation {
             $items[] = (object)[
                 'description' => $product->get_name(),
                 'amount' => $amount,
+                'amount_with_tax' => $amount_with_tax,
                 'quantity' => $item->get_quantity(),
                 'tax_rate' => $tax_rate,
                 'tax_rate_special_status' => $exempt_reason,
@@ -326,6 +329,7 @@ class WooEenvoudigFactureren_Generation {
             $items[] = (object)[
                 'description' => __('Shipping Costs:', 'woo-eenvoudigfactureren') . ' ' . $order->get_shipping_method(),
                 'amount' => $order->get_shipping_total(),
+                'amount_with_tax' => $order->get_shipping_total()+$order->get_shipping_tax(),
                 'quantity' => 1,
                 'tax_rate' => $tax_rate,
                 'tax_rate_special_status' => $exempt_reason,
@@ -340,6 +344,7 @@ class WooEenvoudigFactureren_Generation {
             $items[] = (object)[
                 'description' => __('Discount', 'woo-eenvoudigfactureren'),
                 'amount' => $order->get_discount_total()*-1,
+                'amount_with_tax' => ($order->get_discount_total()+$order->get_discount_tax())*-1,
                 'quantity' => 1,
                 'tax_rate' => $tax_rate,
                 'tax_rate_special_status' => $exempt_reason,
