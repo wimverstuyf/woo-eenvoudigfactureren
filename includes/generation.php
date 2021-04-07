@@ -335,21 +335,6 @@ class WooEenvoudigFactureren_Generation {
                 'tax_rate_special_status' => $exempt_reason,
             ];
         }
-        if ($order->get_discount_total() != 0) {
-            $tax_rate = $this->determine_tax_rate($tax_rates, $order->get_discount_total(), $order->get_discount_tax());
-            if (!in_array($tax_rate, $tax_rates_in_use)) {
-                $error = __('Discount with different tax rates not supported', 'woo-eenvoudigfactureren');
-                return null;
-            }
-            $items[] = (object)[
-                'description' => __('Discount', 'woo-eenvoudigfactureren'),
-                'amount' => $order->get_discount_total()*-1,
-                'amount_with_tax' => ($order->get_discount_total()+$order->get_discount_tax())*-1,
-                'quantity' => 1,
-                'tax_rate' => $tax_rate,
-                'tax_rate_special_status' => $exempt_reason,
-            ];
-        }
         $document['items'] = $items;
 
         return (object)$document;

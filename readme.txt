@@ -55,7 +55,6 @@ When a VAT exemption is applied for foreign business customers the VAT exemption
 
 = Limitations =
 
-* Limited support for coupon usage! When an order has mixed tax rates creation will fail when a coupon is applied.
 * Only EURO currency is supported.
 
 == Changelog ==
