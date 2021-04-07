@@ -14,6 +14,14 @@ class WooEenvoudigFactureren_ApiSettings {
         add_action( 'init', array($this, 'save') );
     }
 
+    private function scramble_apikey($apikey) {
+        if (!$apikey) {
+            return $apikey;
+        }
+
+        return substr($apikey, 0, 5) . '*****';
+    }
+
     public function save() {
         if(isset($_POST['wcef_save_api_setting'])){
             $nonce = $_POST['wcef_post_security'];
@@ -24,8 +32,13 @@ class WooEenvoudigFactureren_ApiSettings {
                 $this->options->update('username',sanitize_text_field($_POST['wcef_username']));
 
                 $password = sanitize_text_field($_POST['wcef_password']);
-                if ($password != str_repeat('*', strlen($password))) {
+                if (!$password || $password != str_repeat('*', strlen($password))) {
                     $this->options->update('password',$password);
+                }
+
+                $apikey = sanitize_text_field($_POST['wcef_apikey']);
+                if (!$apikey || $apikey != $this->scramble_apikey($apikey)) {
+                    $this->options->update('apikey',$apikey);
                 }
 
                 $this->verify();
@@ -67,6 +80,28 @@ class WooEenvoudigFactureren_ApiSettings {
                         </th>
                         <td>
                             <input name="wcef_websiteurl" style="width: 30em;" type="text" placeholder="<?php _e('Enter the EenvoudigFactureren Website URL', 'woo-eenvoudigfactureren' ); ?>" value="<?php echo $this->options->get('website_url')?$this->options->get('website_url'):WC_EENVFACT_URL;?>">
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
+                            <label><?php _e('Connect', 'woo-eenvoudigfactureren' ); ?> (<?php _e('Recommended', 'woo-eenvoudigfactureren' ); ?>):</label>
+                        </th>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
+                            <label><?php _e('Api Key', 'woo-eenvoudigfactureren' ); ?></label>
+                        </th>
+                        <td>
+                            <input name="wcef_apikey" style="width: 30em;" type="text" placeholder="<?php _e('Enter your API key at EenvoudigFactureren', 'woo-eenvoudigfactureren' ); ?>" value="<?php echo $this->scramble_apikey($this->options->get('apikey')); ?>">
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
+                            <label><?php _e('Connect', 'woo-eenvoudigfactureren' ); ?> (<?php _e('Alternative', 'woo-eenvoudigfactureren' ); ?>):</label>
+                        </th>
+                        <td>
                         </td>
                     </tr>
                     <tr valign="top">

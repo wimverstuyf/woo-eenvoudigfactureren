@@ -51,8 +51,9 @@ class WooEenvoudigFactureren_Client {
         $baseUrl = $this->options->get('website_url');
         $username = $this->options->get('username');
         $password = $this->options->get('password');
+        $apikey = $this->options->get('apikey');
 
-        return ($baseUrl && $username && $password && substr($baseUrl, 0, 4) === 'http');
+        return ($baseUrl && (($username && $password) || $apikey) && substr($baseUrl, 0, 4) === 'http');
     }
 
     private function get_url($resource) {
@@ -60,13 +61,18 @@ class WooEenvoudigFactureren_Client {
     }
 
     private function get_headers() {
-        $username = $this->options->get('username');
-        $password = $this->options->get('password');
-
-        return array(
+        $headers = array(
             'Content-Type' => 'application/json', 'Accept' => 'application/json',
-            'Authorization' => 'Basic ' . base64_encode($username.':'.$password),
         );
+
+        $apikey = $this->options->get('apikey');
+        if ($apikey) {
+            $headers['X-API-Key'] = $apikey;
+        } else {
+            $headers['Authorization'] = 'Basic ' . base64_encode($this->options->get('username').':'.$this->options->get('password'));
+        }
+
+        return $headers;
     }
 
 }
