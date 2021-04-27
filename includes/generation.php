@@ -50,8 +50,10 @@ class WooEenvoudigFactureren_Generation {
             return;
         }
 
-        if( ! get_post_meta( $order_id, WC_EENVFACT_OPTION_PREFIX . 'document_generated', true ) ) {
+        if( ! get_post_meta( $order_id, WC_EENVFACT_OPTION_PREFIX . 'document_generated', true ) && ! get_post_meta( $order_id, WC_EENVFACT_OPTION_PREFIX . 'document_generating', true ) ) {
             $order = wc_get_order( $order_id );
+
+            $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generating', true );
 
             $error = '';
             $client_id = $this->create_or_update_client($order, $error);
@@ -97,8 +99,11 @@ class WooEenvoudigFactureren_Generation {
                     $error = __("Could not create document", 'woo-eenvoudigfactureren');
                 }
                 $this->logger->error($error, $order_id);
+                
+                $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generating', false );
             } else {
                 $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generated', true );
+                $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generating', false );
 
                 $document = $this->client->get($domain . '/' . $document_id);
                 if ($document) { // should always be true
