@@ -39,7 +39,7 @@ class WooEenvoudigFactureren_Loader {
         $general_settings = new WooEenvoudigFactureren_GeneralSettings($options, $client);
         $api_settings = new WooEenvoudigFactureren_ApiSettings($options, $client);
         $menu = new WooEenvoudigFactureren_Menu($api_settings, $general_settings);
-        $column = new WooEenvoudigFactureren_Column();
+        $column = new WooEenvoudigFactureren_Column($options, $generation);
 
         $general_settings->register_actions();
         $api_settings->register_actions();

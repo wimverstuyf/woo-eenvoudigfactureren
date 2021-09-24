@@ -75,6 +75,7 @@ class WooEenvoudigFactureren_GeneralSettings {
                             <select name="wcef_document_status" style="width: 30em;" id="wcef_document_status">
                                 <option value="processing" <?php if ($document_status=='processing') echo 'selected'; ?>><?php _e('On Order Created', 'woo-eenvoudigfactureren' ); ?></option>
                                 <option value="completed" <?php if ($document_status=='completed') echo 'selected'; ?>><?php _e('On Order Completed', 'woo-eenvoudigfactureren' ); ?></option>
+                                <option value="manual" <?php if ($document_status=='manual') echo 'selected'; ?>><?php _e('Manually', 'woo-eenvoudigfactureren' ); ?></option>
                             </select>
                         </td>
                     </tr>

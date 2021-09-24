@@ -45,7 +45,7 @@ class WooEenvoudigFactureren_Generation {
         }
     }
 
-    private function generate( $order_id ) {
+    public function generate( $order_id ) {
         if (!$order_id) {
             return;
         }

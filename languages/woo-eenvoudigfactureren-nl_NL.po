@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooEenvoudigFactureren v1.0\n"
-"POT-Creation-Date: 2021-04-07 12:15+0200\n"
-"PO-Revision-Date: 2021-04-07 12:16+0200\n"
+"POT-Creation-Date: 2021-09-24 16:57+0200\n"
+"PO-Revision-Date: 2021-09-24 17:01+0200\n"
 "Last-Translator: \n"
 "Language-Team: wimverstuyf\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: __;_e\n"
@@ -83,98 +83,114 @@ msgstr "Voeg uw wachtwoord bij EenvoudigFactureren toe"
 msgid "Verify and save settings"
 msgstr "Verifieer instellingen en sla op"
 
-#: admin/column.php:11
+#: admin/column.php:21
 msgid "Document"
 msgstr "Document"
 
-#: admin/general-settings.php:66 admin/general-settings.php:136
+#: admin/column.php:55
+msgid "Create order"
+msgstr "Bestelbon aanmaken"
+
+#: admin/column.php:55
+msgid "Create invoice"
+msgstr "Factuur aanmaken"
+
+#: admin/general-settings.php:66 admin/general-settings.php:137
 msgid "EenvoudigFactureren General Settings"
 msgstr "EenvoudigFactureren algemene instellingen"
 
 #: admin/general-settings.php:72
 msgid "Trigger Document Creation"
-msgstr "Document aanmaken als"
+msgstr "Document aanmaken"
 
 #: admin/general-settings.php:76
 msgid "On Order Created"
-msgstr "Bestelling wordt aangemaakt"
+msgstr "Als bestelling wordt aangemaakt"
 
 #: admin/general-settings.php:77
 msgid "On Order Completed"
-msgstr "Bestelling is afgerond"
+msgstr "Als bestelling is afgerond"
 
-#: admin/general-settings.php:83
+#: admin/general-settings.php:78
+msgid "Manually"
+msgstr "Handmatig"
+
+#: admin/general-settings.php:84
 msgid "Document Type To Create"
 msgstr "Aan te maken document"
 
-#: admin/general-settings.php:87 includes/generation.php:106
+#: admin/general-settings.php:88 includes/generation.php:111
 msgid "Order Form"
 msgstr "Bestelbon"
 
-#: admin/general-settings.php:88 includes/generation.php:106
+#: admin/general-settings.php:89 includes/generation.php:111
 msgid "Invoice"
 msgstr "Factuur"
 
-#: admin/general-settings.php:96
+#: admin/general-settings.php:97
 msgid "On creation automatically send to customer"
 msgstr "Tijdens aanmaak automatisch verzenden naar de klant"
 
-#: admin/general-settings.php:103
+#: admin/general-settings.php:104
 msgid "Use client number to search for existing clients"
 msgstr "Gebruik klantennummer om bestaande klanten op te zoeken"
 
-#: admin/general-settings.php:108
+#: admin/general-settings.php:109
 msgid "Layout To Use"
 msgstr "Te gebruiken layout"
 
-#: admin/general-settings.php:123
+#: admin/general-settings.php:124
 msgid "Save Changes"
 msgstr "Wijzigingen opslaan"
 
-#: admin/general-settings.php:138
+#: admin/general-settings.php:139
 msgid "ERROR :"
 msgstr "FOUT:"
 
-#: admin/general-settings.php:138
+#: admin/general-settings.php:139
 msgid ""
 "Add credentials and verify connection to EenvoudigFactureren to continue."
 msgstr ""
 "Voeg aanmeldgegevens toe en verifieer connectie met EenvoudigFactureren om "
 "verder te gaan."
 
-#: admin/menu.php:18 admin/menu.php:19
-msgid "EenvoudigFactureren Setting"
+#: admin/menu.php:18 admin/menu.php:20 admin/menu.php:21
+msgid "EenvoudigFactureren Settings"
 msgstr "EenvoudigFactureren instellingen"
 
-#: admin/menu.php:19
-msgid "General Setting"
+#: admin/menu.php:20
+msgid "API Settings"
+msgstr "API connectie"
+
+#: admin/menu.php:21
+msgid "General Settings"
 msgstr "Instellingen"
 
-#: includes/generation.php:61
+#: includes/generation.php:63
 msgid "Could not create or update client"
 msgstr "Kon klant niet aanmaken of bijwerken"
 
-#: includes/generation.php:71
+#: includes/generation.php:73
 msgid "Could not generate document"
 msgstr "Kon document niet opbouwen"
 
-#: includes/generation.php:97
+#: includes/generation.php:99
 msgid "Could not create document"
 msgstr "Kon document niet aanmaken"
 
-#: includes/generation.php:142
+#: includes/generation.php:147
 msgid "Could not update client"
 msgstr "Kon klant niet bijwerken"
 
-#: includes/generation.php:154
+#: includes/generation.php:159
 msgid "Could not create client"
 msgstr "Kon klant niet aanmaken"
 
-#: includes/generation.php:322
+#: includes/generation.php:327
 msgid "Multiple shipping methods not supported"
 msgstr "Meerdere verzendmethodes worden niet ondersteund"
 
-#: includes/generation.php:330
+#: includes/generation.php:335
 msgid "Shipping Costs:"
 msgstr "Verzendkosten:"
 
