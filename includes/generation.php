@@ -342,6 +342,14 @@ class WooEenvoudigFactureren_Generation {
         }
         $document['items'] = $items;
 
+        if ($this->options->get('set_paid') && $this->options->get('document_type') == 'invoice' && $order->is_paid()) {
+            $document['payments'] = [(object)[
+                'remaining_amount' => 'yes',
+                'method' => 'online',
+                'description' => 'WooCommerce',
+            ]];
+        }
+
         return (object)$document;
     }
 }

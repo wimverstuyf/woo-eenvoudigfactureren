@@ -24,12 +24,14 @@ class WooEenvoudigFactureren_GeneralSettings {
                 $document_type = sanitize_text_field($_POST['wcef_document_type']);
                 $document_status = sanitize_text_field($_POST['wcef_document_status']);
                 $mail_document = isset($_POST['wcef_mail_document']) && $_POST['wcef_mail_document']=='1';
+                $set_paid = isset($_POST['wcef_set_paid']) && $_POST['wcef_set_paid']=='1';
                 $search_client_number = isset($_POST['wcef_search_client_number']) && $_POST['wcef_search_client_number']=='1';
 
                 $this->options->update('layout_id',$layout_id);
                 $this->options->update('document_type',$document_type);
                 $this->options->update('document_status',$document_status);
                 $this->options->update('mail',$mail_document);
+                $this->options->update('set_paid',$set_paid);
                 $this->options->update('search_client_number', $search_client_number);
             }
         }
@@ -52,6 +54,8 @@ class WooEenvoudigFactureren_GeneralSettings {
         }
 
         $mail_document = !!$this->options->get('mail');
+
+        $set_paid = !!$this->options->get('set_paid');
 
         $search_client_number = !!$this->options->get('search_client_number');
 
@@ -95,6 +99,13 @@ class WooEenvoudigFactureren_GeneralSettings {
                         </th>
                         <td>
                             <label><input type="checkbox" value="1" name="wcef_mail_document" <?php if ($mail_document) echo 'checked'; ?>/> <?php _e('On creation automatically send to customer', 'woo-eenvoudigfactureren' ); ?></label>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
+                        </th>
+                        <td>
+                            <label><input type="checkbox" value="1" name="wcef_set_paid" <?php if ($set_paid) echo 'checked'; ?>/> <?php _e('Automatically set as paid', 'woo-eenvoudigfactureren' ); ?></label>
                         </td>
                     </tr>
                     <tr valign="top">

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooEenvoudigFactureren v1.0\n"
-"POT-Creation-Date: 2021-09-24 16:57+0200\n"
-"PO-Revision-Date: 2021-09-24 17:01+0200\n"
+"POT-Creation-Date: 2021-09-24 17:47+0200\n"
+"PO-Revision-Date: 2021-09-24 17:51+0200\n"
 "Last-Translator: \n"
 "Language-Team: wimverstuyf\n"
 "Language: nl_BE\n"
@@ -83,71 +83,75 @@ msgstr "Voeg uw wachtwoord bij EenvoudigFactureren toe"
 msgid "Verify and save settings"
 msgstr "Verifieer instellingen en sla op"
 
-#: admin/column.php:21
+#: admin/column.php:20
 msgid "Document"
 msgstr "Document"
 
-#: admin/column.php:55
+#: admin/column.php:54
 msgid "Create order"
 msgstr "Bestelbon aanmaken"
 
-#: admin/column.php:55
+#: admin/column.php:54
 msgid "Create invoice"
 msgstr "Factuur aanmaken"
 
-#: admin/general-settings.php:66 admin/general-settings.php:137
+#: admin/general-settings.php:70 admin/general-settings.php:148
 msgid "EenvoudigFactureren General Settings"
 msgstr "EenvoudigFactureren algemene instellingen"
 
-#: admin/general-settings.php:72
+#: admin/general-settings.php:76
 msgid "Trigger Document Creation"
 msgstr "Document aanmaken"
 
-#: admin/general-settings.php:76
+#: admin/general-settings.php:80
 msgid "On Order Created"
 msgstr "Als bestelling wordt aangemaakt"
 
-#: admin/general-settings.php:77
+#: admin/general-settings.php:81
 msgid "On Order Completed"
 msgstr "Als bestelling is afgerond"
 
-#: admin/general-settings.php:78
+#: admin/general-settings.php:82
 msgid "Manually"
 msgstr "Handmatig"
 
-#: admin/general-settings.php:84
+#: admin/general-settings.php:88
 msgid "Document Type To Create"
 msgstr "Aan te maken document"
 
-#: admin/general-settings.php:88 includes/generation.php:111
+#: admin/general-settings.php:92 includes/generation.php:111
 msgid "Order Form"
 msgstr "Bestelbon"
 
-#: admin/general-settings.php:89 includes/generation.php:111
+#: admin/general-settings.php:93 includes/generation.php:111
 msgid "Invoice"
 msgstr "Factuur"
 
-#: admin/general-settings.php:97
+#: admin/general-settings.php:101
 msgid "On creation automatically send to customer"
 msgstr "Tijdens aanmaak automatisch verzenden naar de klant"
 
-#: admin/general-settings.php:104
+#: admin/general-settings.php:108
+msgid "Automatically set as paid"
+msgstr "Factuur automatisch als betaald zetten"
+
+#: admin/general-settings.php:115
 msgid "Use client number to search for existing clients"
 msgstr "Gebruik klantennummer om bestaande klanten op te zoeken"
 
-#: admin/general-settings.php:109
+#: admin/general-settings.php:120
 msgid "Layout To Use"
 msgstr "Te gebruiken layout"
 
-#: admin/general-settings.php:124
+#: admin/general-settings.php:135
 msgid "Save Changes"
 msgstr "Wijzigingen opslaan"
 
-#: admin/general-settings.php:139
+#: admin/general-settings.php:150
 msgid "ERROR :"
 msgstr "FOUT:"
 
-#: admin/general-settings.php:139
+#: admin/general-settings.php:150
 msgid ""
 "Add credentials and verify connection to EenvoudigFactureren to continue."
 msgstr ""
