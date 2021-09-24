@@ -25,6 +25,7 @@ class WooEenvoudigFactureren_GeneralSettings {
                 $document_status = sanitize_text_field($_POST['wcef_document_status']);
                 $mail_document = isset($_POST['wcef_mail_document']) && $_POST['wcef_mail_document']=='1';
                 $set_paid = isset($_POST['wcef_set_paid']) && $_POST['wcef_set_paid']=='1';
+                $add_sku = isset($_POST['wcef_add_sku']) && $_POST['wcef_add_sku']=='1';
                 $search_client_number = isset($_POST['wcef_search_client_number']) && $_POST['wcef_search_client_number']=='1';
 
                 $this->options->update('layout_id',$layout_id);
@@ -32,6 +33,7 @@ class WooEenvoudigFactureren_GeneralSettings {
                 $this->options->update('document_status',$document_status);
                 $this->options->update('mail',$mail_document);
                 $this->options->update('set_paid',$set_paid);
+                $this->options->update('add_sku',$add_sku);
                 $this->options->update('search_client_number', $search_client_number);
             }
         }
@@ -56,7 +58,9 @@ class WooEenvoudigFactureren_GeneralSettings {
         $mail_document = !!$this->options->get('mail');
 
         $set_paid = !!$this->options->get('set_paid');
-
+        
+        $add_sku = !!$this->options->get('add_sku');
+        
         $search_client_number = !!$this->options->get('search_client_number');
 
         $layout_id = $this->options->get('layout_id');
@@ -106,6 +110,13 @@ class WooEenvoudigFactureren_GeneralSettings {
                         </th>
                         <td>
                             <label><input type="checkbox" value="1" name="wcef_set_paid" <?php if ($set_paid) echo 'checked'; ?>/> <?php _e('Automatically set as paid', 'woo-eenvoudigfactureren' ); ?></label>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
+                        </th>
+                        <td>
+                            <label><input type="checkbox" value="1" name="wcef_add_sku" <?php if ($add_sku) echo 'checked'; ?>/> <?php _e('Add SKU', 'woo-eenvoudigfactureren' ); ?></label>
                         </td>
                     </tr>
                     <tr valign="top">

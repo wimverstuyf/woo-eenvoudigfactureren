@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooEenvoudigFactureren v1.0\n"
-"POT-Creation-Date: 2021-09-24 17:51+0200\n"
-"PO-Revision-Date: 2021-09-24 17:51+0200\n"
+"POT-Creation-Date: 2021-09-24 18:03+0200\n"
+"PO-Revision-Date: 2021-09-24 18:03+0200\n"
 "Last-Translator: \n"
 "Language-Team: wimverstuyf\n"
 "Language: nl_NL\n"
@@ -95,63 +95,67 @@ msgstr "Bestelbon aanmaken"
 msgid "Create invoice"
 msgstr "Factuur aanmaken"
 
-#: admin/general-settings.php:70 admin/general-settings.php:148
+#: admin/general-settings.php:74 admin/general-settings.php:159
 msgid "EenvoudigFactureren General Settings"
 msgstr "EenvoudigFactureren algemene instellingen"
 
-#: admin/general-settings.php:76
+#: admin/general-settings.php:80
 msgid "Trigger Document Creation"
 msgstr "Document aanmaken"
 
-#: admin/general-settings.php:80
+#: admin/general-settings.php:84
 msgid "On Order Created"
 msgstr "Als bestelling wordt aangemaakt"
 
-#: admin/general-settings.php:81
+#: admin/general-settings.php:85
 msgid "On Order Completed"
 msgstr "Als bestelling is afgerond"
 
-#: admin/general-settings.php:82
+#: admin/general-settings.php:86
 msgid "Manually"
 msgstr "Handmatig"
 
-#: admin/general-settings.php:88
+#: admin/general-settings.php:92
 msgid "Document Type To Create"
 msgstr "Aan te maken document"
 
-#: admin/general-settings.php:92 includes/generation.php:111
+#: admin/general-settings.php:96 includes/generation.php:111
 msgid "Order Form"
 msgstr "Bestelbon"
 
-#: admin/general-settings.php:93 includes/generation.php:111
+#: admin/general-settings.php:97 includes/generation.php:111
 msgid "Invoice"
 msgstr "Factuur"
 
-#: admin/general-settings.php:101
+#: admin/general-settings.php:105
 msgid "On creation automatically send to customer"
 msgstr "Tijdens aanmaak automatisch verzenden naar de klant"
 
-#: admin/general-settings.php:108
+#: admin/general-settings.php:112
 msgid "Automatically set as paid"
 msgstr "Factuur automatisch als betaald zetten"
 
-#: admin/general-settings.php:115
+#: admin/general-settings.php:119
+msgid "Add SKU"
+msgstr "Artikelnummer toevoegen indien beschikbaar"
+
+#: admin/general-settings.php:126
 msgid "Use client number to search for existing clients"
 msgstr "Gebruik klantennummer om bestaande klanten op te zoeken"
 
-#: admin/general-settings.php:120
+#: admin/general-settings.php:131
 msgid "Layout To Use"
 msgstr "Te gebruiken layout"
 
-#: admin/general-settings.php:135
+#: admin/general-settings.php:146
 msgid "Save Changes"
 msgstr "Wijzigingen opslaan"
 
-#: admin/general-settings.php:150
+#: admin/general-settings.php:161
 msgid "ERROR :"
 msgstr "FOUT:"
 
-#: admin/general-settings.php:150
+#: admin/general-settings.php:161
 msgid ""
 "Add credentials and verify connection to EenvoudigFactureren to continue."
 msgstr ""
@@ -190,11 +194,11 @@ msgstr "Kon klant niet bijwerken"
 msgid "Could not create client"
 msgstr "Kon klant niet aanmaken"
 
-#: includes/generation.php:327
+#: includes/generation.php:333
 msgid "Multiple shipping methods not supported"
 msgstr "Meerdere verzendmethodes worden niet ondersteund"
 
-#: includes/generation.php:335
+#: includes/generation.php:341
 msgid "Shipping Costs:"
 msgstr "Verzendkosten:"
 

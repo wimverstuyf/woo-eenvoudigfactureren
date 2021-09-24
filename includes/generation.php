@@ -312,7 +312,7 @@ class WooEenvoudigFactureren_Generation {
             $tax_rate = $this->determine_tax_rate($tax_rates, $item->get_total(), $item->get_total_tax());
             $tax_rates_in_use[] = $tax_rate;
 
-            $items[] = (object)[
+            $item = (object)[
                 'description' => $product->get_name(),
                 'amount' => $amount,
                 'amount_with_tax' => $amount_with_tax,
@@ -320,6 +320,12 @@ class WooEenvoudigFactureren_Generation {
                 'tax_rate' => $tax_rate,
                 'tax_rate_special_status' => $exempt_reason,
             ];
+
+            if ($this->options->get('add_sku') && $product->get_sku()) {
+                $item->{'stockitem_code'} = $product->get_sku();
+            }
+
+            $items[] = $item;
         }
         if ($order->get_shipping_total() != 0) {
             $shipping_items = $order->get_items( 'shipping' );
