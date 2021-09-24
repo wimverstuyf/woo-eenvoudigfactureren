@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WooEenvoudigFactureren v1.0\n"
 "POT-Creation-Date: 2021-09-24 18:03+0200\n"
-"PO-Revision-Date: 2021-09-24 18:03+0200\n"
+"PO-Revision-Date: 2021-09-24 18:24+0200\n"
 "Last-Translator: \n"
 "Language-Team: wimverstuyf\n"
 "Language: nl_NL\n"
@@ -21,7 +21,7 @@ msgstr "Veiligheidscontrole"
 
 #: admin/api-settings.php:52
 msgid "EenvoudigFactureren API Settings"
-msgstr "EenvoudigFactureren API Instellingen"
+msgstr "Koppeling met EenvoudigFactureren"
 
 #: admin/api-settings.php:61
 msgid "Connection verified:"
@@ -168,7 +168,7 @@ msgstr "EenvoudigFactureren instellingen"
 
 #: admin/menu.php:20
 msgid "API Settings"
-msgstr "API connectie"
+msgstr "Koppeling"
 
 #: admin/menu.php:21
 msgid "General Settings"
