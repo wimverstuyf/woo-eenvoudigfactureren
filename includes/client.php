@@ -16,6 +16,14 @@ class WooEenvoudigFactureren_Client {
         $get_data = wp_remote_get( $this->get_url($resource), array('headers' => $this->get_headers()) );
         $data = json_decode( wp_remote_retrieve_body($get_data) );
 
+        // $p = curl_init($this->get_url($resource));
+        // $headers = $this->get_headers();
+        // curl_setopt($p, CURLOPT_HTTPHEADER, array_map(function($key, $value) { return "$key: $value"; }, array_keys($headers), array_values($headers)));
+        // curl_setopt($p, CURLOPT_RETURNTRANSFER, TRUE);
+        // $response = curl_exec($p);
+        // curl_close($p);
+        // $data = json_decode($response);
+
         return $data;
     }
 
@@ -43,6 +51,26 @@ class WooEenvoudigFactureren_Client {
         } else {
             $to_return = json_decode( wp_remote_retrieve_body($result) );
         }
+
+        // $p = curl_init($this->get_url($resource));
+        // $headers = $this->get_headers();
+        // curl_setopt($p, CURLOPT_HTTPHEADER, array_map(function($key, $value) { return "$key: $value"; }, array_keys($headers), array_values($headers)));
+        // curl_setopt($p, CURLOPT_POST, TRUE);
+        // curl_setopt($p, CURLOPT_POSTFIELDS, json_encode($data));
+        // curl_setopt($p, CURLOPT_RETURNTRANSFER, TRUE);
+        // $response = curl_exec($p);
+
+        // $has_error = false;
+        // if (curl_errno($p)) {
+        //     $has_error = true;
+        //     $error = curl_error($p);
+        // }        
+        // curl_close($p);
+
+        // $to_return = null;
+        // if (!$has_error) {
+        //     $to_return = json_decode($response);
+        // }
 
         return $to_return;
     }

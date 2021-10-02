@@ -30,6 +30,7 @@ class WooEenvoudigFactureren_ApiSettings {
             } else {
                 $this->options->update('website_url',sanitize_text_field($_POST['wcef_websiteurl']));
                 $this->options->update('username',sanitize_text_field($_POST['wcef_username']));
+                $this->options->update('last_error', '');
 
                 $password = sanitize_text_field($_POST['wcef_password']);
                 if (!$password || $password != str_repeat('*', strlen($password))) {
@@ -67,7 +68,7 @@ class WooEenvoudigFactureren_ApiSettings {
         <?php } ?>
         <?php if ($this->options->get('last_error')) { ?>
             <div class="error notice">
-                <p><?php echo __( 'LAST ERROR:', 'woo-eenvoudigfactureren' ) . ' ' . $this->options->get('last_error'); ?></p>
+                <p><?php echo __( 'LAST ERROR:', 'woo-eenvoudigfactureren' ) . ' ' . mb_substr($this->options->get('last_error'), 0, 10000); ?></p>
             </div>
         <?php } ?>
 
