@@ -25,6 +25,10 @@ class WooEenvoudigFactureren_Generation {
         // needs to be executed here because customer is only available at checkout
         if ($order_id && get_post_meta( $order_id, 'is_vat_exempt', true ) == 'yes') {
             $exempt_rates = WC_Tax::get_rates('Zero rate', WC()->customer);
+            if (!$exempt_rates) {
+                $exempt_rates = WC_Tax::get_rates('Nultarief', WC()->customer);
+            }
+
             $exempt_rate = array_shift($exempt_rates);
             if ($exempt_rate && $exempt_rate['label']) {
                 $order = wc_get_order( $order_id );
