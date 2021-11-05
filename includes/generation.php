@@ -215,7 +215,7 @@ class WooEenvoudigFactureren_Generation {
         }
 
         // try looking for a vat number
-        foreach(['_vat_number', '_billing_vat_number', 'vat_number', 'billing_vat'] as $meta) {
+        foreach(['_vat_number', '_billing_vat_number', 'vat_number', '_billing_vat'] as $meta) {
             $vat_number = $order->get_meta( $meta, true );
             if ($vat_number) {
                 break;
