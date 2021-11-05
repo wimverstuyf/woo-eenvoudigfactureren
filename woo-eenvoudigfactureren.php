@@ -4,7 +4,7 @@
  * Description: Generate invoices of order forms in EenvoudigFactureren for WooCommerce orders.
  * Author: wimverstuyf
  * Text Domain: woo-eenvoudigfactureren
- * Version: 0.4.2
+ * Version: 0.4.3
  * Requires at least: 5.2.0
  * Requires PHP: 5.6.20
  * Domain Path: /languages
