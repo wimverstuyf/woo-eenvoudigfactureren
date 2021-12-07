@@ -317,7 +317,7 @@ class WooEenvoudigFactureren_Generation {
             $tax_rates_in_use[] = $tax_rate;
 
             $item = (object)[
-                'description' => $product->get_name(),
+                'description' => $item->get_name(),
                 'amount' => $amount,
                 'amount_with_tax' => $amount_with_tax,
                 'quantity' => $item->get_quantity(),
@@ -325,7 +325,7 @@ class WooEenvoudigFactureren_Generation {
                 'tax_rate_special_status' => $exempt_reason,
             ];
 
-            if ($this->options->get('add_sku') && $product->get_sku()) {
+            if ($product && $this->options->get('add_sku') && $product->get_sku()) {
                 $item->{'stockitem_code'} = $product->get_sku();
             }
 
