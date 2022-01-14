@@ -37,6 +37,7 @@ class WooEenvoudigFactureren_Column {
             if($document_url && $document_name) {
                 echo '<a href="'.$document_url.'" class="button button-primary" target="_blank" >'.$document_name.'</a>';
             } else {
+                $nonce = wp_create_nonce();
 ?>
 <script  type='text/javascript'>
 <!--
