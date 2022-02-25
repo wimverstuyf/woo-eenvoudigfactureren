@@ -1,6 +1,6 @@
 <?php
 
-class WooEenvoudigFactureren_Client {
+class WcEenvoudigFactureren_Client {
 
     private $options;
 

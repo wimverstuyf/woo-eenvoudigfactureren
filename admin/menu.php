@@ -1,6 +1,6 @@
 <?php
 
-class WooEenvoudigFactureren_Menu {
+class WcEenvoudigFactureren_Menu {
 
     private $api_settings;
     private $general_settings;
@@ -15,9 +15,9 @@ class WooEenvoudigFactureren_Menu {
     }
 
     public function menu_page() {
-        add_menu_page( __( 'EenvoudigFactureren Settings', 'woo-eenvoudigfactureren' ), 'EenvoudigFactureren', 'manage_options', 'woo-eenvoudigfactureren-settings-page', false, 'dashicons-admin-generic', 80);
+        add_menu_page( __( 'EenvoudigFactureren Settings', 'wc-eenvoudigfactureren' ), 'EenvoudigFactureren', 'manage_options', 'wc-eenvoudigfactureren-settings-page', false, 'dashicons-admin-generic', 80);
 
-        add_submenu_page( 'woo-eenvoudigfactureren-settings-page', __( 'EenvoudigFactureren Settings', 'woo-eenvoudigfactureren' ), __( 'API Settings', 'woo-eenvoudigfactureren' ), 'manage_options', 'woo-eenvoudigfactureren-settings-page', array($this->api_settings, 'show'));
-        add_submenu_page( 'woo-eenvoudigfactureren-settings-page', __( 'EenvoudigFactureren Settings', 'woo-eenvoudigfactureren' ), __( 'General Settings', 'woo-eenvoudigfactureren' ), 'manage_options', 'woo-eenvoudigfactureren-general-settings-page', array($this->general_settings, 'show'));
+        add_submenu_page( 'wc-eenvoudigfactureren-settings-page', __( 'EenvoudigFactureren Settings', 'wc-eenvoudigfactureren' ), __( 'API Settings', 'wc-eenvoudigfactureren' ), 'manage_options', 'wc-eenvoudigfactureren-settings-page', array($this->api_settings, 'show'));
+        add_submenu_page( 'wc-eenvoudigfactureren-settings-page', __( 'EenvoudigFactureren Settings', 'wc-eenvoudigfactureren' ), __( 'General Settings', 'wc-eenvoudigfactureren' ), 'manage_options', 'wc-eenvoudigfactureren-general-settings-page', array($this->general_settings, 'show'));
     }
 }

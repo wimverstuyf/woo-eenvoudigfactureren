@@ -1,24 +1,24 @@
-=== EenvoudigFactureren for WooCommerce integration ===
+=== EenvoudigFactureren for WooCommerce ===
 Contributors: wimverstuyf
 Tags: WooCommerce, Invoice, Accounting, EenvoudigFactureren
 Requires at least: 5.2.0
 Tested up to: 5.3.0
 Requires PHP: 5.6.20
-Stable tag: 0.5.4
+Stable tag: 1.0.0
 WC requires at least: 3.6
-WC tested up to: 3.8
+WC tested up to: 6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Generate invoices or order forms in EenvoudigFactureren for WooCommerce orders.
+Generate invoices in EenvoudigFactureren for WooCommerce orders.
 
 == Description ==
 
-The WooCommerce EenvoudigFactureren plugin is an extension for your WooCommerce online shop that automatically generates invoices/order forms in EenvoudigFactureren for new WooCommerce orders.
+The WooCommerce EenvoudigFactureren plugin is an extension for your WooCommerce online shop that automatically generates invoices/order forms in EenvoudigFactureren for WooCommerce orders.
 
 = Key features =
 
-* Every new order automatically trigger the creation of an invoice or order form at EenvoudigFactureren.
+* Every new order manually or automatically triggers the creation of an invoice or order form at EenvoudigFactureren.
 * Customer information is synchronised to EenvoudigFactureren.
 * Supports EU VAT numbers and VAT exemptions.
 * Configure automatic email sending to your customers with attached PDF invoices from EenvoudigFactureren.
@@ -26,7 +26,7 @@ The WooCommerce EenvoudigFactureren plugin is an extension for your WooCommerce 
 
 = About EenvoudigFactureren =
 
-EenvoudigFactureren is an accounting solution for Belgian entrepreneurs (Dutch-speaking only). You can create a new account for free at [EenvoudigFactureren](https://eenvoudigfactureren.be/).
+EenvoudigFactureren is an invoicing solution for Belgian entrepreneurs (Dutch-speaking only). You can create a new account for free at [EenvoudigFactureren](https://eenvoudigfactureren.be/).
 
 = Technical specifications =
 
@@ -37,7 +37,7 @@ EenvoudigFactureren is an accounting solution for Belgian entrepreneurs (Dutch-s
 
 = Steps of installation =
 
-1. Unzip `woo-eenvoudigfactureren.zip` to the `/wp-content/plugins/woo-eenvoudigfactureren/` directory
+1. Unzip `eenvoudigfactureren-for-woocommerce.zip` to the `/wp-content/plugins/eenvoudigfactureren-for-woocommerce/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. In the Wordpress Admin section of your online shop configure the plugin by adding your EenvoudigFactureren credentials in the EenvoudigFactureren API Settings page.
 4. That's it! By default a new invoice will be automatically created in EenvoudigFactureren on order creation.

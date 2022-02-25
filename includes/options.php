@@ -1,6 +1,6 @@
 <?php
 
-class WooEenvoudigFactureren_Options {
+class WcEenvoudigFactureren_Options {
 
     public function get($name) {
         return get_option(WC_EENVFACT_OPTION_PREFIX . $name);

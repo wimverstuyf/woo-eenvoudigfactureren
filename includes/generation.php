@@ -1,6 +1,6 @@
 <?php
 
-class WooEenvoudigFactureren_Generation {
+class WcEenvoudigFactureren_Generation {
 
     private $options;
     private $client;
@@ -64,7 +64,7 @@ class WooEenvoudigFactureren_Generation {
 
             if (!$client_id || $error) {
                 if (!$error) {
-                    $error = __("Could not create or update client", 'woo-eenvoudigfactureren');
+                    $error = __("Could not create or update client", 'wc-eenvoudigfactureren');
                 }
                 $this->logger->error($error, $order_id);
                 return;
@@ -74,7 +74,7 @@ class WooEenvoudigFactureren_Generation {
 
             if (!$document || $error) {
                 if (!$error) {
-                    $error = __("Could not generate document", 'woo-eenvoudigfactureren');
+                    $error = __("Could not generate document", 'wc-eenvoudigfactureren');
                 }
                 $this->logger->error($error, $order_id);
                 return;
@@ -100,7 +100,7 @@ class WooEenvoudigFactureren_Generation {
 
             if ($error || !$document_id) {
                 if (!$error) {
-                    $error = __("Could not create document", 'woo-eenvoudigfactureren');
+                    $error = __("Could not create document", 'wc-eenvoudigfactureren');
                 }
                 $this->logger->error($error, $order_id);
                 
@@ -112,7 +112,7 @@ class WooEenvoudigFactureren_Generation {
                 $document = $this->client->get($domain . '/' . $document_id);
                 if ($document) { // should always be true
                     $document_url = $this->options->get('website_url') . '/' . $domain . '#pg=view&doc_id=' . $document_id;
-                    $document_name = ($domain == 'invoices'?__('Invoice','woo-eenvoudigfactureren'):__('Order Form','woo-eenvoudigfactureren')) . ' ' . $document->number;
+                    $document_name = ($domain == 'invoices'?__('Invoice','wc-eenvoudigfactureren'):__('Order Form','wc-eenvoudigfactureren')) . ' ' . $document->number;
 
                     $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_url', $document_url );
                     $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_name', $document_name );
@@ -148,7 +148,7 @@ class WooEenvoudigFactureren_Generation {
                 $result = $this->client->post('clients/'.$client_id, $client, $error);
                 if (!$result) {
                     if (!$error) {
-                        $error = __('Could not update client', 'woo-eenvoudigfactureren');
+                        $error = __('Could not update client', 'wc-eenvoudigfactureren');
                     }
                 } elseif (property_exists($result, 'error')) {
                     $error = $result->error . ' ('.json_encode($client).')';
@@ -160,7 +160,7 @@ class WooEenvoudigFactureren_Generation {
 
             if (!$result) {
                 if (!$error) {
-                    $error = __('Could not create client', 'woo-eenvoudigfactureren');
+                    $error = __('Could not create client', 'wc-eenvoudigfactureren');
                 }
             } elseif (property_exists($result, 'error')) {
                 $error = $result->error . ' ('.json_encode($client).')';
@@ -352,7 +352,7 @@ class WooEenvoudigFactureren_Generation {
         if ($order->get_shipping_total() != 0) {
             $shipping_items = $order->get_items( 'shipping' );
             if (count($shipping_items) > 1) {
-                $error = __('Multiple shipping methods not supported', 'woo-eenvoudigfactureren');
+                $error = __('Multiple shipping methods not supported', 'wc-eenvoudigfactureren');
                 return null;
             }
 
@@ -360,7 +360,7 @@ class WooEenvoudigFactureren_Generation {
 
             $tax_rate = $this->determine_tax_rate($tax_rates, $order->get_shipping_total(), $order->get_shipping_tax());
             $items[] = (object)[
-                'description' => __('Shipping Costs:', 'woo-eenvoudigfactureren') . ' ' . $order->get_shipping_method(),
+                'description' => __('Shipping Costs:', 'wc-eenvoudigfactureren') . ' ' . $order->get_shipping_method(),
                 'amount' => $order->get_shipping_total(),
                 'amount_with_tax' => $order->get_shipping_total()+$order->get_shipping_tax(),
                 'quantity' => 1,

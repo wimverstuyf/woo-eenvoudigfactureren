@@ -1,6 +1,6 @@
 <?php
 
-class WooEenvoudigFactureren_Logger {
+class WcEenvoudigFactureren_Logger {
 
     private $options;
 
@@ -9,7 +9,7 @@ class WooEenvoudigFactureren_Logger {
     }
 
     public function error($message, $order_id) {
-        $this->options->update('last_error', __('Order', 'woo-eenvoudigfactureren' ) . ' #' . $order_id . ': '. $message . ' ( '.date('c').' )');
+        $this->options->update('last_error', __('Order', 'wc-eenvoudigfactureren' ) . ' #' . $order_id . ': '. $message . ' ( '.date('c').' )');
 
         wc_get_logger()->error($message . ' (Order #'.$order_id.')', array('source' => 'EenvoudigFactureren'));
     }

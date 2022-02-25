@@ -4,7 +4,7 @@ Generate invoices or order forms in EenvoudigFactureren for WooCommerce orders.
 
 ## Description
 
-The WooCommerce EenvoudigFactureren plugin is an extension for your WooCommerce online shop that automatically generates invoices or order forms in EenvoudigFactureren for new WooCommerce orders.
+The EenvoudigFactureren plugin for WooCommerce is an extension for your WooCommerce online shop that automatically generates invoices or order forms in EenvoudigFactureren for new WooCommerce orders.
 
 ### Key features
 
@@ -27,7 +27,7 @@ EenvoudigFactureren is an invoicing solution for Belgian entrepreneurs (Dutch on
 
 ### Steps of installation
 
-1. Unzip `woo-eenvoudigfactureren.zip` to the `/wp-content/plugins/woo-eenvoudigfactureren/` directory
+1. Unzip `eenvoudigfactureren-for-woocommerce.zip` to the `/wp-content/plugins/eenvoudigfactureren-for-woocommerce/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. In the WordPress admin section of your online shop configure the plugin by adding your EenvoudigFactureren credentials in the EenvoudigFactureren API Settings page.
 4. That's it! By default a new invoice will be automatically created in EenvoudigFactureren on order creation.

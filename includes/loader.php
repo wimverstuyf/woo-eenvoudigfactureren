@@ -3,7 +3,7 @@
 define( 'WC_EENVFACT_OPTION_PREFIX', 'wc_eenvoudigfactureren_' );
 define( 'WC_EENVFACT_URL', 'https://eenvoudigfactureren.be' );
 
-class WooEenvoudigFactureren_Loader {
+class WcEenvoudigFactureren_Loader {
 
     public static function init() {
         self::load_dependencies();
@@ -23,23 +23,23 @@ class WooEenvoudigFactureren_Loader {
     }
 
     public static function load_languages() {
-        load_plugin_textdomain('woo-eenvoudigfactureren', false,  dirname( dirname( plugin_basename( __FILE__ ) ) )  . '/languages/');
+        load_plugin_textdomain('wc-eenvoudigfactureren', false,  dirname( dirname( plugin_basename( __FILE__ ) ) )  . '/languages/');
     }
 
     private static function register_actions() {
         add_action( 'plugins_loaded', array(self::class, 'load_languages') );
 
-        $options = new WooEenvoudigFactureren_Options();
-        $client = new WooEenvoudigFactureren_Client($options);
-        $logger = new WooEenvoudigFactureren_Logger($options);
+        $options = new WcEenvoudigFactureren_Options();
+        $client = new WcEenvoudigFactureren_Client($options);
+        $logger = new WcEenvoudigFactureren_Logger($options);
 
-        $generation = new WooEenvoudigFactureren_Generation($options, $client, $logger);
+        $generation = new WcEenvoudigFactureren_Generation($options, $client, $logger);
         $generation->register_actions();
 
-        $general_settings = new WooEenvoudigFactureren_GeneralSettings($options, $client);
-        $api_settings = new WooEenvoudigFactureren_ApiSettings($options, $client);
-        $menu = new WooEenvoudigFactureren_Menu($api_settings, $general_settings);
-        $column = new WooEenvoudigFactureren_Column($options, $generation);
+        $general_settings = new WcEenvoudigFactureren_GeneralSettings($options, $client);
+        $api_settings = new WcEenvoudigFactureren_ApiSettings($options, $client);
+        $menu = new WcEenvoudigFactureren_Menu($api_settings, $general_settings);
+        $column = new WcEenvoudigFactureren_Column($options, $generation);
 
         $general_settings->register_actions();
         $api_settings->register_actions();

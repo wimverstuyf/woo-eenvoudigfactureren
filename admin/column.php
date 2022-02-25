@@ -1,6 +1,6 @@
 <?php
 
-class WooEenvoudigFactureren_Column {
+class WcEenvoudigFactureren_Column {
 
     private $generation;
     private $options;
@@ -17,7 +17,7 @@ class WooEenvoudigFactureren_Column {
     }
 
     public function new_order_column( $columns ) {
-        $columns['wcef_document'] = __( 'Document', 'woo-eenvoudigfactureren' );
+        $columns['wcef_document'] = __( 'Document', 'wc-eenvoudigfactureren' );
         return $columns;
     }
 
@@ -52,7 +52,7 @@ jQuery(document).on('click', '#create-document-<?=$post->ID?>', function(){
 -->
 </script>
 
-<a id="create-document-<?=$post->ID?>" href="#create-document" class="button button-primary"><?=($this->options->get('document_type') == 'order' ? __( 'Create order', 'woo-eenvoudigfactureren' ) : __( 'Create invoice', 'woo-eenvoudigfactureren' ) )?></a>
+<a id="create-document-<?=$post->ID?>" href="#create-document" class="button button-primary"><?=($this->options->get('document_type') == 'order' ? __( 'Create order', 'wc-eenvoudigfactureren' ) : __( 'Create invoice', 'wc-eenvoudigfactureren' ) )?></a>
 <?php
             }
         }
