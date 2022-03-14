@@ -9,7 +9,7 @@ class WcEenvoudigFactureren_Logger {
     }
 
     public function error($message, $order_id) {
-        $this->options->update('last_error', __('Order', 'wc-eenvoudigfactureren' ) . ' #' . $order_id . ': '. $message . ' ( '.date('c').' )');
+        $this->options->update('last_error', __('Order', 'eenvoudigfactureren-for-woocommerce' ) . ' #' . $order_id . ': '. $message . ' ( '.date('c').' )');
 
         wc_get_logger()->error($message . ' (Order #'.$order_id.')', array('source' => 'EenvoudigFactureren'));
     }

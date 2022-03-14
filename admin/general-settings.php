@@ -16,9 +16,9 @@ class WcEenvoudigFactureren_GeneralSettings {
 
     public function save() {
         if(isset($_POST['wcef_save_general_setting'])){
-            $nonce = $_POST['wcef_post_security'];
+            $nonce = sanitize_text_field( $_POST['wcef_post_security'] );
             if ( ! wp_verify_nonce( $nonce, 'wcef_data' ) ) {
-                die( __( 'Security check', 'wc-eenvoudigfactureren' ) );
+                die( __( 'Security check', 'eenvoudigfactureren-for-woocommerce' ) );
             } else {
                 $layout_id = sanitize_text_field($_POST['wcef_document_layout']);
                 $document_type = sanitize_text_field($_POST['wcef_document_type']);
@@ -71,30 +71,30 @@ class WcEenvoudigFactureren_GeneralSettings {
 
 ?>
     <div class="wrap">
-        <h1><?php _e('EenvoudigFactureren General Settings', 'wc-eenvoudigfactureren' ); ?></h1>
+        <h1><?php _e('EenvoudigFactureren General Settings', 'eenvoudigfactureren-for-woocommerce' ); ?></h1>
         <form method="post">
             <table class="form-table">
                 <tbody>
                     <tr valign="top">
                         <th scope="row">
-                            <label><?php _e('Trigger Document Creation', 'wc-eenvoudigfactureren' ); ?></label>
+                            <label><?php _e('Trigger Document Creation', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
                         </th>
                         <td>
                             <select name="wcef_document_status" style="width: 30em;" id="wcef_document_status">
-                                <option value="processing" <?php if ($document_status=='processing') echo 'selected'; ?>><?php _e('On Order Created', 'wc-eenvoudigfactureren' ); ?></option>
-                                <option value="completed" <?php if ($document_status=='completed') echo 'selected'; ?>><?php _e('On Order Completed', 'wc-eenvoudigfactureren' ); ?></option>
-                                <option value="manual" <?php if ($document_status=='manual') echo 'selected'; ?>><?php _e('Manually', 'wc-eenvoudigfactureren' ); ?></option>
+                                <option value="processing" <?php if ($document_status=='processing') echo 'selected'; ?>><?php _e('On Order Created', 'eenvoudigfactureren-for-woocommerce' ); ?></option>
+                                <option value="completed" <?php if ($document_status=='completed') echo 'selected'; ?>><?php _e('On Order Completed', 'eenvoudigfactureren-for-woocommerce' ); ?></option>
+                                <option value="manual" <?php if ($document_status=='manual') echo 'selected'; ?>><?php _e('Manually', 'eenvoudigfactureren-for-woocommerce' ); ?></option>
                             </select>
                         </td>
                     </tr>
                     <tr valign="top">
                         <th scope="row">
-                            <label><?php _e('Document Type To Create', 'wc-eenvoudigfactureren' ); ?></label>
+                            <label><?php _e('Document Type To Create', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
                         </th>
                         <td>
                             <select name="wcef_document_type" style="width: 30em;" id="wcef_document_type">
-                                <option value="order" <?php if ($document_type=='order') echo 'selected'; ?>><?php _e('Order Form', 'wc-eenvoudigfactureren' ); ?></option>
-                                <option value="invoice" <?php if ($document_type=='invoice') echo 'selected'; ?>><?php _e('Invoice', 'wc-eenvoudigfactureren' ); ?></option>
+                                <option value="order" <?php if ($document_type=='order') echo 'selected'; ?>><?php _e('Order Form', 'eenvoudigfactureren-for-woocommerce' ); ?></option>
+                                <option value="invoice" <?php if ($document_type=='invoice') echo 'selected'; ?>><?php _e('Invoice', 'eenvoudigfactureren-for-woocommerce' ); ?></option>
                             </select>
                         </td>
                     </tr>
@@ -102,39 +102,39 @@ class WcEenvoudigFactureren_GeneralSettings {
                         <th scope="row">
                         </th>
                         <td>
-                            <label><input type="checkbox" value="1" name="wcef_mail_document" <?php if ($mail_document) echo 'checked'; ?>/> <?php _e('On creation automatically send to customer', 'wc-eenvoudigfactureren' ); ?></label>
+                            <label><input type="checkbox" value="1" name="wcef_mail_document" <?php if ($mail_document) echo 'checked'; ?>/> <?php _e('On creation automatically send to customer', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
                         </td>
                     </tr>
                     <tr valign="top">
                         <th scope="row">
                         </th>
                         <td>
-                            <label><input type="checkbox" value="1" name="wcef_set_paid" <?php if ($set_paid) echo 'checked'; ?>/> <?php _e('Automatically set as paid', 'wc-eenvoudigfactureren' ); ?></label>
+                            <label><input type="checkbox" value="1" name="wcef_set_paid" <?php if ($set_paid) echo 'checked'; ?>/> <?php _e('Automatically set as paid', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
                         </td>
                     </tr>
                     <tr valign="top">
                         <th scope="row">
                         </th>
                         <td>
-                            <label><input type="checkbox" value="1" name="wcef_add_sku" <?php if ($add_sku) echo 'checked'; ?>/> <?php _e('Add SKU', 'wc-eenvoudigfactureren' ); ?></label>
+                            <label><input type="checkbox" value="1" name="wcef_add_sku" <?php if ($add_sku) echo 'checked'; ?>/> <?php _e('Add SKU', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
                         </td>
                     </tr>
                     <tr valign="top">
                         <th scope="row">
                         </th>
                         <td>
-                            <label><input type="checkbox" value="1" name="wcef_search_client_number" <?php if ($search_client_number) echo 'checked'; ?>/> <?php _e('Use client number to search for existing clients', 'wc-eenvoudigfactureren' ); ?></label>
+                            <label><input type="checkbox" value="1" name="wcef_search_client_number" <?php if ($search_client_number) echo 'checked'; ?>/> <?php _e('Use client number to search for existing clients', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
                         </td>
                     </tr>
                     <tr valign="top">
                         <th scope="row">
-                            <label><?php _e('Layout To Use', 'wc-eenvoudigfactureren' ); ?></label>
+                            <label><?php _e('Layout To Use', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
                         </th>
                         <td>
                             <select name="wcef_document_layout" style="width: 30em;">
                                 <option value=""></option>
                                 <?php foreach ($layouts as $value): ?>
-                                    <option  value="<?php echo $value->layout_id ?>" <?php if ($layout_id == $value->layout_id) echo "selected"; ?>><?php echo $value->name; ?></option>';
+                                    <option  value="<?php echo esc_attr($value->layout_id); ?>" <?php if ($layout_id == $value->layout_id) echo "selected"; ?>><?php echo esc_html($value->name); ?></option>';
                                 <?php endforeach ?>
                             </select>
                         </td>
@@ -143,7 +143,7 @@ class WcEenvoudigFactureren_GeneralSettings {
                         <th scope="row"></th>
                         <td>
                             <input type="hidden" name="wcef_post_security" value="<?php echo wp_create_nonce( 'wcef_data' );?>">
-                            <p class="submit"><input type="submit" name="wcef_save_general_setting" class="button button-primary" value="<?php _e('Save Changes', 'wc-eenvoudigfactureren'); ?>"></p>
+                            <p class="submit"><input type="submit" name="wcef_save_general_setting" class="button button-primary" value="<?php _e('Save Changes', 'eenvoudigfactureren-for-woocommerce'); ?>"></p>
                         </td>
                     </tr>
                 </tbody>
@@ -156,9 +156,9 @@ class WcEenvoudigFactureren_GeneralSettings {
     private function show_not_connected() {
 ?>
     <div class="wrap">
-        <h1><?php _e('EenvoudigFactureren General Settings', 'wc-eenvoudigfactureren' ); ?></h1>
+        <h1><?php _e('EenvoudigFactureren General Settings', 'eenvoudigfactureren-for-woocommerce' ); ?></h1>
         <div class="error">
-            <p><strong><?php _e('ERROR :', 'wc-eenvoudigfactureren' );?></strong> <?php _e('Add credentials and verify connection to EenvoudigFactureren to continue.', 'wc-eenvoudigfactureren' );?></p>
+            <p><strong><?php _e('ERROR :', 'eenvoudigfactureren-for-woocommerce' );?></strong> <?php _e('Add credentials and verify connection to EenvoudigFactureren to continue.', 'eenvoudigfactureren-for-woocommerce' );?></p>
         </div>
     </div>
 <?php

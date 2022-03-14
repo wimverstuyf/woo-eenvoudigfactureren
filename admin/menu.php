@@ -15,9 +15,9 @@ class WcEenvoudigFactureren_Menu {
     }
 
     public function menu_page() {
-        add_menu_page( __( 'EenvoudigFactureren Settings', 'wc-eenvoudigfactureren' ), 'EenvoudigFactureren', 'manage_options', 'wc-eenvoudigfactureren-settings-page', false, 'dashicons-admin-generic', 80);
+        add_menu_page( __( 'EenvoudigFactureren Settings', 'eenvoudigfactureren-for-woocommerce' ), 'EenvoudigFactureren', 'manage_options', 'wc-eenvoudigfactureren-settings-page', false, 'dashicons-admin-generic', 80);
 
-        add_submenu_page( 'wc-eenvoudigfactureren-settings-page', __( 'EenvoudigFactureren Settings', 'wc-eenvoudigfactureren' ), __( 'API Settings', 'wc-eenvoudigfactureren' ), 'manage_options', 'wc-eenvoudigfactureren-settings-page', array($this->api_settings, 'show'));
-        add_submenu_page( 'wc-eenvoudigfactureren-settings-page', __( 'EenvoudigFactureren Settings', 'wc-eenvoudigfactureren' ), __( 'General Settings', 'wc-eenvoudigfactureren' ), 'manage_options', 'wc-eenvoudigfactureren-general-settings-page', array($this->general_settings, 'show'));
+        add_submenu_page( 'wc-eenvoudigfactureren-settings-page', __( 'EenvoudigFactureren Settings', 'eenvoudigfactureren-for-woocommerce' ), __( 'API Settings', 'eenvoudigfactureren-for-woocommerce' ), 'manage_options', 'wc-eenvoudigfactureren-settings-page', array($this->api_settings, 'show'));
+        add_submenu_page( 'wc-eenvoudigfactureren-settings-page', __( 'EenvoudigFactureren Settings', 'eenvoudigfactureren-for-woocommerce' ), __( 'General Settings', 'eenvoudigfactureren-for-woocommerce' ), 'manage_options', 'wc-eenvoudigfactureren-general-settings-page', array($this->general_settings, 'show'));
     }
 }

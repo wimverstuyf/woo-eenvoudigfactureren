@@ -23,7 +23,7 @@ class WcEenvoudigFactureren_Loader {
     }
 
     public static function load_languages() {
-        load_plugin_textdomain('wc-eenvoudigfactureren', false,  dirname( dirname( plugin_basename( __FILE__ ) ) )  . '/languages/');
+        load_plugin_textdomain('eenvoudigfactureren-for-woocommerce', false,  dirname( dirname( plugin_basename( __FILE__ ) ) )  . '/languages/');
     }
 
     private static function register_actions() {
