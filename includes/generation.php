@@ -58,6 +58,7 @@ class WcEenvoudigFactureren_Generation {
             $order = wc_get_order( $order_id );
 
             $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generating', true );
+            $order->save_meta_data();
 
             $error = '';
             $client_id = $this->create_or_update_client($order, $error);
