@@ -1,17 +1,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: EenvoudigFactureren for WooCommerce v1.0\n"
-"POT-Creation-Date: 2021-09-24 18:03+0200\n"
-"PO-Revision-Date: 2021-09-24 18:24+0200\n"
+"POT-Creation-Date: 2022-08-14 16:17+0200\n"
+"PO-Revision-Date: 2022-08-14 16:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: wimverstuyf\n"
 "Language: nl_BE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
-"X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.1.1\n"
+"X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -19,67 +19,67 @@ msgstr ""
 msgid "Security check"
 msgstr "Veiligheidscontrole"
 
-#: admin/api-settings.php:52
+#: admin/api-settings.php:53
 msgid "EenvoudigFactureren API Settings"
 msgstr "Koppeling met EenvoudigFactureren"
 
-#: admin/api-settings.php:61
+#: admin/api-settings.php:62
 msgid "Connection verified:"
 msgstr "Verbinding geverifieerd:"
 
-#: admin/api-settings.php:65
+#: admin/api-settings.php:66
 msgid "ERROR: Not connected"
 msgstr "FOUT: Niet verbonden"
 
-#: admin/api-settings.php:70
+#: admin/api-settings.php:71
 msgid "LAST ERROR:"
 msgstr "LAATSTE FOUT:"
 
-#: admin/api-settings.php:79
+#: admin/api-settings.php:80
 msgid "Website URL"
 msgstr "Website URL"
 
-#: admin/api-settings.php:82
+#: admin/api-settings.php:83
 msgid "Enter the EenvoudigFactureren Website URL"
 msgstr "Voeg de website URL van EenvoudigFactureren toe"
 
-#: admin/api-settings.php:87 admin/api-settings.php:102
+#: admin/api-settings.php:88 admin/api-settings.php:103
 msgid "Connect"
 msgstr "Connecteer"
 
-#: admin/api-settings.php:87
+#: admin/api-settings.php:88
 msgid "Recommended"
 msgstr "Aanbevolen"
 
-#: admin/api-settings.php:94
+#: admin/api-settings.php:95
 msgid "Api Key"
 msgstr "API-sleutel"
 
-#: admin/api-settings.php:97
+#: admin/api-settings.php:98
 msgid "Enter your API key at EenvoudigFactureren"
 msgstr "Voeg uw API-sleutel bij EenvoudigFactureren toe"
 
-#: admin/api-settings.php:102
+#: admin/api-settings.php:103
 msgid "Alternative"
 msgstr "Alternatief"
 
-#: admin/api-settings.php:109
+#: admin/api-settings.php:110
 msgid "Username"
 msgstr "Gebruikersnaam"
 
-#: admin/api-settings.php:112
+#: admin/api-settings.php:113
 msgid "Enter your e-mail address at EenvoudigFactureren"
 msgstr "Voeg uw e-mailadres bij EenvoudigFactureren toe"
 
-#: admin/api-settings.php:117
+#: admin/api-settings.php:118
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: admin/api-settings.php:120
+#: admin/api-settings.php:121
 msgid "Enter your password at EenvoudigFactureren"
 msgstr "Voeg uw wachtwoord bij EenvoudigFactureren toe"
 
-#: admin/api-settings.php:129
+#: admin/api-settings.php:130
 msgid "Verify and save settings"
 msgstr "Verifieer instellingen en sla op"
 
@@ -95,67 +95,88 @@ msgstr "Bestelbon aanmaken"
 msgid "Create invoice"
 msgstr "Factuur aanmaken"
 
-#: admin/general-settings.php:74 admin/general-settings.php:159
+#: admin/general-settings.php:90 admin/general-settings.php:209
 msgid "EenvoudigFactureren General Settings"
 msgstr "EenvoudigFactureren algemene instellingen"
 
-#: admin/general-settings.php:80
+#: admin/general-settings.php:96
 msgid "Trigger Document Creation"
 msgstr "Document aanmaken"
 
-#: admin/general-settings.php:84
+#: admin/general-settings.php:100
 msgid "On Order Created"
 msgstr "Als bestelling wordt aangemaakt"
 
-#: admin/general-settings.php:85
+#: admin/general-settings.php:101
 msgid "On Order Completed"
 msgstr "Als bestelling is afgerond"
 
-#: admin/general-settings.php:86
+#: admin/general-settings.php:102
 msgid "Manually"
 msgstr "Handmatig"
 
-#: admin/general-settings.php:92
+#: admin/general-settings.php:108
 msgid "Document Type To Create"
 msgstr "Aan te maken document"
 
-#: admin/general-settings.php:96 includes/generation.php:111
+#: admin/general-settings.php:112 includes/generation.php:116
 msgid "Order Form"
 msgstr "Bestelbon"
 
-#: admin/general-settings.php:97 includes/generation.php:111
+#: admin/general-settings.php:113 includes/generation.php:116
 msgid "Invoice"
 msgstr "Factuur"
 
-#: admin/general-settings.php:105
+#: admin/general-settings.php:121
 msgid "On creation automatically send to customer"
 msgstr "Tijdens aanmaak automatisch verzenden naar de klant"
 
-#: admin/general-settings.php:112
+#: admin/general-settings.php:128
 msgid "Automatically set as paid"
 msgstr "Factuur automatisch als betaald zetten"
 
-#: admin/general-settings.php:119
+#: admin/general-settings.php:135
 msgid "Add SKU"
 msgstr "Artikelnummer toevoegen indien beschikbaar"
 
-#: admin/general-settings.php:126
+#: admin/general-settings.php:142
 msgid "Use client number to search for existing clients"
 msgstr "Gebruik klantennummer om bestaande klanten op te zoeken"
 
-#: admin/general-settings.php:131
+#: admin/general-settings.php:149
+msgid "Use WooCommerce order number as reference on the document"
+msgstr "Gebruik WooCommerce ordernummer als referentie op het document"
+
+#: admin/general-settings.php:154
 msgid "Layout To Use"
 msgstr "Te gebruiken layout"
 
-#: admin/general-settings.php:146
+#: admin/general-settings.php:167
+msgid "General Ledger Account for Products"
+msgstr "Grootboekrekening voor producten"
+
+#: admin/general-settings.php:171 admin/general-settings.php:180
+#: admin/general-settings.php:189
+msgid "(Optional) Between 6 and 8 numeric characters, e.g. 700000"
+msgstr "(Optioneel) Tussen 6 en 8 numerieke karakters, bv. 700000"
+
+#: admin/general-settings.php:176
+msgid "General Ledger Account for Fees"
+msgstr "Grootboekrekening voor overige kosten"
+
+#: admin/general-settings.php:185
+msgid "General Ledger Account for Shipping"
+msgstr "Grootboekrekening voor verzendkosten"
+
+#: admin/general-settings.php:196
 msgid "Save Changes"
 msgstr "Wijzigingen opslaan"
 
-#: admin/general-settings.php:161
+#: admin/general-settings.php:211
 msgid "ERROR :"
 msgstr "FOUT:"
 
-#: admin/general-settings.php:161
+#: admin/general-settings.php:211
 msgid ""
 "Add credentials and verify connection to EenvoudigFactureren to continue."
 msgstr ""
@@ -174,37 +195,37 @@ msgstr "Koppeling"
 msgid "General Settings"
 msgstr "Instellingen"
 
-#: includes/generation.php:63
+#: includes/generation.php:68
 msgid "Could not create or update client"
 msgstr "Kon klant niet aanmaken of bijwerken"
 
-#: includes/generation.php:73
+#: includes/generation.php:78
 msgid "Could not generate document"
 msgstr "Kon document niet opbouwen"
 
-#: includes/generation.php:99
+#: includes/generation.php:104
 msgid "Could not create document"
 msgstr "Kon document niet aanmaken"
 
-#: includes/generation.php:147
+#: includes/generation.php:152
 msgid "Could not update client"
 msgstr "Kon klant niet bijwerken"
 
-#: includes/generation.php:159
+#: includes/generation.php:164
 msgid "Could not create client"
 msgstr "Kon klant niet aanmaken"
 
-#: includes/generation.php:333
+#: includes/generation.php:305 includes/logger.php:12
+msgid "Order"
+msgstr "Bestelling"
+
+#: includes/generation.php:368
 msgid "Multiple shipping methods not supported"
 msgstr "Meerdere verzendmethodes worden niet ondersteund"
 
-#: includes/generation.php:341
+#: includes/generation.php:376
 msgid "Shipping Costs:"
 msgstr "Verzendkosten:"
-
-#: includes/logger.php:12
-msgid "Order"
-msgstr "Bestelling"
 
 #~ msgid "Discount with different tax rates not supported"
 #~ msgstr "Korting met meerdere belastingtarieven niet ondersteund"

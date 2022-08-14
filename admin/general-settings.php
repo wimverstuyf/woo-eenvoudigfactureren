@@ -27,6 +27,10 @@ class WcEenvoudigFactureren_GeneralSettings {
                 $set_paid = isset($_POST['wcef_set_paid']) && $_POST['wcef_set_paid']=='1';
                 $add_sku = isset($_POST['wcef_add_sku']) && $_POST['wcef_add_sku']=='1';
                 $search_client_number = isset($_POST['wcef_search_client_number']) && $_POST['wcef_search_client_number']=='1';
+                $use_order_reference = isset($_POST['wcef_use_order_reference']) && $_POST['wcef_use_order_reference']=='1';
+                $gl_account_products = sanitize_text_field($_POST['wcef_gl_account_products']);
+                $gl_account_shipping = sanitize_text_field($_POST['wcef_gl_account_shipping']);
+                $gl_account_fees = sanitize_text_field($_POST['wcef_gl_account_fees']);
 
                 $this->options->update('layout_id',$layout_id);
                 $this->options->update('document_type',$document_type);
@@ -35,6 +39,10 @@ class WcEenvoudigFactureren_GeneralSettings {
                 $this->options->update('set_paid',$set_paid);
                 $this->options->update('add_sku',$add_sku);
                 $this->options->update('search_client_number', $search_client_number);
+                $this->options->update('use_order_reference', $use_order_reference);
+                $this->options->update('gl_account_products', $gl_account_products);
+                $this->options->update('gl_account_shipping', $gl_account_shipping);
+                $this->options->update('gl_account_fees', $gl_account_fees);
             }
         }
     }
@@ -58,10 +66,18 @@ class WcEenvoudigFactureren_GeneralSettings {
         $mail_document = !!$this->options->get('mail');
 
         $set_paid = !!$this->options->get('set_paid');
-        
+
         $add_sku = !!$this->options->get('add_sku');
-        
+
         $search_client_number = !!$this->options->get('search_client_number');
+
+        $use_order_reference = !!$this->options->get('use_order_reference');
+
+        $gl_account_products = $this->options->get('gl_account_products');
+
+        $gl_account_shipping = $this->options->get('gl_account_shipping');
+
+        $gl_account_fees = $this->options->get('gl_account_fees');
 
         $layout_id = $this->options->get('layout_id');
         $layouts = $this->client->get('layouts');
@@ -128,6 +144,13 @@ class WcEenvoudigFactureren_GeneralSettings {
                     </tr>
                     <tr valign="top">
                         <th scope="row">
+                        </th>
+                        <td>
+                            <label><input type="checkbox" value="1" name="wcef_use_order_reference" <?php if ($use_order_reference) echo 'checked'; ?>/> <?php _e('Use WooCommerce order number as reference on the document', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
                             <label><?php _e('Layout To Use', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
                         </th>
                         <td>
@@ -137,6 +160,33 @@ class WcEenvoudigFactureren_GeneralSettings {
                                     <option  value="<?php echo esc_attr($value->layout_id); ?>" <?php if ($layout_id == $value->layout_id) echo "selected"; ?>><?php echo esc_html($value->name); ?></option>';
                                 <?php endforeach ?>
                             </select>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
+                            <label><?php _e('General Ledger Account for Products', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
+                        </th>
+                        <td>
+                            <input type="text" value="<?php echo $gl_account_products; ?>" name="wcef_gl_account_products"/><br>
+                            <small><?php _e('(Optional) Between 6 and 8 numeric characters, e.g. 700000', 'eenvoudigfactureren-for-woocommerce' ); ?></small>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
+                            <label><?php _e('General Ledger Account for Fees', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
+                        </th>
+                        <td>
+                            <input type="text" value="<?php echo $gl_account_fees; ?>" name="wcef_gl_account_fees"/><br>
+                            <small><?php _e('(Optional) Between 6 and 8 numeric characters, e.g. 700000', 'eenvoudigfactureren-for-woocommerce' ); ?></small>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
+                            <label><?php _e('General Ledger Account for Shipping', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
+                        </th>
+                        <td>
+                            <input type="text" value="<?php echo $gl_account_shipping; ?>" name="wcef_gl_account_shipping"/><br>
+                            <small><?php _e('(Optional) Between 6 and 8 numeric characters, e.g. 700000', 'eenvoudigfactureren-for-woocommerce' ); ?></small>
                         </td>
                     </tr>
                     <tr valign="top">
