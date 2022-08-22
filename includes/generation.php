@@ -104,7 +104,7 @@ class WcEenvoudigFactureren_Generation {
                     $error = __("Could not create document", 'eenvoudigfactureren-for-woocommerce');
                 }
                 $this->logger->error($error, $order_id);
-                
+
                 $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generating', false );
             } else {
                 $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generated', true );
@@ -300,6 +300,11 @@ class WcEenvoudigFactureren_Generation {
             $document['layout_id'] = (int)$layout_id;
         }
 
+        if ($this->options->get('use_order_reference')) {
+            $order_reference = $order->get_order_number();
+            $document['reference'] = __('Order', 'eenvoudigfactureren-for-woocommerce') . ' ' . $order_reference;
+        }
+
         $exempt = $order->get_meta('is_vat_exempt', true) == 'yes';
         $exempt_reason = $exempt?(string)$order->get_meta('vat_exempt_reason', true):'';
 
@@ -308,6 +313,7 @@ class WcEenvoudigFactureren_Generation {
 
         $items = array();
         $tax_rates_in_use = [];
+        $gl_account_products = $this->options->get('gl_account_products');
         foreach ( $order->get_items() as $item_id => $item ) {
             $product = $item->get_product();
 
@@ -323,8 +329,10 @@ class WcEenvoudigFactureren_Generation {
                 'amount_with_tax' => $amount_with_tax,
                 'quantity' => $item->get_quantity(),
                 'tax_rate' => $tax_rate,
-                'tax_rate_special_status' => $exempt_reason,
+                'tax_rate_special_status' => $exempt_reason == 'IC' ? $product->is_virtual() ? 'ICD' : 'ICL' : $exempt_reason,
             ];
+
+            if (!!$gl_account_products) $item['general_ledger_account'] = $gl_account_products;
 
             if ($product && $this->options->get('add_sku') && $product->get_sku()) {
                 $item->{'stockitem_code'} = $product->get_sku();
@@ -332,6 +340,7 @@ class WcEenvoudigFactureren_Generation {
 
             $items[] = $item;
         }
+        $gl_account_fees = $this->options->get('gl_account_fees');
         foreach ( $order->get_fees() as $item_id => $item_fee) {
             $amount = $item_fee->get_total();
             $amount_with_tax = $amount + $item_fee->get_total_tax();
@@ -345,12 +354,15 @@ class WcEenvoudigFactureren_Generation {
                 'amount_with_tax' => $amount_with_tax,
                 'quantity' => 1,
                 'tax_rate' => $tax_rate,
-                'tax_rate_special_status' => $exempt_reason,
+                'tax_rate_special_status' => $exempt_reason == 'IC' ? 'ICD' : $exempt_reason,
             ];
+
+            if (!!$gl_account_fees) $item['general_ledger_account'] = $gl_account_fees;
 
             $items[] = $item;
         }
         if ($order->get_shipping_total() != 0) {
+            $gl_account_shipping = $this->options->get('gl_account_shipping');
             $shipping_items = $order->get_items( 'shipping' );
             if (count($shipping_items) > 1) {
                 $error = __('Multiple shipping methods not supported', 'eenvoudigfactureren-for-woocommerce');
@@ -360,14 +372,18 @@ class WcEenvoudigFactureren_Generation {
             $shipping = array_shift( $shipping_items );
 
             $tax_rate = $this->determine_tax_rate($tax_rates, $order->get_shipping_total(), $order->get_shipping_tax());
-            $items[] = (object)[
+            $item = (object)[
                 'description' => __('Shipping Costs:', 'eenvoudigfactureren-for-woocommerce') . ' ' . $order->get_shipping_method(),
                 'amount' => $order->get_shipping_total(),
                 'amount_with_tax' => $order->get_shipping_total()+$order->get_shipping_tax(),
                 'quantity' => 1,
                 'tax_rate' => $tax_rate,
-                'tax_rate_special_status' => $exempt_reason,
+                'tax_rate_special_status' => $exempt_reason == 'IC' ? 'ICD' : $exempt_reason,
             ];
+
+            if (!!$gl_account_shipping) $item['general_ledger_account'] = $gl_account_shipping;
+
+            $items[] = $item;
         }
         $document['items'] = $items;
 
