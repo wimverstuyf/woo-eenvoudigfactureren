@@ -329,10 +329,12 @@ class WcEenvoudigFactureren_Generation {
                 'amount_with_tax' => $amount_with_tax,
                 'quantity' => $item->get_quantity(),
                 'tax_rate' => $tax_rate,
-                'tax_rate_special_status' => $exempt_reason == 'IC' ? $product->is_virtual() ? 'ICD' : 'ICL' : $exempt_reason,
+                'tax_rate_special_status' => $exempt_reason == 'IC' ? ($product->is_virtual() ? 'ICD' : 'ICL') : $exempt_reason,
             ];
 
-            if (!!$gl_account_products) $item['general_ledger_account'] = $gl_account_products;
+            if (!!$gl_account_products) {
+                $item->general_ledger_account = $gl_account_products;
+            }
 
             if ($product && $this->options->get('add_sku') && $product->get_sku()) {
                 $item->{'stockitem_code'} = $product->get_sku();
@@ -357,7 +359,9 @@ class WcEenvoudigFactureren_Generation {
                 'tax_rate_special_status' => $exempt_reason == 'IC' ? 'ICD' : $exempt_reason,
             ];
 
-            if (!!$gl_account_fees) $item['general_ledger_account'] = $gl_account_fees;
+            if (!!$gl_account_fees) {
+                $item->general_ledger_account = $gl_account_fees;
+            }
 
             $items[] = $item;
         }
@@ -381,7 +385,9 @@ class WcEenvoudigFactureren_Generation {
                 'tax_rate_special_status' => $exempt_reason == 'IC' ? 'ICD' : $exempt_reason,
             ];
 
-            if (!!$gl_account_shipping) $item['general_ledger_account'] = $gl_account_shipping;
+            if (!!$gl_account_shipping) {
+                $item->general_ledger_account = $gl_account_shipping;
+            }
 
             $items[] = $item;
         }
