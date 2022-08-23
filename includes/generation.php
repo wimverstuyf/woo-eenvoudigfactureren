@@ -332,7 +332,7 @@ class WcEenvoudigFactureren_Generation {
                 'tax_rate_special_status' => $exempt_reason == 'IC' ? ($product->is_virtual() ? 'ICD' : 'ICL') : $exempt_reason,
             ];
 
-            if (!!$gl_account_products) {
+            if ($gl_account_products) {
                 $item->general_ledger_account = $gl_account_products;
             }
 
@@ -359,7 +359,7 @@ class WcEenvoudigFactureren_Generation {
                 'tax_rate_special_status' => $exempt_reason == 'IC' ? 'ICD' : $exempt_reason,
             ];
 
-            if (!!$gl_account_fees) {
+            if ($gl_account_fees) {
                 $item->general_ledger_account = $gl_account_fees;
             }
 
@@ -385,7 +385,7 @@ class WcEenvoudigFactureren_Generation {
                 'tax_rate_special_status' => $exempt_reason == 'IC' ? 'ICD' : $exempt_reason,
             ];
 
-            if (!!$gl_account_shipping) {
+            if ($gl_account_shipping) {
                 $item->general_ledger_account = $gl_account_shipping;
             }
 

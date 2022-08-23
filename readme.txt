@@ -4,7 +4,7 @@ Tags: WooCommerce, Invoice, Accounting, EenvoudigFactureren
 Requires at least: 5.2.0
 Tested up to: 6.0.0
 Requires PHP: 5.6.20
-Stable tag: 1.0.1
+Stable tag: 1.0.3
 WC requires at least: 3.6
 WC tested up to: 6.3
 License: GPLv2 or later
