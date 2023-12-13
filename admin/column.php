@@ -51,7 +51,7 @@ jQuery(document).on('click', '#create-document-<?php echo esc_attr($post->ID); ?
 -->
 </script>
 
-<a id="create-document-<?php echo esc_attr($post->ID); ?>" href="#create-document" class="button button-primary"><?php echo($this->options->get('document_type') == 'order' ? __( 'Create order', 'eenvoudigfactureren-for-woocommerce' ) : __( 'Create invoice', 'eenvoudigfactureren-for-woocommerce' ) ); ?></a>
+<a id="create-document-<?php echo esc_attr($post->ID); ?>" href="#create-document" class="button button-primary"><?php echo($this->options->get('document_type') == 'order' ? __( 'Create order', 'eenvoudigfactureren-for-woocommerce' ) : ($this->options->get('document_type') == 'receipt' ? __( 'Create receipt', 'eenvoudigfactureren-for-woocommerce' ) : __( 'Create invoice', 'eenvoudigfactureren-for-woocommerce' )) ); ?></a>
 <?php
             }
         }

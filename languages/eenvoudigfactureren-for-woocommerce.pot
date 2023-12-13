@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: EenvoudigFactureren for WooCommerce v1.0\n"
-"POT-Creation-Date: 2022-08-14 16:17+0200\n"
+"POT-Creation-Date: 2023-12-13 09:48+0100\n"
 "PO-Revision-Date: 2019-12-19 15:57+0100\n"
 "Last-Translator: \n"
 "Language-Team: wimverstuyf\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -96,6 +96,10 @@ msgstr ""
 msgid "Create invoice"
 msgstr ""
 
+#: admin/column.php:54
+msgid "Create receipt"
+msgstr ""
+
 #: admin/general-settings.php:90 admin/general-settings.php:209
 msgid "EenvoudigFactureren General Settings"
 msgstr ""
@@ -126,6 +130,10 @@ msgstr ""
 
 #: admin/general-settings.php:113 includes/generation.php:116
 msgid "Invoice"
+msgstr ""
+
+#: admin/general-settings.php:113 includes/generation.php:116
+msgid "Receipt"
 msgstr ""
 
 #: admin/general-settings.php:121
