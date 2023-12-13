@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: EenvoudigFactureren for WooCommerce v1.0\n"
-"POT-Creation-Date: 2022-08-14 16:17+0200\n"
-"PO-Revision-Date: 2023-12-13 09:48+0100\n"
+"POT-Creation-Date: 2023-12-13 10:02+0100\n"
+"PO-Revision-Date: 2023-12-13 14:10+0100\n"
 "Last-Translator: \n"
 "Language-Team: wimverstuyf\n"
 "Language: nl_BE\n"
@@ -92,14 +92,14 @@ msgid "Create order"
 msgstr "Bestelbon aanmaken"
 
 #: admin/column.php:54
-msgid "Create invoice"
-msgstr "Factuur aanmaken"
-
-#: admin/column.php:54
 msgid "Create receipt"
 msgstr "Kasticket aanmaken"
 
-#: admin/general-settings.php:90 admin/general-settings.php:209
+#: admin/column.php:54
+msgid "Create invoice"
+msgstr "Factuur aanmaken"
+
+#: admin/general-settings.php:90 admin/general-settings.php:210
 msgid "EenvoudigFactureren General Settings"
 msgstr "EenvoudigFactureren algemene instellingen"
 
@@ -123,68 +123,68 @@ msgstr "Handmatig"
 msgid "Document Type To Create"
 msgstr "Aan te maken document"
 
-#: admin/general-settings.php:112 includes/generation.php:116
+#: admin/general-settings.php:112 includes/generation.php:122
 msgid "Order Form"
 msgstr "Bestelbon"
 
-#: admin/general-settings.php:113 includes/generation.php:116
+#: admin/general-settings.php:113 includes/generation.php:122
 msgid "Invoice"
 msgstr "Factuur"
 
-#: admin/general-settings.php:114 includes/generation.php:116
+#: admin/general-settings.php:114 includes/generation.php:122
 msgid "Receipt"
 msgstr "Kasticket"
 
-#: admin/general-settings.php:121
+#: admin/general-settings.php:122
 msgid "On creation automatically send to customer"
 msgstr "Tijdens aanmaak automatisch verzenden naar de klant"
 
-#: admin/general-settings.php:128
+#: admin/general-settings.php:129
 msgid "Automatically set as paid"
 msgstr "Factuur automatisch als betaald zetten"
 
-#: admin/general-settings.php:135
+#: admin/general-settings.php:136
 msgid "Add SKU"
 msgstr "Artikelnummer toevoegen indien beschikbaar"
 
-#: admin/general-settings.php:142
+#: admin/general-settings.php:143
 msgid "Use client number to search for existing clients"
 msgstr "Gebruik klantennummer om bestaande klanten op te zoeken"
 
-#: admin/general-settings.php:149
+#: admin/general-settings.php:150
 msgid "Use WooCommerce order number as reference on the document"
 msgstr "Gebruik WooCommerce ordernummer als referentie op het document"
 
-#: admin/general-settings.php:154
+#: admin/general-settings.php:155
 msgid "Layout To Use"
 msgstr "Te gebruiken layout"
 
-#: admin/general-settings.php:167
+#: admin/general-settings.php:168
 msgid "General Ledger Account for Products"
 msgstr "Grootboekrekening voor producten"
 
-#: admin/general-settings.php:171 admin/general-settings.php:180
-#: admin/general-settings.php:189
+#: admin/general-settings.php:172 admin/general-settings.php:181
+#: admin/general-settings.php:190
 msgid "(Optional) Between 6 and 8 numeric characters, e.g. 700000"
 msgstr "(Optioneel) Tussen 6 en 8 numerieke karakters, bv. 700000"
 
-#: admin/general-settings.php:176
+#: admin/general-settings.php:177
 msgid "General Ledger Account for Fees"
 msgstr "Grootboekrekening voor overige kosten"
 
-#: admin/general-settings.php:185
+#: admin/general-settings.php:186
 msgid "General Ledger Account for Shipping"
 msgstr "Grootboekrekening voor verzendkosten"
 
-#: admin/general-settings.php:196
+#: admin/general-settings.php:197
 msgid "Save Changes"
 msgstr "Wijzigingen opslaan"
 
-#: admin/general-settings.php:211
+#: admin/general-settings.php:212
 msgid "ERROR :"
 msgstr "FOUT:"
 
-#: admin/general-settings.php:211
+#: admin/general-settings.php:212
 msgid ""
 "Add credentials and verify connection to EenvoudigFactureren to continue."
 msgstr ""
@@ -211,27 +211,27 @@ msgstr "Kon klant niet aanmaken of bijwerken"
 msgid "Could not generate document"
 msgstr "Kon document niet opbouwen"
 
-#: includes/generation.php:104
+#: includes/generation.php:110
 msgid "Could not create document"
 msgstr "Kon document niet aanmaken"
 
-#: includes/generation.php:152
+#: includes/generation.php:158
 msgid "Could not update client"
 msgstr "Kon klant niet bijwerken"
 
-#: includes/generation.php:164
+#: includes/generation.php:170
 msgid "Could not create client"
 msgstr "Kon klant niet aanmaken"
 
-#: includes/generation.php:305 includes/logger.php:12
+#: includes/generation.php:311 includes/logger.php:12
 msgid "Order"
 msgstr "Bestelling"
 
-#: includes/generation.php:368
+#: includes/generation.php:378
 msgid "Multiple shipping methods not supported"
 msgstr "Meerdere verzendmethodes worden niet ondersteund"
 
-#: includes/generation.php:376
+#: includes/generation.php:386
 msgid "Shipping Costs:"
 msgstr "Verzendkosten:"
 
