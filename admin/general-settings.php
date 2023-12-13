@@ -111,6 +111,7 @@ class WcEenvoudigFactureren_GeneralSettings {
                             <select name="wcef_document_type" style="width: 30em;" id="wcef_document_type">
                                 <option value="order" <?php if ($document_type=='order') echo 'selected'; ?>><?php _e('Order Form', 'eenvoudigfactureren-for-woocommerce' ); ?></option>
                                 <option value="invoice" <?php if ($document_type=='invoice') echo 'selected'; ?>><?php _e('Invoice', 'eenvoudigfactureren-for-woocommerce' ); ?></option>
+                                <option value="receipt" <?php if ($document_type=='receipt') echo 'selected'; ?>><?php _e('Receipt', 'eenvoudigfactureren-for-woocommerce' ); ?></option>
                             </select>
                         </td>
                     </tr>

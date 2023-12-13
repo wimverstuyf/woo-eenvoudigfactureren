@@ -85,6 +85,9 @@ class WcEenvoudigFactureren_Generation {
             if ($this->options->get('document_type') == 'order') {
                 $domain = 'orders';
             }
+            if ($this->options->get('document_type') == 'receipt') {
+                $domain = 'receipts';
+            }
 
             $create_result = $this->client->post($domain, $document, $error);
 
@@ -97,6 +100,9 @@ class WcEenvoudigFactureren_Generation {
             }
             if ($create_result && property_exists($create_result, 'order_id')) {
                 $document_id = (int)$create_result->order_id;
+            }
+            if ($create_result && property_exists($create_result, 'receipt_id')) {
+                $document_id = (int)$create_result->receipt_id;
             }
 
             if ($error || !$document_id) {
@@ -113,7 +119,7 @@ class WcEenvoudigFactureren_Generation {
                 $document = $this->client->get($domain . '/' . $document_id);
                 if ($document) { // should always be true
                     $document_url = $this->options->get('website_url') . '/' . $domain . '#pg=view&doc_id=' . $document_id;
-                    $document_name = ($domain == 'invoices'?__('Invoice','eenvoudigfactureren-for-woocommerce'):__('Order Form','eenvoudigfactureren-for-woocommerce')) . ' ' . $document->number;
+                    $document_name = ($domain == 'invoices'?__('Invoice','eenvoudigfactureren-for-woocommerce'):($domain == 'receipts'?__('Receipt','eenvoudigfactureren-for-woocommerce'):__('Order Form','eenvoudigfactureren-for-woocommerce'))) . ' ' . $document->number;
 
                     $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_url', $document_url );
                     $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_name', $document_name );

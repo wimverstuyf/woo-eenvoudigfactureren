@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: EenvoudigFactureren for WooCommerce v1.0\n"
-"POT-Creation-Date: 2022-08-14 16:17+0200\n"
+"POT-Creation-Date: 2023-12-13 10:03+0100\n"
 "PO-Revision-Date: 2019-12-19 15:57+0100\n"
 "Last-Translator: \n"
 "Language-Team: wimverstuyf\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -93,10 +93,14 @@ msgid "Create order"
 msgstr ""
 
 #: admin/column.php:54
+msgid "Create receipt"
+msgstr ""
+
+#: admin/column.php:54
 msgid "Create invoice"
 msgstr ""
 
-#: admin/general-settings.php:90 admin/general-settings.php:209
+#: admin/general-settings.php:90 admin/general-settings.php:210
 msgid "EenvoudigFactureren General Settings"
 msgstr ""
 
@@ -120,64 +124,68 @@ msgstr ""
 msgid "Document Type To Create"
 msgstr ""
 
-#: admin/general-settings.php:112 includes/generation.php:116
+#: admin/general-settings.php:112 includes/generation.php:122
 msgid "Order Form"
 msgstr ""
 
-#: admin/general-settings.php:113 includes/generation.php:116
+#: admin/general-settings.php:113 includes/generation.php:122
 msgid "Invoice"
 msgstr ""
 
-#: admin/general-settings.php:121
+#: admin/general-settings.php:114 includes/generation.php:122
+msgid "Receipt"
+msgstr ""
+
+#: admin/general-settings.php:122
 msgid "On creation automatically send to customer"
 msgstr ""
 
-#: admin/general-settings.php:128
+#: admin/general-settings.php:129
 msgid "Automatically set as paid"
 msgstr ""
 
-#: admin/general-settings.php:135
+#: admin/general-settings.php:136
 msgid "Add SKU"
 msgstr ""
 
-#: admin/general-settings.php:142
+#: admin/general-settings.php:143
 msgid "Use client number to search for existing clients"
 msgstr ""
 
-#: admin/general-settings.php:149
+#: admin/general-settings.php:150
 msgid "Use WooCommerce order number as reference on the document"
 msgstr ""
 
-#: admin/general-settings.php:154
+#: admin/general-settings.php:155
 msgid "Layout To Use"
 msgstr ""
 
-#: admin/general-settings.php:167
+#: admin/general-settings.php:168
 msgid "General Ledger Account for Products"
 msgstr ""
 
-#: admin/general-settings.php:171 admin/general-settings.php:180
-#: admin/general-settings.php:189
+#: admin/general-settings.php:172 admin/general-settings.php:181
+#: admin/general-settings.php:190
 msgid "(Optional) Between 6 and 8 numeric characters, e.g. 700000"
 msgstr ""
 
-#: admin/general-settings.php:176
+#: admin/general-settings.php:177
 msgid "General Ledger Account for Fees"
 msgstr ""
 
-#: admin/general-settings.php:185
+#: admin/general-settings.php:186
 msgid "General Ledger Account for Shipping"
 msgstr ""
 
-#: admin/general-settings.php:196
+#: admin/general-settings.php:197
 msgid "Save Changes"
 msgstr ""
 
-#: admin/general-settings.php:211
+#: admin/general-settings.php:212
 msgid "ERROR :"
 msgstr ""
 
-#: admin/general-settings.php:211
+#: admin/general-settings.php:212
 msgid "Add credentials and verify connection to EenvoudigFactureren to continue."
 msgstr ""
 
@@ -201,26 +209,26 @@ msgstr ""
 msgid "Could not generate document"
 msgstr ""
 
-#: includes/generation.php:104
+#: includes/generation.php:110
 msgid "Could not create document"
 msgstr ""
 
-#: includes/generation.php:152
+#: includes/generation.php:158
 msgid "Could not update client"
 msgstr ""
 
-#: includes/generation.php:164
+#: includes/generation.php:170
 msgid "Could not create client"
 msgstr ""
 
-#: includes/generation.php:305 includes/logger.php:12
+#: includes/generation.php:311 includes/logger.php:12
 msgid "Order"
 msgstr ""
 
-#: includes/generation.php:368
+#: includes/generation.php:378
 msgid "Multiple shipping methods not supported"
 msgstr ""
 
-#: includes/generation.php:376
+#: includes/generation.php:386
 msgid "Shipping Costs:"
 msgstr ""
