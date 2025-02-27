@@ -222,7 +222,17 @@ class WcEenvoudigFactureren_Generation {
         }
 
         // try looking for a vat number
-        foreach(['_vat_number', '_billing_vat_number', 'vat_number', '_billing_vat', '_billing_eu_vat_number', '_billing_btw_nummer'] as $meta) {
+        $meta_keys = apply_filters('wc_eenvfact_vat_keys', [
+            '_vat_number',
+            '_billing_vat_number',
+            'vat_number',
+            '_billing_vat',
+            '_billing_eu_vat_number',
+            '_billing_btw_nummer',
+            'yweu_billing_vat'
+        ]);
+
+        foreach($meta_keys as $meta) {
             $vat_number = $order->get_meta( $meta, true );
             if ($vat_number) {
                 break;
