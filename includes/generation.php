@@ -54,7 +54,15 @@ class WcEenvoudigFactureren_Generation {
             return;
         }
 
-        if( ! get_post_meta( $order_id, WC_EENVFACT_OPTION_PREFIX . 'document_generated', true ) && ! get_post_meta( $order_id, WC_EENVFACT_OPTION_PREFIX . 'document_generating', true ) ) {
+        // Allow skipping of invoice generation
+        // Skip when document is already generating or generated
+        $should_skip = apply_filters('wc_eenvfact_should_skip_generation',
+            get_post_meta($order_id, WC_EENVFACT_OPTION_PREFIX . 'document_generated', true) || 
+            get_post_meta($order_id, WC_EENVFACT_OPTION_PREFIX . 'document_generating', true), 
+            $order_id
+        );
+
+        if(!$should_skip) {
             $order = wc_get_order( $order_id );
 
             $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generating', true );
