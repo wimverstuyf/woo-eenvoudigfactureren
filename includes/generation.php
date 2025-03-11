@@ -136,10 +136,14 @@ class WcEenvoudigFactureren_Generation {
                 $order->save();
 
                 if ($this->options->get('mail')) {
-                    $this->client->post($domain.'/'.$document_id.'/sendemail', ['recipient'=>'main_contact'], $error);
-
-                    if ($error) {
-                        $this->logger->error($error, $order_id);
+                    $should_send = !$this->options->get('mail_document_only_business_orders') || (!empty($this->get_vat_number($order)));
+                    
+                    if ($should_send) {
+                        $this->client->post($domain.'/'.$document_id.'/sendemail', ['recipient'=>'main_contact'], $error);
+                        
+                        if ($error) {
+                            $this->logger->error($error, $order_id);
+                        }
                     }
                 }
             }
@@ -229,27 +233,7 @@ class WcEenvoudigFactureren_Generation {
             $attention = '';
         }
 
-        // try looking for a vat number
-        $meta_keys = apply_filters('wc_eenvfact_vat_keys', [
-            '_vat_number',
-            '_billing_vat_number',
-            'vat_number',
-            '_billing_vat',
-            '_billing_eu_vat_number',
-            '_billing_btw_nummer',
-            'yweu_billing_vat'
-        ]);
-
-        foreach($meta_keys as $meta) {
-            $vat_number = $order->get_meta( $meta, true );
-            if ($vat_number) {
-                break;
-            }
-        }
-        if (!$vat_number) {
-            $vat_number = '';
-        }
-
+        $vat_number = $this->get_vat_number($order);
         $client = (object)[
             'external_client_id' => '',
             'name' => $name,
@@ -277,7 +261,7 @@ class WcEenvoudigFactureren_Generation {
 
         return $client;
     }
-
+ 
     private function tax_rates() {
         $tax_rates = [];
         $taxes = $this->client->get('api/v1/settings?fields=taxes');
@@ -425,5 +409,27 @@ class WcEenvoudigFactureren_Generation {
         }
 
         return (object)$document;
+    }
+
+    private function get_vat_number($order) {
+        // try looking for a vat number
+        $meta_keys = apply_filters('wc_eenvfact_vat_keys', [
+            '_vat_number',
+            '_billing_vat_number',
+            'vat_number',
+            '_billing_vat',
+            '_billing_eu_vat_number',
+            '_billing_btw_nummer',
+            'yweu_billing_vat'
+        ]);
+
+        foreach($meta_keys as $meta) {
+            $vat_number = $order->get_meta( $meta, true );
+            if ($vat_number) {
+                return $vat_number;
+            }
+        }
+        
+        return '';
     }
 }
