@@ -24,6 +24,7 @@ class WcEenvoudigFactureren_GeneralSettings {
                 $document_type = sanitize_text_field($_POST['wcef_document_type']);
                 $document_status = sanitize_text_field($_POST['wcef_document_status']);
                 $mail_document = isset($_POST['wcef_mail_document']) && $_POST['wcef_mail_document']=='1';
+                $mail_document_only_business_orders = isset($_POST['wcef_mail_document_only_business_orders']) && $_POST['wcef_mail_document_only_business_orders']=='1';
                 $set_paid = isset($_POST['wcef_set_paid']) && $_POST['wcef_set_paid']=='1';
                 $add_sku = isset($_POST['wcef_add_sku']) && $_POST['wcef_add_sku']=='1';
                 $search_client_number = isset($_POST['wcef_search_client_number']) && $_POST['wcef_search_client_number']=='1';
@@ -36,6 +37,7 @@ class WcEenvoudigFactureren_GeneralSettings {
                 $this->options->update('document_type',$document_type);
                 $this->options->update('document_status',$document_status);
                 $this->options->update('mail',$mail_document);
+                $this->options->update('mail_document_only_business_orders', $mail_document_only_business_orders);
                 $this->options->update('set_paid',$set_paid);
                 $this->options->update('add_sku',$add_sku);
                 $this->options->update('search_client_number', $search_client_number);
@@ -64,6 +66,8 @@ class WcEenvoudigFactureren_GeneralSettings {
         }
 
         $mail_document = !!$this->options->get('mail');
+
+        $mail_document_only_business_orders = !!$this->options->get('mail_document_only_business_orders');
 
         $set_paid = !!$this->options->get('set_paid');
 
@@ -120,6 +124,13 @@ class WcEenvoudigFactureren_GeneralSettings {
                         </th>
                         <td>
                             <label><input type="checkbox" value="1" name="wcef_mail_document" <?php if ($mail_document) echo 'checked'; ?>/> <?php _e('On creation automatically send to customer', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
+                        </th>
+                        <td>
+                            <label><input type="checkbox" value="1" name="wcef_mail_document_only_business_orders" <?php if ($mail_document_only_business_orders) echo 'checked'; ?>/> <?php _e('Only send to customer when order is for business customer', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
                         </td>
                     </tr>
                     <tr valign="top">
