@@ -6,7 +6,7 @@
  * Author: EenvoudigFactureren
  * Author URI: https://eenvoudigfactureren.be
  * Text Domain: eenvoudigfactureren-for-woocommerce
- * Version: 1.0.4
+ * Version: 1.0.17
  * Requires at least: 5.2.0
  * Requires PHP: 5.6.20
  * Domain Path: /languages
