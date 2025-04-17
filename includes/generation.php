@@ -301,7 +301,11 @@ class WcEenvoudigFactureren_Generation {
     private function build_document($order, $client_id, &$error) {
         $document = array();
         $document['client_id'] = $client_id;
-        $document['language'] = $this->get_order_language($order);
+
+        $language = $this->get_order_language($order);
+        if ($language) {
+            $document['language'] = $language;
+        }
 
         $layout_id = $this->options->get('layout_id');
         if ($layout_id) {
@@ -450,7 +454,6 @@ class WcEenvoudigFactureren_Generation {
             }
         }
 
-        // Return a fallback language
-        return $locales['nl'];
+        return false;
     }
 }
