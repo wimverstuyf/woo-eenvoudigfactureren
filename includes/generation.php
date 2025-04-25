@@ -20,7 +20,6 @@ class WcEenvoudigFactureren_Generation {
     }
 
     public function triggered_new_order( $order_id ) {
-
         // if is vat exempt find exempt reason in 'Zero rate' tarifs
         // needs to be executed here because customer is only available at checkout
         if ($order_id && get_post_meta( $order_id, 'is_vat_exempt', true ) == 'yes') {
@@ -96,6 +95,7 @@ class WcEenvoudigFactureren_Generation {
             if ($this->options->get('document_type') == 'receipt') {
                 $domain = 'receipts';
             }
+
 
             $create_result = $this->client->post($domain, $document, $error);
 
@@ -299,9 +299,13 @@ class WcEenvoudigFactureren_Generation {
     }
 
     private function build_document($order, $client_id, &$error) {
-
         $document = array();
         $document['client_id'] = $client_id;
+
+        $language = $this->get_order_language($order);
+        if ($language) {
+            $document['language'] = $language;
+        }
 
         $layout_id = $this->options->get('layout_id');
         if ($layout_id) {
@@ -407,7 +411,7 @@ class WcEenvoudigFactureren_Generation {
                 'description' => 'WooCommerce',
             ]];
         }
-
+        
         return (object)$document;
     }
 
@@ -416,10 +420,11 @@ class WcEenvoudigFactureren_Generation {
         $meta_keys = apply_filters('wc_eenvfact_vat_keys', [
             '_vat_number',
             '_billing_vat_number',
-            'vat_number',
             '_billing_vat',
             '_billing_eu_vat_number',
             '_billing_btw_nummer',
+            '_billing_yweu_vat',
+            'vat_number',
             'yweu_billing_vat'
         ]);
 
@@ -431,5 +436,24 @@ class WcEenvoudigFactureren_Generation {
         }
         
         return '';
+    }
+
+    private function get_order_language($order) {
+        $meta_keys = ['wpml_language'];
+        $locales = [
+            'nl' => 'dutch',
+            'fr' => 'french',
+            'de' => 'german',
+            'en' => 'english',
+        ];
+    
+        foreach ($meta_keys as $meta) {
+            $code = $order->get_meta($meta, true);
+            if (!empty($code ) && isset( $locales[$code])) {
+                return $locales[$code];
+            }
+        }
+
+        return false;
     }
 }
