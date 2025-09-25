@@ -96,7 +96,6 @@ class WcEenvoudigFactureren_Generation {
                 $domain = 'receipts';
             }
 
-
             $create_result = $this->client->post($domain, $document, $error);
 
             if ($create_result && property_exists($create_result, 'error')) {
@@ -139,7 +138,11 @@ class WcEenvoudigFactureren_Generation {
                     $should_send = !$this->options->get('mail_document_only_business_orders') || (!empty($this->get_vat_number($order)));
                     
                     if ($should_send) {
-                        $this->client->post($domain.'/'.$document_id.'/sendemail', ['recipient'=>'main_contact'], $error);
+                        if ($domain == 'invoices' && !empty($this->get_vat_number($order))) {
+                            $this->client->post($domain.'/'.$document_id.'/send', ['methods'=>['peppol'=>[], 'email'=>['recipient'=>'main_contact']]], $error);
+                        } else {
+                            $this->client->post($domain.'/'.$document_id.'/sendemail', ['recipient'=>'main_contact'], $error);
+                        }
                         
                         if ($error) {
                             $this->logger->error($error, $order_id);
@@ -261,7 +264,7 @@ class WcEenvoudigFactureren_Generation {
 
         return $client;
     }
- 
+
     private function tax_rates() {
         $tax_rates = [];
         $taxes = $this->client->get('api/v1/settings?fields=taxes');

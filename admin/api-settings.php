@@ -54,7 +54,7 @@ class WcEenvoudigFactureren_ApiSettings {
 
         <?php if(isset($_GET['error_description'])){ ?>
             <div class="error">
-                <p><strong><?php echo esc_html(sanitize_text_field( $_GET['error_description'] ));?></strong></p></div>
+                <p><strong><?php echo esc_html(sanitize_text_field( $_GET['error_description'] ));?></strong></p>
             </div>
         <?php } ?>
         <?php if ($this->options->get('verified')) { ?>
