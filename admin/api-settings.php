@@ -11,7 +11,7 @@ class WcEenvoudigFactureren_ApiSettings {
     }
 
     public function register_actions() {
-        add_action( 'init', array($this, 'save') );
+        add_action( 'admin_post_wcef_save_api_setting', array( $this, 'save' ) );
     }
 
     private function scramble_apikey($apikey) {
@@ -23,56 +23,84 @@ class WcEenvoudigFactureren_ApiSettings {
     }
 
     public function save() {
-        if(isset($_POST['wcef_save_api_setting'])){
-            $nonce = sanitize_text_field( $_POST['wcef_post_security'] );
-            if ( ! wp_verify_nonce( $nonce, 'wcef_data' ) ) {
-                die( __( 'Security check', 'eenvoudigfactureren-for-woocommerce' ) );
-            } else {
-                $this->options->update('website_url', sanitize_text_field( $_POST['wcef_websiteurl'] ));
-                $this->options->update('username', sanitize_text_field( $_POST['wcef_username'] ));
-                $this->options->update('last_error', '');
-
-                $password = sanitize_text_field( $_POST['wcef_password'] );
-                if (!$password || $password != str_repeat('*', strlen($password))) {
-                    $this->options->update('password',$password);
-                }
-
-                $apikey = sanitize_text_field( $_POST['wcef_apikey'] );
-                if (!$apikey || $apikey != $this->scramble_apikey($apikey)) {
-                    $this->options->update('apikey',$apikey);
-                }
-
-                $this->verify();
-            }
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_die( __( 'Insufficient privileges', 'eenvoudigfactureren-for-woocommerce' ) );
         }
-    }
+        check_admin_referer( 'wcef_data', 'wcef_post_security' );
 
+        $this->options->update('website_url', sanitize_text_field( $_POST['wcef_websiteurl'] ));
+        $this->options->update('username', sanitize_text_field( $_POST['wcef_username'] ));
+        $this->options->update('last_error', '');
+
+        $password = sanitize_text_field( $_POST['wcef_password'] );
+        if (!$password || $password != str_repeat('*', strlen($password))) {
+            $this->options->update('password',$password);
+        }
+
+        $apikey = sanitize_text_field( $_POST['wcef_apikey'] );
+        if (!$apikey || $apikey != $this->scramble_apikey($apikey)) {
+            $this->options->update('apikey',$apikey);
+        }
+        
+        $this->verify();
+
+        $page = isset($_POST['_wcef_page']) ? sanitize_key($_POST['_wcef_page']) : 'wc-eenvoudigfactureren-settings-page';
+
+        $result = $this->options->get('verified') ? 'ok' : 'fail';
+        $url = add_query_arg(
+            array( 'page' => $page, 'wcef_result' => $result ),
+            admin_url( 'admin.php' )
+        );
+        wp_safe_redirect( $url );
+        exit;
+    }
+    
     public function show() {
 ?>
     <div class="wrap">
         <h1><?php _e('EenvoudigFactureren API Settings', 'eenvoudigfactureren-for-woocommerce' ); ?></h1>
 
-        <?php if(isset($_GET['error_description'])){ ?>
-            <div class="error">
-                <p><strong><?php echo esc_html(sanitize_text_field( $_GET['error_description'] ));?></strong></p>
-            </div>
-        <?php } ?>
-        <?php if ($this->options->get('verified')) { ?>
-            <div class="updated notice">
-                <p><?php echo __( 'Connection verified:', 'eenvoudigfactureren-for-woocommerce' ) . ' ' . esc_html($this->options->get('account')); ?></p>
-            </div>
-        <?php } else { ?>
-            <div class="error notice">
-                <p><?php _e( 'ERROR: Not connected', 'eenvoudigfactureren-for-woocommerce' ); ?></p>
-            </div>
-        <?php } ?>
+        <?php if ( isset($_GET['wcef_result']) ) : ?>
+            <?php if ( $_GET['wcef_result'] === 'ok' ) : ?>
+                <div class="notice notice-success is-dismissible">
+                    <p><?php echo __( 'Connection verified:', 'eenvoudigfactureren-for-woocommerce' ) . ' ' . esc_html( $this->options->get('account') ); ?></p>
+                </div>
+            <?php else : ?>
+                <div class="notice notice-error is-dismissible">
+                    <p><?php
+                        echo esc_html__( 'ERROR: Not connected', 'eenvoudigfactureren-for-woocommerce' );
+                        $last_error = $this->options->get('last_error');
+                        if ( $last_error ) {
+                            echo ' — ' . esc_html( mb_substr( $last_error, 0, 10000 ) );
+                        }
+                    ?></p>
+                </div>
+            <?php endif; ?>
+        <?php else : ?>
+            <?php if ( $this->options->get('verified') ) : ?>
+                <div class="notice notice-success is-dismissible">
+                    <p><?php echo __( 'Connection verified:', 'eenvoudigfactureren-for-woocommerce' ) . ' ' . esc_html( $this->options->get('account') ); ?></p>
+                </div>
+            <?php else : ?>
+                <div class="notice notice-error is-dismissible">
+                    <p><?php _e( 'ERROR: Not connected', 'eenvoudigfactureren-for-woocommerce' ); ?></p>
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
+
         <?php if ($this->options->get('last_error')) { ?>
             <div class="error notice">
                 <p><?php echo __( 'LAST ERROR:', 'eenvoudigfactureren-for-woocommerce' ) . ' ' . esc_html(mb_substr($this->options->get('last_error'), 0, 10000)); ?></p>
             </div>
         <?php } ?>
 
-        <form method="post">
+
+        <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+            <input type="hidden" name="action" value="wcef_save_api_setting">
+            <input type="hidden" name="wcef_post_security" value="<?php echo wp_create_nonce( "wcef_data" ); ?>">
+            <input type="hidden" name="_wcef_page" value="<?php echo esc_attr( isset($_GET['page']) ? $_GET['page'] : 'wc-eenvoudigfactureren-settings-page' ); ?>">
+
+
             <table class="form-table">
                 <tbody>
                     <tr valign="top">
@@ -95,7 +123,7 @@ class WcEenvoudigFactureren_ApiSettings {
                             <label><?php _e('Api Key', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
                         </th>
                         <td>
-                            <input name="wcef_apikey" style="width: 30em;" type="text" placeholder="<?php _e('Enter your API key at EenvoudigFactureren', 'eenvoudigfactureren-for-woocommerce' ); ?>" value="<?php echo esc_attr($this->scramble_apikey($this->options->get('apikey'))); ?>">
+                            <input name="wcef_apikey" style="width: 30em;" type="text" autocomplete="off" placeholder="<?php _e('Enter your API key at EenvoudigFactureren', 'eenvoudigfactureren-for-woocommerce' ); ?>" value="<?php echo esc_attr($this->scramble_apikey($this->options->get('apikey'))); ?>">
                         </td>
                     </tr>
                     <tr valign="top">
@@ -126,7 +154,6 @@ class WcEenvoudigFactureren_ApiSettings {
                         </th>
                         <td>
                             <p class="submit">
-                                <input type="hidden" name="wcef_post_security" value="<?php echo wp_create_nonce( "wcef_data" ); ?>">
                                 <input type="submit" name="wcef_save_api_setting" class="button button-primary" value="<?php _e('Verify and save settings', 'eenvoudigfactureren-for-woocommerce' ); ?>">
                             </p>
                         </td>
@@ -145,9 +172,16 @@ class WcEenvoudigFactureren_ApiSettings {
 
         $account = $this->client->get('accounts/current');
 
-        if ($account && $account->number !== '') {
-            $this->options->update('verified',true);
-            $this->options->update('account', sanitize_text_field( $account->name ? $account->name : $account->number ));
+        if ( is_wp_error( $account ) ) {
+            $this->options->update('last_error', $account->get_error_message() );
+            return;
         }
+        if ( ! $account || empty( $account->number ) ) {
+            $this->options->update('last_error', __( 'Invalid response from server', 'eenvoudigfactureren-for-woocommerce' ) );
+            return;
+        }
+
+        $this->options->update('verified',true);
+        $this->options->update('account', sanitize_text_field( $account->name ? $account->name : $account->number ));
     }
 }

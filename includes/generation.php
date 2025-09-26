@@ -53,6 +53,9 @@ class WcEenvoudigFactureren_Generation {
             return;
         }
 
+        $order = wc_get_order( $order_id );
+        $gen_error = '';
+
         // Allow skipping of invoice generation
         // Skip when document is already generating or generated
         $should_skip = apply_filters('wc_eenvfact_should_skip_generation',
@@ -61,31 +64,30 @@ class WcEenvoudigFactureren_Generation {
             $order_id
         );
 
-        if(!$should_skip) {
-            $order = wc_get_order( $order_id );
+        if ( $should_skip ) {
+            return ['ok' => false, 'message' => __('Already generating or generated', 'eenvoudigfactureren-for-woocommerce')];
+        }
 
-            $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generating', true );
-            $order->save_meta_data();
+        $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generating', true );
+        $order->save();
 
-            $error = '';
-            $client_id = $this->create_or_update_client($order, $error);
+        try {
+            $client_id = $this->create_or_update_client($order, $gen_error);
 
-            if (!$client_id || $error) {
-                if (!$error) {
-                    $error = __("Could not create or update client", 'eenvoudigfactureren-for-woocommerce');
+            if ( ! $client_id || $gen_error ) {
+                if ( ! $gen_error ) {
+                    $gen_error = __("Could not create or update client", 'eenvoudigfactureren-for-woocommerce');
                 }
-                $this->logger->error($error, $order_id);
-                return;
+                throw new \Exception( $gen_error );
             }
 
             $document = $this->build_document($order, $client_id, $error);
 
-            if (!$document || $error) {
-                if (!$error) {
-                    $error = __("Could not generate document", 'eenvoudigfactureren-for-woocommerce');
+            if ( ! $document || $gen_error ) {
+                if ( ! $gen_error ) {
+                    $gen_error = __( 'Could not generate document', 'eenvoudigfactureren-for-woocommerce' );
                 }
-                $this->logger->error($error, $order_id);
-                return;
+                throw new \Exception( $gen_error );
             }
 
             $domain = 'invoices';
@@ -98,9 +100,11 @@ class WcEenvoudigFactureren_Generation {
 
             $create_result = $this->client->post($domain, $document, $error);
 
-            if ($create_result && property_exists($create_result, 'error')) {
-                $error = $create_result->error . ' ('.json_encode($document).')';
+            if ( $create_result && property_exists( $create_result, 'error' ) ) {
+                $gen_error = $create_result->error . ' (' . json_encode( $document ) . ')';
+                throw new \Exception( $gen_error );
             }
+
             $document_id = 0;
             if ($create_result && property_exists($create_result, 'invoice_id')) {
                 $document_id = (int)$create_result->invoice_id;
@@ -112,45 +116,50 @@ class WcEenvoudigFactureren_Generation {
                 $document_id = (int)$create_result->receipt_id;
             }
 
-            if ($error || !$document_id) {
-                if (!$error) {
-                    $error = __("Could not create document", 'eenvoudigfactureren-for-woocommerce');
+            if ( ! $document_id ) {
+                if ( ! $gen_error ) {
+                    $gen_error = __( 'Could not create document', 'eenvoudigfactureren-for-woocommerce' );
                 }
-                $this->logger->error($error, $order_id);
+                throw new \Exception( $gen_error );
+            }
 
-                $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generating', false );
-            } else {
-                $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generated', true );
-                $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generating', false );
+            $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generated', true );
 
-                $document = $this->client->get($domain . '/' . $document_id);
-                if ($document) { // should always be true
-                    $document_url = $this->options->get('website_url') . '/' . $domain . '#pg=view&doc_id=' . $document_id;
-                    $document_name = ($domain == 'invoices'?__('Invoice','eenvoudigfactureren-for-woocommerce'):($domain == 'receipts'?__('Receipt','eenvoudigfactureren-for-woocommerce'):__('Order Form','eenvoudigfactureren-for-woocommerce'))) . ' ' . $document->number;
+            $document = $this->client->get($domain . '/' . $document_id);
+            if ($document) { // should always be true
+                $document_url = $this->options->get('website_url') . '/' . $domain . '#pg=view&doc_id=' . $document_id;
+                $document_name = ($domain == 'invoices'?__('Invoice','eenvoudigfactureren-for-woocommerce'):($domain == 'receipts'?__('Receipt','eenvoudigfactureren-for-woocommerce'):__('Order Form','eenvoudigfactureren-for-woocommerce'))) . ' ' . $document->number;
 
-                    $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_url', $document_url );
-                    $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_name', $document_name );
-                }
+                $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_url', $document_url );
+                $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_name', $document_name );
+            }
 
-                $order->save();
-
-                if ($this->options->get('mail')) {
-                    $should_send = !$this->options->get('mail_document_only_business_orders') || (!empty($this->get_vat_number($order)));
+            if ($this->options->get('mail')) {
+                $should_send = !$this->options->get('mail_document_only_business_orders') || (!empty($this->get_vat_number($order)));
+                
+                if ($should_send) {
+                    if ($domain == 'invoices' && !empty($this->get_vat_number($order))) {
+                        $this->client->post($domain.'/'.$document_id.'/send', ['methods'=>['peppol'=>[], 'email'=>['recipient'=>'main_contact']]], $error);
+                    } else {
+                        $this->client->post($domain.'/'.$document_id.'/sendemail', ['recipient'=>'main_contact'], $error);
+                    }
                     
-                    if ($should_send) {
-                        if ($domain == 'invoices' && !empty($this->get_vat_number($order))) {
-                            $this->client->post($domain.'/'.$document_id.'/send', ['methods'=>['peppol'=>[], 'email'=>['recipient'=>'main_contact']]], $error);
-                        } else {
-                            $this->client->post($domain.'/'.$document_id.'/sendemail', ['recipient'=>'main_contact'], $error);
-                        }
-                        
-                        if ($error) {
-                            $this->logger->error($error, $order_id);
-                        }
+                    if ($error) {
+                        $this->logger->error($error, $order_id);
                     }
                 }
             }
-        }
+
+            return ['ok' => true, 'message' => 'created', 'id' => $document_id];
+        } catch ( \Exception $e ) {
+            $this->logger->error( $e->getMessage(), $order_id );
+            $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_error', $e->getMessage() );
+            return ['ok' => false, 'message' => $e->getMessage()];
+        } finally {
+            // ALWAYS reset generating flag and persist
+            $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generating', false );
+            $order->save();
+        }            
     }
 
     private function create_or_update_client($order, &$error) {
