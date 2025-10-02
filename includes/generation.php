@@ -300,13 +300,14 @@ class WcEenvoudigFactureren_Generation {
         $tax_rate = 0;
         if ($tax != 0 && $total != 0) {
             $tax_rate = null;
+
+            $tax = abs($tax);
+            $total = abs($total);
             foreach($available_tax_rates as $available_tax_rate) {
                 $tax_calculated = round($total * $available_tax_rate / 100, 2);
-                if ($tax_calculated == $tax) {
+                if (abs($tax_calculated - $tax) <= 0.01) {
                     $tax_rate = $available_tax_rate;
                     break;
-                } elseif ($tax_calculated - 0.01 >= $tax || $tax_calculated + 0.01 >= $tax) {
-                    $tax_rate = $available_tax_rate;
                 }
             }
             if (is_null($tax_rate)) {
