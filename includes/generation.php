@@ -22,17 +22,21 @@ class WcEenvoudigFactureren_Generation {
     public function triggered_new_order( $order_id ) {
         // if is vat exempt find exempt reason in 'Zero rate' tarifs
         // needs to be executed here because customer is only available at checkout
-        if ($order_id && get_post_meta( $order_id, 'is_vat_exempt', true ) == 'yes') {
-            $exempt_rates = WC_Tax::get_rates('Zero rate', WC()->customer);
-            if (!$exempt_rates) {
-                $exempt_rates = WC_Tax::get_rates('Nultarief', WC()->customer);
-            }
+        if ($order_id) {
+            $order = wc_get_order($order_id);
+            if ( $order && $order->get_meta('is_vat_exempt', true) === 'yes' ) {
+                $exempt_rates = WC_Tax::get_rates('Zero rate', WC()->customer);
 
-            $exempt_rate = array_shift($exempt_rates);
-            if ($exempt_rate && $exempt_rate['label']) {
-                $order = wc_get_order( $order_id );
-                $order->update_meta_data( 'vat_exempt_reason', $exempt_rate['label'] );
-                $order->save();
+                if (!$exempt_rates) {
+                    $exempt_rates = WC_Tax::get_rates('Nultarief', WC()->customer);
+                }
+
+                $exempt_rate = array_shift($exempt_rates);
+                if ($exempt_rate && $exempt_rate['label']) {
+                    $order = wc_get_order( $order_id );
+                    $order->update_meta_data( 'vat_exempt_reason', $exempt_rate['label'] );
+                    $order->save();
+                }
             }
         }
 
@@ -53,15 +57,18 @@ class WcEenvoudigFactureren_Generation {
             return;
         }
 
-        $order = wc_get_order( $order_id );
         $gen_error = '';
 
         // Allow skipping of invoice generation
         // Skip when document is already generating or generated
-        $should_skip = apply_filters('wc_eenvfact_should_skip_generation',
-            get_post_meta($order_id, WC_EENVFACT_OPTION_PREFIX . 'document_generated', true) || 
-            get_post_meta($order_id, WC_EENVFACT_OPTION_PREFIX . 'document_generating', true), 
-            $order_id
+        $order = wc_get_order( $order_id );
+        $generated  = wc_string_to_bool( (string) $order->get_meta( WC_EENVFACT_OPTION_PREFIX . 'document_generated' ) );
+        $generating = wc_string_to_bool( (string) $order->get_meta( WC_EENVFACT_OPTION_PREFIX . 'document_generating' ) );
+        $should_skip = (bool) apply_filters(
+            'wc_eenvfact_should_skip_generation',
+            ($generated || $generating),
+            $order_id,
+            $order
         );
 
         if ( $should_skip ) {
@@ -81,7 +88,7 @@ class WcEenvoudigFactureren_Generation {
                 throw new \Exception( $gen_error );
             }
 
-            $document = $this->build_document($order, $client_id, $error);
+            $document = $this->build_document($order, $client_id, $gen_error);
 
             if ( ! $document || $gen_error ) {
                 if ( ! $gen_error ) {
@@ -98,7 +105,7 @@ class WcEenvoudigFactureren_Generation {
                 $domain = 'receipts';
             }
 
-            $create_result = $this->client->post($domain, $document, $error);
+            $create_result = $this->client->post($domain, $document, $gen_error);
 
             if ( $create_result && property_exists( $create_result, 'error' ) ) {
                 $gen_error = $create_result->error . ' (' . json_encode( $document ) . ')';
@@ -139,13 +146,13 @@ class WcEenvoudigFactureren_Generation {
                 
                 if ($should_send) {
                     if ($domain == 'invoices' && !empty($this->get_vat_number($order))) {
-                        $this->client->post($domain.'/'.$document_id.'/send', ['methods'=>['peppol'=>[], 'email'=>['recipient'=>'main_contact']]], $error);
+                        $this->client->post($domain.'/'.$document_id.'/send', ['methods'=>['peppol'=>[], 'email'=>['recipient'=>'main_contact']]], $gen_error);
                     } else {
-                        $this->client->post($domain.'/'.$document_id.'/sendemail', ['recipient'=>'main_contact'], $error);
+                        $this->client->post($domain.'/'.$document_id.'/sendemail', ['recipient'=>'main_contact'], $gen_error);
                     }
                     
-                    if ($error) {
-                        $this->logger->error($error, $order_id);
+                    if ($gen_error) {
+                        $this->logger->error($gen_error, $order_id);
                     }
                 }
             }

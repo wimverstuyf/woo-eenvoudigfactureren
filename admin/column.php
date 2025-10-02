@@ -41,14 +41,28 @@ class WcEenvoudigFactureren_Column {
     }
 
     private function render_cell( int $order_id ) {
-        $document_url  = get_post_meta( $order_id, WC_EENVFACT_OPTION_PREFIX . 'document_url', true );
-        $document_name = get_post_meta( $order_id, WC_EENVFACT_OPTION_PREFIX . 'document_name', true );
+        $order = wc_get_order( $order_id );
+        if ( ! $order ) {
+            echo '<em>' . esc_html__( 'Order not found', 'eenvoudigfactureren-for-woocommerce' ) . '</em>';
+            return;
+        }
+        
+        $document_url   = (string) $order->get_meta( WC_EENVFACT_OPTION_PREFIX . 'document_url', true );
+        $document_name  = (string) $order->get_meta( WC_EENVFACT_OPTION_PREFIX . 'document_name', true );
+
+        $generating     = wc_string_to_bool( (string) $order->get_meta( WC_EENVFACT_OPTION_PREFIX . 'document_generating', true ) );
+        $generated      = wc_string_to_bool( (string) $order->get_meta( WC_EENVFACT_OPTION_PREFIX . 'document_generated', true ) );
 
         if ( $document_url && $document_name ) {
             echo '<a href="' . esc_url( $document_url ) . '" class="button button-primary" target="_blank">'
                . esc_html( $document_name ) . '</a>';
             return;
         }
+
+        if ( $generating && ! $generated ) {
+            echo '<em>' . esc_html__( 'Generating…', 'eenvoudigfactureren-for-woocommerce' ) . '</em>';
+            return;
+        }        
 
         // Knop + AJAX
         $label = ($this->options->get('document_type') === 'order')
