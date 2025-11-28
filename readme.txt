@@ -4,7 +4,7 @@ Tags: WooCommerce, Invoice, Accounting, EenvoudigFactureren
 Requires at least: 5.2.0
 Tested up to: 6.8
 Requires PHP: 7.1
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 WC requires at least: 3.6
 WC tested up to: 10.2
 License: GPLv2 or later
@@ -26,7 +26,7 @@ The WooCommerce EenvoudigFactureren plugin is an extension for your WooCommerce 
 
 = About EenvoudigFactureren =
 
-EenvoudigFactureren is an invoicing solution for Belgian entrepreneurs (Dutch-speaking only). You can create a new account for free at [EenvoudigFactureren](https://eenvoudigfactureren.be/).
+EenvoudigFactureren is an invoicing solution for Belgian entrepreneurs. You can create a new account for free at [EenvoudigFactureren](https://eenvoudigfactureren.be/).
 
 = Technical specifications =
 

@@ -399,13 +399,6 @@ class WcEenvoudigFactureren_Generation {
         }
         if ($order->get_shipping_total() != 0) {
             $gl_account_shipping = $this->options->get('gl_account_shipping');
-            $shipping_items = $order->get_items( 'shipping' );
-            if (count($shipping_items) > 1) {
-                $error = __('Multiple shipping methods not supported', 'eenvoudigfactureren-for-woocommerce');
-                return null;
-            }
-
-            $shipping = array_shift( $shipping_items );
 
             $tax_rate = $this->determine_tax_rate($tax_rates, $order->get_shipping_total(), $order->get_shipping_tax());
             $item = (object)[
