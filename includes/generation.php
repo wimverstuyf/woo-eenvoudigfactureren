@@ -369,7 +369,7 @@ class WcEenvoudigFactureren_Generation {
             }
 
             if ($product && $this->options->get('add_sku') && $product->get_sku()) {
-                $item->{'stockitem_code'} = $product->get_sku();
+                $item->{'stockitem_code'} = mb_substr((string)$product->get_sku(), 0, 20);
             }
 
             $items[] = $item;
