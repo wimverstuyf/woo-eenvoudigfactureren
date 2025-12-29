@@ -59,44 +59,63 @@ class WcEenvoudigFactureren_Generation {
 
         $gen_error = '';
 
-        // Allow skipping of invoice generation
-        // Skip when document is zero or is already generating or generated
         $order = wc_get_order( $order_id );
         if ( ! $order ) {
             return ['ok' => false, 'message' => __('Order not found', 'eenvoudigfactureren-for-woocommerce')];
         }
 
+        // Allow skipping of invoice generation
+        // Skip when document is zero or is already generating or generated
         $total = (float) $order->get_total();
         $total_rounded = (float) wc_format_decimal($total, 2);
 
         $skip_zero_total = (bool) apply_filters(
-            'wc_eenvfact_skip_zero_total',
+            WC_EENVFACT_OPTION_PREFIX . 'skip_zero_total',
             ($total_rounded == 0.0),
             $order_id,
             $order
         );
 
         if ( $skip_zero_total ) {
+            $order->update_meta_data(WC_EENVFACT_OPTION_PREFIX . 'document_error', 'Skipped: zero total');
+            $order->save();
+
             return ['ok' => true, 'message' => __('Skip zero total', 'eenvoudigfactureren-for-woocommerce')];
         }
 
-        $generated  = wc_string_to_bool( (string) $order->get_meta( WC_EENVFACT_OPTION_PREFIX . 'document_generated' ) );
-        $generating = wc_string_to_bool( (string) $order->get_meta( WC_EENVFACT_OPTION_PREFIX . 'document_generating' ) );
-        $should_skip = (bool) apply_filters(
-            'wc_eenvfact_should_skip_generation',
-            ($generated || $generating),
-            $order_id,
-            $order
-        );
+        // ATOMIC LOCK: prevent 2 simultaneous generates for same order
+        $lock_key = WC_EENVFACT_OPTION_PREFIX . 'generation_lock_' . (int) $order_id;
 
-        if ( $should_skip ) {
-            return ['ok' => false, 'message' => __('Already generating or generated', 'eenvoudigfactureren-for-woocommerce')];
+        $existing_lock = get_option( $lock_key, null );
+        if ( $existing_lock !== null ) {
+            $lock_age = time() - (int) $existing_lock;
+            if ( $lock_age > MINUTE_IN_SECONDS ) {
+                delete_option( $lock_key );
+            }
         }
 
-        $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generating', true );
-        $order->save();
+        // add_option is atomisch door UNIQUE constraint op option_name
+        if ( ! add_option( $lock_key, (string) time(), '', 'no' ) ) {
+            return ['ok' => false, 'message' => __('Already generating (locked)', 'eenvoudigfactureren-for-woocommerce')];
+        }        
 
         try {
+            $generated  = wc_string_to_bool( (string) $order->get_meta( WC_EENVFACT_OPTION_PREFIX . 'document_generated' ) );
+            $generating = wc_string_to_bool( (string) $order->get_meta( WC_EENVFACT_OPTION_PREFIX . 'document_generating' ) );
+            $should_skip = (bool) apply_filters(
+                'wc_eenvfact_should_skip_generation',
+                ($generated || $generating),
+                $order_id,
+                $order
+            );
+
+            if ( $should_skip ) {
+                return ['ok' => false, 'message' => __('Already generating or generated', 'eenvoudigfactureren-for-woocommerce')];
+            }
+
+            $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generating', true );
+            $order->save();
+
             $client_id = $this->create_or_update_client($order, $gen_error);
 
             if ( ! $client_id || $gen_error ) {
@@ -184,6 +203,8 @@ class WcEenvoudigFactureren_Generation {
             // ALWAYS reset generating flag and persist
             $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_generating', false );
             $order->save();
+
+            delete_option( $lock_key );
         }            
     }
 
