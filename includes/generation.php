@@ -66,8 +66,10 @@ class WcEenvoudigFactureren_Generation {
 
         // Allow skipping of invoice generation
         // Skip when document is zero or is already generating or generated
-        $total = (float) $order->get_total();
-        $total_rounded = (float) wc_format_decimal($total, 2);
+        $total_rounded = $total = (float) $order->get_total();
+        if (function_exists('wc_format_decimal')) {
+            $total_rounded = (float) wc_format_decimal($total, 2);
+        }
 
         $skip_zero_total = (bool) apply_filters(
             WC_EENVFACT_OPTION_PREFIX . 'skip_zero_total',
@@ -89,7 +91,7 @@ class WcEenvoudigFactureren_Generation {
         $existing_lock = get_option( $lock_key, null );
         if ( $existing_lock !== null ) {
             $lock_age = time() - (int) $existing_lock;
-            if ( $lock_age > MINUTE_IN_SECONDS ) {
+            if ( $lock_age > 60 ) {
                 delete_option( $lock_key );
             }
         }
@@ -188,7 +190,7 @@ class WcEenvoudigFactureren_Generation {
                         $this->client->post($domain.'/'.$document_id.'/sendemail', ['recipient'=>'main_contact'], $gen_error);
                     }
                     
-                    if ($gen_error) {
+                    if ($gen_error && $this->logger) {
                         $this->logger->error($gen_error, $order_id);
                     }
                 }
@@ -196,7 +198,9 @@ class WcEenvoudigFactureren_Generation {
 
             return ['ok' => true, 'message' => 'created', 'id' => $document_id];
         } catch ( \Exception $e ) {
-            $this->logger->error( $e->getMessage(), $order_id );
+            if ($this->logger) {
+                $this->logger->error( $e->getMessage(), $order_id );
+            }
             $order->update_meta_data( WC_EENVFACT_OPTION_PREFIX . 'document_error', $e->getMessage() );
             return ['ok' => false, 'message' => $e->getMessage()];
         } finally {
