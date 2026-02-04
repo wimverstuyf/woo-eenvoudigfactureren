@@ -398,13 +398,34 @@ class WcEenvoudigFactureren_Generation {
             $tax_rate = $this->determine_tax_rate($tax_rates, $item->get_total(), $item->get_total_tax());
             $tax_rates_in_use[] = $tax_rate;
 
+            $item_exempt_reason = $exempt_reason;
+            if ($tax_rate == 0 && !$item_exempt_reason) {
+                $taxes = $item->get_taxes();
+
+                if (!empty($taxes['total']) && is_array($taxes['total'])) {
+                    // Neem de eerste toegepaste rate_id (meestal is het er 1)
+                    $rate_ids = array_keys($taxes['total']);
+                    $rate_id = (int) array_shift($rate_ids);
+
+                    if ($rate_id) {
+                        $label = WC_Tax::get_rate_label($rate_id);
+                        if (!$label) {
+                            $label = WC_Tax::get_rate_code($rate_id);
+                        }                        
+                        if ($label) {
+                            $item_exempt_reason = $label;
+                        }
+                    }
+                }
+            }
+
             $item = (object)[
                 'description' => $item->get_name(),
                 'amount' => $amount,
                 'amount_with_tax' => $amount_with_tax,
                 'quantity' => $item->get_quantity(),
                 'tax_rate' => $tax_rate,
-                'tax_rate_special_status' => $exempt_reason == 'IC' ? ($product->is_virtual() ? 'ICD' : 'ICL') : $exempt_reason,
+                'tax_rate_special_status' => $item_exempt_reason == 'IC' ? ($product->is_virtual() ? 'ICD' : 'ICL') : $item_exempt_reason,
             ];
 
             if ($gl_account_products) {
@@ -476,6 +497,7 @@ class WcEenvoudigFactureren_Generation {
         $meta_keys = apply_filters('wc_eenvfact_vat_keys', [
             '_vat_number',
             '_billing_vat_number',
+            '_billing__vat_number',
             '_billing_vat',
             '_billing_eu_vat_number',
             '_billing_btw_nummer',
