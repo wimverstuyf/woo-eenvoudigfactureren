@@ -361,6 +361,34 @@ class WcEenvoudigFactureren_Generation {
         return $tax_rate;
     }
 
+    private function determine_tax_rate_from_item_taxes($item) {
+        $taxes = $item->get_taxes();
+        if (empty($taxes['total']) || !is_array($taxes['total'])) {
+            return null;
+        }
+
+        foreach (array_keys($taxes['total']) as $rate_id) {
+            $rate_id = (int) $rate_id;
+            if (!$rate_id) {
+                continue;
+            }
+
+            $rate_percent = WC_Tax::get_rate_percent($rate_id);
+            if (!$rate_percent) {
+                continue;
+            }
+
+            $rate_percent = preg_replace('/[^0-9,.\-]/', '', (string) $rate_percent);
+            if ($rate_percent === '') {
+                continue;
+            }
+
+            return (float) str_replace(',', '.', $rate_percent);
+        }
+
+        return null;
+    }
+
     private function build_document($order, $client_id, &$error) {
         $document = array();
         $document['client_id'] = $client_id;
@@ -396,28 +424,14 @@ class WcEenvoudigFactureren_Generation {
             $amount_with_tax = round(($item->get_total()+$item->get_total_tax())/$item->get_quantity(), 2);
 
             $tax_rate = $this->determine_tax_rate($tax_rates, $item->get_total(), $item->get_total_tax());
-            $tax_rates_in_use[] = $tax_rate;
-
             $item_exempt_reason = $exempt_reason;
             if ($tax_rate == 0 && !$item_exempt_reason) {
-                $taxes = $item->get_taxes();
-
-                if (!empty($taxes['total']) && is_array($taxes['total'])) {
-                    // Neem de eerste toegepaste rate_id (meestal is het er 1)
-                    $rate_ids = array_keys($taxes['total']);
-                    $rate_id = (int) array_shift($rate_ids);
-
-                    if ($rate_id) {
-                        $label = WC_Tax::get_rate_label($rate_id);
-                        if (!$label) {
-                            $label = WC_Tax::get_rate_code($rate_id);
-                        }                        
-                        if ($label) {
-                            $item_exempt_reason = $label;
-                        }
-                    }
+                $derived_tax_rate = $this->determine_tax_rate_from_item_taxes($item);
+                if (!is_null($derived_tax_rate) && $derived_tax_rate > 0) {
+                    $tax_rate = $derived_tax_rate;
                 }
             }
+            $tax_rates_in_use[] = $tax_rate;
 
             $item = (object)[
                 'description' => $item->get_name(),
