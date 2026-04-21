@@ -83,6 +83,18 @@ msgstr "Voer uw wachtwoord van EenvoudigFactureren in"
 msgid "Verify and save settings"
 msgstr "Instellingen verifiëren en opslaan"
 
+#: admin/api-settings.php:131
+msgid "Advanced settings"
+msgstr "Geavanceerde instellingen"
+
+#: admin/api-settings.php:134
+msgid "Show legacy username/password login"
+msgstr "Verouderde login met gebruikersnaam en wachtwoord tonen"
+
+#: admin/api-settings.php:135
+msgid "This login method is deprecated and should only be used when an API key cannot be used."
+msgstr "Deze loginmethode is verouderd en mag alleen gebruikt worden wanneer een API-sleutel niet gebruikt kan worden."
+
 #: admin/column.php:20
 msgid "Document"
 msgstr "Document"

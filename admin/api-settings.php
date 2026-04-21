@@ -128,25 +128,25 @@ class WcEenvoudigFactureren_ApiSettings {
                     </tr>
                     <tr valign="top">
                         <th scope="row">
-                            <label><?php _e('Connect', 'eenvoudigfactureren-for-woocommerce' ); ?> (<?php _e('Alternative', 'eenvoudigfactureren-for-woocommerce' ); ?>):</label>
+                            <label><?php _e('Advanced settings', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
                         </th>
                         <td>
-                        </td>
-                    </tr>
-                    <tr valign="top">
-                        <th scope="row">
-                            <label><?php _e('Username', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
-                        </th>
-                        <td>
-                            <input name="wcef_username" style="width: 30em;" type="text" placeholder="<?php _e('Enter your e-mail address at EenvoudigFactureren', 'eenvoudigfactureren-for-woocommerce' ); ?>" value="<?php echo esc_attr($this->options->get('username'));?>">
-                        </td>
-                    </tr>
-                    <tr valign="top">
-                        <th scope="row">
-                            <label><?php _e('Password', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
-                        </th>
-                        <td>
-                            <input name="wcef_password" style="width: 30em;" type="password" placeholder="<?php _e('Enter your password at EenvoudigFactureren', 'eenvoudigfactureren-for-woocommerce' ); ?>" value="<?php echo esc_attr(str_repeat('*', strlen($this->options->get('password')))); ?>">
+                            <details>
+                                <summary><?php _e('Show legacy username/password login', 'eenvoudigfactureren-for-woocommerce' ); ?></summary>
+                                <p class="description"><?php _e('This login method is deprecated and should only be used when an API key cannot be used.', 'eenvoudigfactureren-for-woocommerce' ); ?></p>
+                                <div style="margin-top: 12px;">
+                                    <p>
+                                        <label><?php _e('Username', 'eenvoudigfactureren-for-woocommerce' ); ?><br>
+                                            <input name="wcef_username" style="width: 30em;" type="text" placeholder="<?php _e('Enter your e-mail address at EenvoudigFactureren', 'eenvoudigfactureren-for-woocommerce' ); ?>" value="<?php echo esc_attr($this->options->get('username'));?>">
+                                        </label>
+                                    </p>
+                                    <p>
+                                        <label><?php _e('Password', 'eenvoudigfactureren-for-woocommerce' ); ?><br>
+                                            <input name="wcef_password" style="width: 30em;" type="password" placeholder="<?php _e('Enter your password at EenvoudigFactureren', 'eenvoudigfactureren-for-woocommerce' ); ?>" value="<?php echo esc_attr(str_repeat('*', strlen($this->options->get('password')))); ?>">
+                                        </label>
+                                    </p>
+                                </div>
+                            </details>
                         </td>
                     </tr>
                     <tr valign="top">

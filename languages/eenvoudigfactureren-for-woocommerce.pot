@@ -84,6 +84,18 @@ msgstr ""
 msgid "Verify and save settings"
 msgstr ""
 
+#: admin/api-settings.php:131
+msgid "Advanced settings"
+msgstr ""
+
+#: admin/api-settings.php:134
+msgid "Show legacy username/password login"
+msgstr ""
+
+#: admin/api-settings.php:135
+msgid "This login method is deprecated and should only be used when an API key cannot be used."
+msgstr ""
+
 #: admin/column.php:20
 msgid "Document"
 msgstr ""
