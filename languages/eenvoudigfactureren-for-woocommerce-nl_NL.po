@@ -143,52 +143,64 @@ msgstr "Tijdens aanmaak automatisch verzenden naar de klant"
 msgid "Only send to customer when order is for business customer"
 msgstr "Enkel verzenden wanneer order een BTW-nr heeft"
 
-#: admin/general-settings.php:140
-msgid "Automatically set as paid"
-msgstr "Factuur automatisch als betaald zetten"
+#: admin/general-settings.php:144
+msgid "Mark invoice as paid when WooCommerce order is paid"
+msgstr "Factuur als betaald zetten wanneer de WooCommerce-bestelling betaald is"
 
-#: admin/general-settings.php:147
+#: admin/general-settings.php:145
+msgid "Only marks the invoice as paid when the WooCommerce order already has a paid status."
+msgstr "Zet de factuur enkel als betaald wanneer de WooCommerce-bestelling al een betaalde status heeft."
+
+#: admin/general-settings.php:152
+msgid "Always mark invoice as paid"
+msgstr "Factuur altijd als betaald zetten"
+
+#: admin/general-settings.php:153
+msgid "Always marks invoices as paid in EenvoudigFactureren, regardless of the WooCommerce order payment status."
+msgstr "Zet facturen in EenvoudigFactureren altijd als betaald, ongeacht de betaalstatus van de WooCommerce-bestelling."
+
+#: admin/general-settings.php:160
 msgid "Add SKU"
 msgstr "Artikelnummer toevoegen indien beschikbaar"
 
-#: admin/general-settings.php:154
+#: admin/general-settings.php:167
 msgid "Use client number to search for existing clients"
 msgstr "Gebruik klantennummer om bestaande klanten op te zoeken"
 
-#: admin/general-settings.php:161
+#: admin/general-settings.php:174
 msgid "Use WooCommerce order number as reference on the document"
 msgstr "Gebruik WooCommerce ordernummer als referentie op het document"
 
-#: admin/general-settings.php:166
+#: admin/general-settings.php:179
 msgid "Layout To Use"
 msgstr "Te gebruiken layout"
 
-#: admin/general-settings.php:179
+#: admin/general-settings.php:192
 msgid "General Ledger Account for Products"
 msgstr "Grootboekrekening voor producten"
 
-#: admin/general-settings.php:183 admin/general-settings.php:192
-#: admin/general-settings.php:201
+#: admin/general-settings.php:196 admin/general-settings.php:205
+#: admin/general-settings.php:214
 msgid "(Optional) Between 6 and 8 numeric characters, e.g. 700000"
 msgstr "(Optioneel) Tussen 6 en 8 numerieke karakters, bv. 700000"
 
-#: admin/general-settings.php:188
+#: admin/general-settings.php:201
 msgid "General Ledger Account for Fees"
 msgstr "Grootboekrekening voor overige kosten"
 
-#: admin/general-settings.php:197
+#: admin/general-settings.php:210
 msgid "General Ledger Account for Shipping"
 msgstr "Grootboekrekening voor verzendkosten"
 
-#: admin/general-settings.php:208
+#: admin/general-settings.php:221
 msgid "Save Changes"
 msgstr "Wijzigingen opslaan"
 
-#: admin/general-settings.php:223
+#: admin/general-settings.php:236
 msgid "ERROR :"
 msgstr "FOUT:"
 
-#: admin/general-settings.php:223
+#: admin/general-settings.php:236
 msgid ""
 "Add credentials and verify connection to EenvoudigFactureren to continue."
 msgstr ""

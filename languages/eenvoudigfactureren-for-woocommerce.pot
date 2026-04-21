@@ -140,52 +140,68 @@ msgstr ""
 msgid "On creation automatically send to customer"
 msgstr ""
 
-#: admin/general-settings.php:129
-msgid "Automatically set as paid"
+#: admin/general-settings.php:126
+msgid "Only send to customer when order is for business customer"
 msgstr ""
 
-#: admin/general-settings.php:136
+#: admin/general-settings.php:144
+msgid "Mark invoice as paid when WooCommerce order is paid"
+msgstr ""
+
+#: admin/general-settings.php:145
+msgid "Only marks the invoice as paid when the WooCommerce order already has a paid status."
+msgstr ""
+
+#: admin/general-settings.php:152
+msgid "Always mark invoice as paid"
+msgstr ""
+
+#: admin/general-settings.php:153
+msgid "Always marks invoices as paid in EenvoudigFactureren, regardless of the WooCommerce order payment status."
+msgstr ""
+
+#: admin/general-settings.php:160
 msgid "Add SKU"
 msgstr ""
 
-#: admin/general-settings.php:143
+#: admin/general-settings.php:167
 msgid "Use client number to search for existing clients"
 msgstr ""
 
-#: admin/general-settings.php:150
+#: admin/general-settings.php:174
 msgid "Use WooCommerce order number as reference on the document"
 msgstr ""
 
-#: admin/general-settings.php:155
+#: admin/general-settings.php:179
 msgid "Layout To Use"
 msgstr ""
 
-#: admin/general-settings.php:168
+#: admin/general-settings.php:192
 msgid "General Ledger Account for Products"
 msgstr ""
 
-#: admin/general-settings.php:172 admin/general-settings.php:181
-#: admin/general-settings.php:190
+#: admin/general-settings.php:196 admin/general-settings.php:205
+#: admin/general-settings.php:214
 msgid "(Optional) Between 6 and 8 numeric characters, e.g. 700000"
 msgstr ""
 
-#: admin/general-settings.php:177
+#: admin/general-settings.php:201
 msgid "General Ledger Account for Fees"
 msgstr ""
 
-#: admin/general-settings.php:186
+#: admin/general-settings.php:210
 msgid "General Ledger Account for Shipping"
 msgstr ""
 
-#: admin/general-settings.php:197
+#: admin/general-settings.php:221
 msgid "Save Changes"
 msgstr ""
 
-#: admin/general-settings.php:212
+#: admin/general-settings.php:236
 msgid "ERROR :"
 msgstr ""
 
-#: admin/general-settings.php:212
+#: admin/general-settings.php:236
 msgid "Add credentials and verify connection to EenvoudigFactureren to continue."
 msgstr ""
 
