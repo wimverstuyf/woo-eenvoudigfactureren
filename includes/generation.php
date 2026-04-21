@@ -361,8 +361,7 @@ class WcEenvoudigFactureren_Generation {
         return $tax_rate;
     }
 
-    private function determine_tax_rate_from_item_taxes($item) {
-        $taxes = $item->get_taxes();
+    private function determine_tax_rate_from_taxes($taxes) {
         if (empty($taxes['total']) || !is_array($taxes['total'])) {
             return null;
         }
@@ -387,6 +386,10 @@ class WcEenvoudigFactureren_Generation {
         }
 
         return null;
+    }
+
+    private function determine_tax_rate_from_item_taxes($item) {
+        return $this->determine_tax_rate_from_taxes($item->get_taxes());
     }
 
     private function build_document($order, $client_id, &$error) {
@@ -423,13 +426,16 @@ class WcEenvoudigFactureren_Generation {
             $amount = round($item->get_total()/$item->get_quantity(), 2);
             $amount_with_tax = round(($item->get_total()+$item->get_total_tax())/$item->get_quantity(), 2);
 
-            $tax_rate = $this->determine_tax_rate($tax_rates, $item->get_total(), $item->get_total_tax());
             $item_exempt_reason = $exempt_reason;
-            if ($tax_rate == 0 && !$item_exempt_reason) {
+            $tax_rate = 0;
+            if (!$item_exempt_reason) {
                 $derived_tax_rate = $this->determine_tax_rate_from_item_taxes($item);
                 if (!is_null($derived_tax_rate) && $derived_tax_rate > 0) {
                     $tax_rate = $derived_tax_rate;
                 }
+            }
+            if ($tax_rate == 0) {
+                $tax_rate = $this->determine_tax_rate($tax_rates, $item->get_total(), $item->get_total_tax());
             }
             $tax_rates_in_use[] = $tax_rate;
 
@@ -457,7 +463,16 @@ class WcEenvoudigFactureren_Generation {
             $amount = $item_fee->get_total();
             $amount_with_tax = $amount + $item_fee->get_total_tax();
 
-            $tax_rate = $this->determine_tax_rate($tax_rates, $item_fee->get_total(), $item_fee->get_total_tax());
+            $tax_rate = 0;
+            if (!$exempt_reason) {
+                $derived_tax_rate = $this->determine_tax_rate_from_item_taxes($item_fee);
+                if (!is_null($derived_tax_rate) && $derived_tax_rate > 0) {
+                    $tax_rate = $derived_tax_rate;
+                }
+            }
+            if ($tax_rate == 0) {
+                $tax_rate = $this->determine_tax_rate($tax_rates, $item_fee->get_total(), $item_fee->get_total_tax());
+            }
             $tax_rates_in_use[] = $tax_rate;
 
             $item = (object)[
@@ -478,7 +493,19 @@ class WcEenvoudigFactureren_Generation {
         if ($order->get_shipping_total() != 0) {
             $gl_account_shipping = $this->options->get('gl_account_shipping');
 
-            $tax_rate = $this->determine_tax_rate($tax_rates, $order->get_shipping_total(), $order->get_shipping_tax());
+            $tax_rate = 0;
+            if (!$exempt_reason) {
+                foreach ($order->get_items('shipping') as $shipping_item) {
+                    $derived_tax_rate = $this->determine_tax_rate_from_item_taxes($shipping_item);
+                    if (!is_null($derived_tax_rate) && $derived_tax_rate > 0) {
+                        $tax_rate = $derived_tax_rate;
+                        break;
+                    }
+                }
+            }
+            if ($tax_rate == 0) {
+                $tax_rate = $this->determine_tax_rate($tax_rates, $order->get_shipping_total(), $order->get_shipping_tax());
+            }
             $item = (object)[
                 'description' => __('Shipping Costs:', 'eenvoudigfactureren-for-woocommerce') . ' ' . $order->get_shipping_method(),
                 'amount' => $order->get_shipping_total(),
