@@ -95,6 +95,26 @@ msgstr "Verouderde login met gebruikersnaam en wachtwoord tonen"
 msgid "This login method is deprecated and should only be used when an API key cannot be used."
 msgstr "Deze loginmethode is verouderd en mag alleen gebruikt worden wanneer een API-sleutel niet gebruikt kan worden."
 
+#: admin/api-settings.php:114
+msgid "EenvoudigFactureren"
+msgstr "EenvoudigFactureren"
+
+#: admin/api-settings.php:118
+msgid "SimplyBooks"
+msgstr "SimplyBooks"
+
+#: admin/api-settings.php:122
+msgid "Other"
+msgstr "Andere"
+
+#: admin/api-settings.php:126
+msgid "Enter a custom website URL"
+msgstr "Voer een aangepaste website-URL in"
+
+#: admin/api-settings.php:128
+msgid "Choose Other only when you need to connect to a different environment."
+msgstr "Kies Andere alleen wanneer u met een andere omgeving moet verbinden."
+
 #: admin/column.php:20
 msgid "Document"
 msgstr "Document"

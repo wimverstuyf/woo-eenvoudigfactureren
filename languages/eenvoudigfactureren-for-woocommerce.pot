@@ -96,6 +96,26 @@ msgstr ""
 msgid "This login method is deprecated and should only be used when an API key cannot be used."
 msgstr ""
 
+#: admin/api-settings.php:114
+msgid "EenvoudigFactureren"
+msgstr ""
+
+#: admin/api-settings.php:118
+msgid "SimplyBooks"
+msgstr ""
+
+#: admin/api-settings.php:122
+msgid "Other"
+msgstr ""
+
+#: admin/api-settings.php:126
+msgid "Enter a custom website URL"
+msgstr ""
+
+#: admin/api-settings.php:128
+msgid "Choose Other only when you need to connect to a different environment."
+msgstr ""
+
 #: admin/column.php:20
 msgid "Document"
 msgstr ""

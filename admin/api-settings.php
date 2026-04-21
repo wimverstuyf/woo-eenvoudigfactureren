@@ -2,6 +2,10 @@
 
 class WcEenvoudigFactureren_ApiSettings {
 
+    const WEBSITE_OPTION_EENVOUDIGFACTUREREN = 'eenvoudigfactureren';
+    const WEBSITE_OPTION_SIMPLYBOOKS = 'simplybooks';
+    const WEBSITE_OPTION_OTHER = 'other';
+
     private $options;
     private $client;
 
@@ -22,13 +26,56 @@ class WcEenvoudigFactureren_ApiSettings {
         return substr($apikey, 0, 5) . '*****';
     }
 
+    private function normalize_website_url($url) {
+        $url = trim((string) $url);
+        if ($url === '') {
+            return '';
+        }
+
+        return untrailingslashit($url);
+    }
+
+    private function get_website_choices() {
+        return [
+            self::WEBSITE_OPTION_EENVOUDIGFACTUREREN => 'https://eenvoudigfactureren.be',
+            self::WEBSITE_OPTION_SIMPLYBOOKS => 'https://app.simplybooks.be',
+        ];
+    }
+
+    private function determine_website_choice($website_url) {
+        $website_url = $this->normalize_website_url($website_url);
+
+        foreach ($this->get_website_choices() as $choice => $url) {
+            if ($website_url === $this->normalize_website_url($url)) {
+                return $choice;
+            }
+        }
+
+        return self::WEBSITE_OPTION_OTHER;
+    }
+
     public function save() {
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_die( __( 'Insufficient privileges', 'eenvoudigfactureren-for-woocommerce' ) );
         }
         check_admin_referer( 'wcef_data', 'wcef_post_security' );
 
-        $this->options->update('website_url', sanitize_text_field( $_POST['wcef_websiteurl'] ));
+        $website_choice = isset($_POST['wcef_website_choice']) ? sanitize_key($_POST['wcef_website_choice']) : self::WEBSITE_OPTION_EENVOUDIGFACTUREREN;
+        $website_url = '';
+        $website_choices = $this->get_website_choices();
+        if (isset($website_choices[$website_choice])) {
+            $website_url = $website_choices[$website_choice];
+        } else {
+            $website_choice = self::WEBSITE_OPTION_OTHER;
+            $website_url = sanitize_text_field( $_POST['wcef_websiteurl_other'] );
+        }
+
+        $website_url = $this->normalize_website_url($website_url);
+        if ($website_url === '') {
+            $website_url = WC_EENVFACT_URL;
+        }
+
+        $this->options->update('website_url', $website_url);
         $this->options->update('username', sanitize_text_field( $_POST['wcef_username'] ));
         $this->options->update('last_error', '');
 
@@ -56,6 +103,8 @@ class WcEenvoudigFactureren_ApiSettings {
     }
     
     public function show() {
+        $website_url = $this->normalize_website_url($this->options->get('website_url') ? $this->options->get('website_url') : WC_EENVFACT_URL);
+        $website_choice = $this->determine_website_choice($website_url);
 ?>
     <div class="wrap">
         <h1><?php _e('EenvoudigFactureren API Settings', 'eenvoudigfactureren-for-woocommerce' ); ?></h1>
@@ -108,7 +157,24 @@ class WcEenvoudigFactureren_ApiSettings {
                             <label><?php _e('Website URL', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
                         </th>
                         <td>
-                            <input name="wcef_websiteurl" style="width: 30em;" type="text" placeholder="<?php _e('Enter the EenvoudigFactureren Website URL', 'eenvoudigfactureren-for-woocommerce' ); ?>" value="<?php echo $this->options->get('website_url')?esc_url($this->options->get('website_url')):WC_EENVFACT_URL;?>">
+                            <fieldset>
+                                <label>
+                                    <input type="radio" name="wcef_website_choice" value="<?php echo esc_attr(self::WEBSITE_OPTION_EENVOUDIGFACTUREREN); ?>" <?php checked($website_choice, self::WEBSITE_OPTION_EENVOUDIGFACTUREREN); ?>>
+                                    <?php _e('EenvoudigFactureren', 'eenvoudigfactureren-for-woocommerce' ); ?> (https://eenvoudigfactureren.be)
+                                </label><br>
+                                <label>
+                                    <input type="radio" name="wcef_website_choice" value="<?php echo esc_attr(self::WEBSITE_OPTION_SIMPLYBOOKS); ?>" <?php checked($website_choice, self::WEBSITE_OPTION_SIMPLYBOOKS); ?>>
+                                    <?php _e('SimplyBooks', 'eenvoudigfactureren-for-woocommerce' ); ?> (https://app.simplybooks.be)
+                                </label><br>
+                                <label>
+                                    <input type="radio" name="wcef_website_choice" value="<?php echo esc_attr(self::WEBSITE_OPTION_OTHER); ?>" <?php checked($website_choice, self::WEBSITE_OPTION_OTHER); ?>>
+                                    <?php _e('Other', 'eenvoudigfactureren-for-woocommerce' ); ?>
+                                </label>
+                            </fieldset>
+                            <p style="margin-top: 8px;">
+                                <input name="wcef_websiteurl_other" style="width: 30em;" type="text" placeholder="<?php _e('Enter a custom website URL', 'eenvoudigfactureren-for-woocommerce' ); ?>" value="<?php echo $website_choice === self::WEBSITE_OPTION_OTHER ? esc_url($website_url) : ''; ?>">
+                            </p>
+                            <p class="description"><?php _e('Choose Other only when you need to connect to a different environment.', 'eenvoudigfactureren-for-woocommerce' ); ?></p>
                         </td>
                     </tr>
                     <tr valign="top">
