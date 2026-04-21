@@ -55,6 +55,7 @@ class WcEenvoudigFactureren_Loader {
 
         $general_settings->register_actions();
         $api_settings->register_actions();
+        $api_logs->register_actions();
         $menu->register_actions();
         $column->register_actions();
     }

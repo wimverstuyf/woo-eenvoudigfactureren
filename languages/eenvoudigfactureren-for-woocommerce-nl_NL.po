@@ -135,6 +135,10 @@ msgstr "Alle"
 msgid "Apply"
 msgstr "Toepassen"
 
+#: admin/api-logs.php:37
+msgid "Export CSV"
+msgstr "CSV exporteren"
+
 #: admin/api-logs.php:19
 msgid "No API calls logged yet."
 msgstr "Er zijn nog geen API-calls gelogd."
@@ -174,6 +178,10 @@ msgstr "Details tonen"
 #: admin/api-logs.php:48
 msgid "Error message"
 msgstr "Foutmelding"
+
+#: admin/api-logs.php:84
+msgid "Response code"
+msgstr "Responsecode"
 
 #: admin/api-logs.php:50
 msgid "Request body"

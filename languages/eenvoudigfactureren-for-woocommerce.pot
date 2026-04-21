@@ -136,6 +136,10 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
+#: admin/api-logs.php:37
+msgid "Export CSV"
+msgstr ""
+
 #: admin/api-logs.php:19
 msgid "No API calls logged yet."
 msgstr ""
@@ -174,6 +178,10 @@ msgstr ""
 
 #: admin/api-logs.php:48
 msgid "Error message"
+msgstr ""
+
+#: admin/api-logs.php:84
+msgid "Response code"
 msgstr ""
 
 #: admin/api-logs.php:50
