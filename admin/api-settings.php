@@ -107,28 +107,22 @@ class WcEenvoudigFactureren_ApiSettings {
         $website_choice = $this->determine_website_choice($website_url);
 ?>
     <div class="wrap">
-        <h1><?php _e('EenvoudigFactureren API Settings', 'eenvoudigfactureren-for-woocommerce' ); ?></h1>
+        <h1><?php _e('Connection with EenvoudigFactureren', 'eenvoudigfactureren-for-woocommerce' ); ?></h1>
 
         <?php if ( isset($_GET['wcef_result']) ) : ?>
             <?php if ( $_GET['wcef_result'] === 'ok' ) : ?>
                 <div class="notice notice-success is-dismissible">
-                    <p><?php echo __( 'Connection verified:', 'eenvoudigfactureren-for-woocommerce' ) . ' ' . esc_html( $this->options->get('account') ); ?></p>
+                    <p><?php echo esc_html( sprintf( __( 'The connection was set up successfully. Connected account: %s', 'eenvoudigfactureren-for-woocommerce' ), $this->options->get('account') ) ); ?></p>
                 </div>
             <?php else : ?>
                 <div class="notice notice-error is-dismissible">
-                    <p><?php
-                        echo esc_html__( 'ERROR: Not connected', 'eenvoudigfactureren-for-woocommerce' );
-                        $last_error = $this->options->get('last_error');
-                        if ( $last_error ) {
-                            echo ' — ' . esc_html( mb_substr( $last_error, 0, 10000 ) );
-                        }
-                    ?></p>
+                    <p><?php echo esc_html__( 'ERROR: Not connected', 'eenvoudigfactureren-for-woocommerce' ); ?></p>
                 </div>
             <?php endif; ?>
         <?php else : ?>
             <?php if ( $this->options->get('verified') ) : ?>
                 <div class="notice notice-success is-dismissible">
-                    <p><?php echo __( 'Connection verified:', 'eenvoudigfactureren-for-woocommerce' ) . ' ' . esc_html( $this->options->get('account') ); ?></p>
+                    <p><?php echo esc_html( sprintf( __( 'The connection was set up successfully. Connected account: %s', 'eenvoudigfactureren-for-woocommerce' ), $this->options->get('account') ) ); ?></p>
                 </div>
             <?php else : ?>
                 <div class="notice notice-error is-dismissible">
@@ -136,14 +130,6 @@ class WcEenvoudigFactureren_ApiSettings {
                 </div>
             <?php endif; ?>
         <?php endif; ?>
-
-        <?php if ($this->options->get('last_error')) { ?>
-            <div class="error notice">
-                <p><?php echo __( 'LAST ERROR:', 'eenvoudigfactureren-for-woocommerce' ) . ' ' . esc_html(mb_substr($this->options->get('last_error'), 0, 10000)); ?></p>
-            </div>
-        <?php } ?>
-
-
         <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
             <input type="hidden" name="action" value="wcef_save_api_setting">
             <input type="hidden" name="wcef_post_security" value="<?php echo wp_create_nonce( "wcef_data" ); ?>">

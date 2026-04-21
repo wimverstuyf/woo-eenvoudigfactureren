@@ -20,12 +20,12 @@ msgstr ""
 msgid "Security check"
 msgstr ""
 
-#: admin/api-settings.php:53
-msgid "EenvoudigFactureren API Settings"
+#: admin/api-settings.php:110
+msgid "Connection with EenvoudigFactureren"
 msgstr ""
 
-#: admin/api-settings.php:62
-msgid "Connection verified:"
+#: admin/api-settings.php:115 admin/api-settings.php:125
+msgid "The connection was set up successfully. Connected account: %s"
 msgstr ""
 
 #: admin/api-settings.php:66
@@ -114,6 +114,74 @@ msgstr ""
 
 #: admin/api-settings.php:128
 msgid "Choose Other only when you need to connect to a different environment."
+msgstr ""
+
+#: admin/api-logs.php:28
+msgid "Logbook of EenvoudigFactureren"
+msgstr ""
+
+#: admin/api-logs.php:16
+msgid "Showing stored API calls, newest first. At least the latest 1000 calls are kept, and all calls from the last 30 days are preserved."
+msgstr ""
+
+#: admin/api-logs.php:20
+msgid "Filter"
+msgstr ""
+
+#: admin/api-logs.php:22
+msgid "All"
+msgstr ""
+
+#: admin/api-logs.php:26
+msgid "Apply"
+msgstr ""
+
+#: admin/api-logs.php:19
+msgid "No API calls logged yet."
+msgstr ""
+
+#: admin/api-logs.php:24
+msgid "Date"
+msgstr ""
+
+#: admin/api-logs.php:25
+msgid "Method"
+msgstr ""
+
+#: admin/api-logs.php:26
+msgid "URL"
+msgstr ""
+
+#: admin/api-logs.php:27
+msgid "Status"
+msgstr ""
+
+#: admin/api-logs.php:28
+msgid "Details"
+msgstr ""
+
+#: admin/api-logs.php:39 admin/column.php:94 admin/column.php:98
+msgid "Error"
+msgstr ""
+
+#: admin/api-logs.php:39
+msgid "Success"
+msgstr ""
+
+#: admin/api-logs.php:46
+msgid "Show details"
+msgstr ""
+
+#: admin/api-logs.php:48
+msgid "Error message"
+msgstr ""
+
+#: admin/api-logs.php:50
+msgid "Request body"
+msgstr ""
+
+#: admin/api-logs.php:52
+msgid "Response body"
 msgstr ""
 
 #: admin/column.php:20
@@ -243,6 +311,14 @@ msgstr ""
 
 #: admin/menu.php:20
 msgid "API Settings"
+msgstr ""
+
+#: admin/menu.php:22
+msgid "Connection"
+msgstr ""
+
+#: admin/menu.php:24
+msgid "Logbook"
 msgstr ""
 
 #: admin/menu.php:21

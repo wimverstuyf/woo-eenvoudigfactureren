@@ -19,13 +19,13 @@ msgstr ""
 msgid "Security check"
 msgstr "Veiligheidscontrole"
 
-#: admin/api-settings.php:53
-msgid "EenvoudigFactureren API Settings"
-msgstr "API-instellingen van EenvoudigFactureren"
+#: admin/api-settings.php:110
+msgid "Connection with EenvoudigFactureren"
+msgstr "Verbinding met EenvoudigFactureren"
 
-#: admin/api-settings.php:62
-msgid "Connection verified:"
-msgstr "Verbinding geverifieerd:"
+#: admin/api-settings.php:115 admin/api-settings.php:125
+msgid "The connection was set up successfully. Connected account: %s"
+msgstr "De verbinding is succesvol ingesteld. Gekoppeld account: %s"
 
 #: admin/api-settings.php:66
 msgid "ERROR: Not connected"
@@ -114,6 +114,74 @@ msgstr "Voer een aangepaste website-URL in"
 #: admin/api-settings.php:128
 msgid "Choose Other only when you need to connect to a different environment."
 msgstr "Kies Andere alleen wanneer u met een andere omgeving moet verbinden."
+
+#: admin/api-logs.php:28
+msgid "Logbook of EenvoudigFactureren"
+msgstr "Logboek van EenvoudigFactureren"
+
+#: admin/api-logs.php:16
+msgid "Showing stored API calls, newest first. At least the latest 1000 calls are kept, and all calls from the last 30 days are preserved."
+msgstr "Toont de bewaarde API-calls, nieuwste eerst. Minstens de laatste 1000 calls worden bijgehouden en alle calls van de laatste 30 dagen blijven bewaard."
+
+#: admin/api-logs.php:20
+msgid "Filter"
+msgstr "Filter"
+
+#: admin/api-logs.php:22
+msgid "All"
+msgstr "Alle"
+
+#: admin/api-logs.php:26
+msgid "Apply"
+msgstr "Toepassen"
+
+#: admin/api-logs.php:19
+msgid "No API calls logged yet."
+msgstr "Er zijn nog geen API-calls gelogd."
+
+#: admin/api-logs.php:24
+msgid "Date"
+msgstr "Datum"
+
+#: admin/api-logs.php:25
+msgid "Method"
+msgstr "Methode"
+
+#: admin/api-logs.php:26
+msgid "URL"
+msgstr "URL"
+
+#: admin/api-logs.php:27
+msgid "Status"
+msgstr "Status"
+
+#: admin/api-logs.php:28
+msgid "Details"
+msgstr "Details"
+
+#: admin/api-logs.php:39 admin/column.php:94 admin/column.php:98
+msgid "Error"
+msgstr "Fout"
+
+#: admin/api-logs.php:39
+msgid "Success"
+msgstr "Succes"
+
+#: admin/api-logs.php:46
+msgid "Show details"
+msgstr "Details tonen"
+
+#: admin/api-logs.php:48
+msgid "Error message"
+msgstr "Foutmelding"
+
+#: admin/api-logs.php:50
+msgid "Request body"
+msgstr "Request body"
+
+#: admin/api-logs.php:52
+msgid "Response body"
+msgstr "Response body"
 
 #: admin/column.php:20
 msgid "Document"
@@ -246,6 +314,14 @@ msgstr "EenvoudigFactureren-instellingen"
 #: admin/menu.php:20
 msgid "API Settings"
 msgstr "API-instellingen"
+
+#: admin/menu.php:22
+msgid "Connection"
+msgstr "Verbinding"
+
+#: admin/menu.php:24
+msgid "Logbook"
+msgstr "Logboek"
 
 #: admin/menu.php:21
 msgid "General Settings"

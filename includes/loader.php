@@ -17,6 +17,7 @@ class WcEenvoudigFactureren_Loader {
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/generation.php';
 
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/api-settings.php';
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/api-logs.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/general-settings.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/column.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/menu.php';
@@ -40,15 +41,16 @@ class WcEenvoudigFactureren_Loader {
         add_action( 'init', array(self::class, 'load_languages') );
 
         $options = new WcEenvoudigFactureren_Options();
-        $client = new WcEenvoudigFactureren_Client($options);
         $logger = new WcEenvoudigFactureren_Logger($options);
+        $client = new WcEenvoudigFactureren_Client($options, $logger);
 
         $generation = new WcEenvoudigFactureren_Generation($options, $client, $logger);
         $generation->register_actions();
 
         $general_settings = new WcEenvoudigFactureren_GeneralSettings($options, $client);
         $api_settings = new WcEenvoudigFactureren_ApiSettings($options, $client);
-        $menu = new WcEenvoudigFactureren_Menu($api_settings, $general_settings);
+        $api_logs = new WcEenvoudigFactureren_ApiLogs($logger);
+        $menu = new WcEenvoudigFactureren_Menu($api_settings, $general_settings, $api_logs);
         $column = new WcEenvoudigFactureren_Column($options, $generation);
 
         $general_settings->register_actions();
