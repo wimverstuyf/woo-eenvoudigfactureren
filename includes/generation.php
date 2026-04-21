@@ -523,7 +523,16 @@ class WcEenvoudigFactureren_Generation {
         }
         $document['items'] = $items;
 
-        if ($this->options->get('set_paid') && $this->options->get('document_type') == 'invoice' && $order->is_paid()) {
+        $mark_invoice_paid = false;
+        if ($this->options->get('document_type') == 'invoice') {
+            if ($this->options->get('set_paid_always')) {
+                $mark_invoice_paid = true;
+            } elseif ($this->options->get('set_paid') && $order->is_paid()) {
+                $mark_invoice_paid = true;
+            }
+        }
+
+        if ($mark_invoice_paid) {
             $document['payments'] = [(object)[
                 'remaining_amount' => 'yes',
                 'description' => 'WooCommerce',

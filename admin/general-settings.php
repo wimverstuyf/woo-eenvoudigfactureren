@@ -26,6 +26,7 @@ class WcEenvoudigFactureren_GeneralSettings {
                 $mail_document = isset($_POST['wcef_mail_document']) && $_POST['wcef_mail_document']=='1';
                 $mail_document_only_business_orders = isset($_POST['wcef_mail_document_only_business_orders']) && $_POST['wcef_mail_document_only_business_orders']=='1';
                 $set_paid = isset($_POST['wcef_set_paid']) && $_POST['wcef_set_paid']=='1';
+                $set_paid_always = isset($_POST['wcef_set_paid_always']) && $_POST['wcef_set_paid_always']=='1';
                 $add_sku = isset($_POST['wcef_add_sku']) && $_POST['wcef_add_sku']=='1';
                 $search_client_number = isset($_POST['wcef_search_client_number']) && $_POST['wcef_search_client_number']=='1';
                 $use_order_reference = isset($_POST['wcef_use_order_reference']) && $_POST['wcef_use_order_reference']=='1';
@@ -39,6 +40,7 @@ class WcEenvoudigFactureren_GeneralSettings {
                 $this->options->update('mail',$mail_document);
                 $this->options->update('mail_document_only_business_orders', $mail_document_only_business_orders);
                 $this->options->update('set_paid',$set_paid);
+                $this->options->update('set_paid_always', $set_paid_always);
                 $this->options->update('add_sku',$add_sku);
                 $this->options->update('search_client_number', $search_client_number);
                 $this->options->update('use_order_reference', $use_order_reference);
@@ -70,6 +72,8 @@ class WcEenvoudigFactureren_GeneralSettings {
         $mail_document_only_business_orders = !!$this->options->get('mail_document_only_business_orders');
 
         $set_paid = !!$this->options->get('set_paid');
+
+        $set_paid_always = !!$this->options->get('set_paid_always');
 
         $add_sku = !!$this->options->get('add_sku');
 
@@ -137,7 +141,16 @@ class WcEenvoudigFactureren_GeneralSettings {
                         <th scope="row">
                         </th>
                         <td>
-                            <label><input type="checkbox" value="1" name="wcef_set_paid" <?php if ($set_paid) echo 'checked'; ?>/> <?php _e('Automatically set as paid', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
+                            <label><input type="checkbox" value="1" name="wcef_set_paid" <?php if ($set_paid) echo 'checked'; ?>/> <?php _e('Mark invoice as paid when WooCommerce order is paid', 'eenvoudigfactureren-for-woocommerce' ); ?></label><br>
+                            <small><?php _e('Only marks the invoice as paid when the WooCommerce order already has a paid status.', 'eenvoudigfactureren-for-woocommerce' ); ?></small>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">
+                        </th>
+                        <td>
+                            <label><input type="checkbox" value="1" name="wcef_set_paid_always" <?php if ($set_paid_always) echo 'checked'; ?>/> <?php _e('Always mark invoice as paid', 'eenvoudigfactureren-for-woocommerce' ); ?></label><br>
+                            <small><?php _e('Always marks invoices as paid in EenvoudigFactureren, regardless of the WooCommerce order payment status.', 'eenvoudigfactureren-for-woocommerce' ); ?></small>
                         </td>
                     </tr>
                     <tr valign="top">
