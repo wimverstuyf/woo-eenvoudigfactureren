@@ -23,11 +23,21 @@ class WcEenvoudigFactureren_Loader {
     }
 
     public static function load_languages() {
-        load_plugin_textdomain('eenvoudigfactureren-for-woocommerce', false,  dirname( dirname( plugin_basename( __FILE__ ) ) )  . '/languages/');
+        $domain = 'eenvoudigfactureren-for-woocommerce';
+        $locale = function_exists('determine_locale') ? determine_locale() : get_locale();
+        $mofile = plugin_dir_path( dirname( __FILE__ ) ) . 'languages/' . $domain . '-' . $locale . '.mo';
+
+        if (is_readable($mofile)) {
+            unload_textdomain($domain);
+            load_textdomain($domain, $mofile);
+            return;
+        }
+
+        load_plugin_textdomain($domain, false,  dirname( dirname( plugin_basename( __FILE__ ) ) )  . '/languages/');
     }
 
     private static function register_actions() {
-        add_action( 'plugins_loaded', array(self::class, 'load_languages') );
+        add_action( 'init', array(self::class, 'load_languages') );
 
         $options = new WcEenvoudigFactureren_Options();
         $client = new WcEenvoudigFactureren_Client($options);

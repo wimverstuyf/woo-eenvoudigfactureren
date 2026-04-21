@@ -192,8 +192,8 @@ msgid "Always marks invoices as paid in EenvoudigFactureren, regardless of the W
 msgstr "Zet facturen in EenvoudigFactureren altijd als betaald, ongeacht de betaalstatus van de WooCommerce-bestelling."
 
 #: admin/general-settings.php:160
-msgid "Add SKU"
-msgstr "Artikelnummer toevoegen indien beschikbaar"
+msgid "Add SKU (item code)"
+msgstr "SKU (artikelcode) toevoegen"
 
 #: admin/general-settings.php:167
 msgid "Use client number to search for existing clients"

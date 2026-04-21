@@ -193,7 +193,7 @@ msgid "Always marks invoices as paid in EenvoudigFactureren, regardless of the W
 msgstr ""
 
 #: admin/general-settings.php:160
-msgid "Add SKU"
+msgid "Add SKU (item code)"
 msgstr ""
 
 #: admin/general-settings.php:167

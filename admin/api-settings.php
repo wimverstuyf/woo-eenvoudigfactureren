@@ -179,13 +179,6 @@ class WcEenvoudigFactureren_ApiSettings {
                     </tr>
                     <tr valign="top">
                         <th scope="row">
-                            <label><?php _e('Connect', 'eenvoudigfactureren-for-woocommerce' ); ?> (<?php _e('Recommended', 'eenvoudigfactureren-for-woocommerce' ); ?>):</label>
-                        </th>
-                        <td>
-                        </td>
-                    </tr>
-                    <tr valign="top">
-                        <th scope="row">
                             <label><?php _e('Api Key', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
                         </th>
                         <td>

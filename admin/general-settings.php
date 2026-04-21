@@ -157,7 +157,7 @@ class WcEenvoudigFactureren_GeneralSettings {
                         <th scope="row">
                         </th>
                         <td>
-                            <label><input type="checkbox" value="1" name="wcef_add_sku" <?php if ($add_sku) echo 'checked'; ?>/> <?php _e('Add SKU', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
+                            <label><input type="checkbox" value="1" name="wcef_add_sku" <?php if ($add_sku) echo 'checked'; ?>/> <?php _e('Add SKU (item code)', 'eenvoudigfactureren-for-woocommerce' ); ?></label>
                         </td>
                     </tr>
                     <tr valign="top">
